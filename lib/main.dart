@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_bag/core/theme/app_theme.dart';
+import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -9,6 +10,10 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Healthy Bag', theme: AppTheme.lightTheme);
+    return MaterialApp(
+      title: 'Healthy Bag',
+      theme: AppTheme.lightTheme,
+      home: WelcomePage(),
+    );
   }
 }
