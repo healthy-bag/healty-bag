@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:healthy_bag/presentation/widgets/home/home_page.dart';
+import 'package:healthy_bag/core/theme/app_theme.dart';
+import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      title: 'Healthy Bag',
+      theme: AppTheme.lightTheme,
+      home: WelcomePage(),
     );
   }
 }
