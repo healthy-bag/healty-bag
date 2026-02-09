@@ -7,12 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:368651561908:android:fbc60987d8271f48e920e1",
+        "mobilesdk_app_id": "1:368651561908:android:d57e2f16c34cedbbe920e1",
         "android_client_info": {
-          "package_name": "com.healthy_bag.healthy_bag"
+          "package_name": "com.healthybag.healthybag"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "368651561908-pbf82o557hpr9drf0qflecdr1tj9gav0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.healthybag.healthybag",
+            "certificate_hash": "a08eb93fa7cd68a919df2f01c13baf4a05439f16"
+          }
+        },
+        {
+          "client_id": "368651561908-eqfcnoioug04bmfca3jb72jdea8obvnt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCU64Gw6OV68NRmTradYMS926vInB1G3so"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368651561908-eqfcnoioug04bmfca3jb72jdea8obvnt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
