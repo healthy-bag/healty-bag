@@ -4,7 +4,7 @@ class UserDTO {
   final String nickname;
   final int followerCount;
   final int followingCount;
-  final bool isFollowing;
+  final bool isFollowing; // 별도 컬렉션, follower
   final int feedCount;
   final String profileUrl;
 
