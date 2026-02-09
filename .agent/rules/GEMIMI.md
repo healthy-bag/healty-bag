@@ -9,7 +9,7 @@ trigger: always_on
 ## 1. 프로젝트 개요
 
 - **프로젝트명:** Health Bag
-- **설명:** Flutter 기반의 모바일 애플리케이션으로, 운동하는 모습을 서로 공유하는 SNS 앱입니다.
+- **설명:** Flutter 기반의 모바일 앱으로, 운동하는 모습을 서로 공유하는 SNS 앱입니다.
 - **주요 기술:** Flutter 3.38.6, MVVM, Riverpod, go_router, image_picker
 
 ## 2. 기술 스택 및 주요 라이브러리
