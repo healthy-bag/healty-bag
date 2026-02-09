@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_bag/presentation/write/write_page.dart';
 import 'package:healthy_bag/core/theme/app_theme.dart';
 
 void main() {
@@ -9,6 +10,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Healthy Bag', theme: AppTheme.lightTheme);
+    return MaterialApp(title: 'Healthy Bag', theme: AppTheme.lightTheme,home: const WritePage());
   }
 }
