@@ -1,4 +1,5 @@
 class CommentsDTO {
+  final String id;
   final String uid;
   final String feedId;
   final String nickname;
@@ -6,6 +7,7 @@ class CommentsDTO {
   final String createdAt;
 
   CommentsDTO({
+    required this.id,
     required this.uid,
     required this.feedId,
     required this.nickname,
