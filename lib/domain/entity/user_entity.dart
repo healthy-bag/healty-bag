@@ -1,5 +1,4 @@
-// 구글 및 카카오 로그인 시 사용자 정보를 담는 dto
-class UserDTO {
+class UserEntity {
   final String uid;
   final String nickname;
   final int followerCount;
@@ -7,7 +6,7 @@ class UserDTO {
   final int feedCount;
   final String profileUrl;
 
-  UserDTO({
+  UserEntity({
     required this.uid,
     required this.nickname,
     required this.followerCount,
@@ -16,14 +15,14 @@ class UserDTO {
     required this.profileUrl,
   });
 
-  factory UserDTO.fromJson(Map<String, dynamic> json) {
-    return UserDTO(
-      uid: json['uid'] as String,
-      nickname: json['nickname'] as String,
-      followerCount: json['followerCount'] as int,
-      followingCount: json['followingCount'] as int,
-      feedCount: json['feedCount'] as int,
-      profileUrl: json['profileUrl'] as String,
+  factory UserEntity.fromJson(Map<String, dynamic> json) {
+    return UserEntity(
+      uid: json['uid'],
+      nickname: json['nickname'],
+      followerCount: json['followerCount'],
+      followingCount: json['followingCount'],
+      feedCount: json['feedCount'],
+      profileUrl: json['profileUrl'],
     );
   }
 
