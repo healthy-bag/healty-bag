@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:healthy_bag/firebase_options.dart';
 import 'package:healthy_bag/presentation/write/write_page.dart';
-import 'package:healthy_bag/core/theme/app_theme.dart';
 import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
+import 'package:healthy_bag/core/theme/app_theme.dart';
 
 void main() async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +19,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Healthy Bag',
       theme: AppTheme.lightTheme,
-      home: WelcomePage(),
+      // home: WelcomePage(),
+      home: WritePage(),
     );
   }
 }
