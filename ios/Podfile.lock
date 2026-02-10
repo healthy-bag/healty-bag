@@ -1417,8 +1417,11 @@ PODS:
   - GTMSessionFetcher/Core (3.5.0)
   - GTMSessionFetcher/Full (3.5.0):
     - GTMSessionFetcher/Core
+<<<<<<< HEAD
   - image_picker_ios (0.0.1):
     - Flutter
+=======
+>>>>>>> nickname
   - leveldb-library (1.22.6)
   - nanopb (3.30910.0):
     - nanopb/decode (= 3.30910.0)
