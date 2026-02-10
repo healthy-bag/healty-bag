@@ -3,8 +3,8 @@ import 'package:healthy_bag/data/data_source/user_data_source/user_data_source.d
 import 'package:healthy_bag/domain/entity/user_entity.dart';
 import 'package:healthy_bag/domain/repositories/auth_repository.dart';
 
-class GoogleAuthRepositoryImpl implements AuthRepository {
-  GoogleAuthRepositoryImpl({
+class AuthRepositoryImpl implements AuthRepository {
+  AuthRepositoryImpl({
     required AuthDataSource authDataSource,
     required UserDataSource userDataSource,
   }) : _authDataSource = authDataSource,
@@ -20,14 +20,16 @@ class GoogleAuthRepositoryImpl implements AuthRepository {
       final userDTO = await _userDataSource.fetchUserInfo(
         userCredential.user!.uid,
       );
-      return UserEntity(
-        uid: userDTO!.uid,
-        nickname: userDTO.nickname,
-        followerCount: userDTO.followerCount,
-        followingCount: userDTO.followingCount,
-        feedCount: userDTO.feedCount,
-        profileUrl: userDTO.profileUrl,
-      );
+      if (userDTO != null) {
+        return UserEntity(
+          uid: userDTO.uid,
+          nickname: userDTO.nickname,
+          followerCount: userDTO.followerCount,
+          followingCount: userDTO.followingCount,
+          feedCount: userDTO.feedCount,
+          profileUrl: userDTO.profileUrl,
+        );
+      }
     }
     return null;
   }

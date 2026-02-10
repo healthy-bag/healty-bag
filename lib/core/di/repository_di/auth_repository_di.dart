@@ -8,7 +8,7 @@ part 'auth_repository_di.g.dart';
 
 @riverpod
 AuthRepository authRepository(Ref ref) {
-  return GoogleAuthRepositoryImpl(
+  return AuthRepositoryImpl(
     authDataSource: ref.watch(authDataSourceProvider),
     userDataSource: ref.watch(userDataSourceProvider),
   );
