@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_bag/core/theme/app_theme.dart';
+import 'package:healthy_bag/presentation/home/home_page.dart';
 import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
 
 void main() async {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Healthy Bag',
       theme: AppTheme.lightTheme,
-      home: WelcomePage(),
+      home: HomePage(),
     );
   }
 }
