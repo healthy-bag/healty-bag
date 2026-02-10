@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_bag/presentation/write/widgets/content_input_field.dart';
+import 'package:healthy_bag/presentation/write/widgets/image_picker_area.dart';
+import 'package:healthy_bag/presentation/write/widgets/tag_input_field.dart';
+import 'package:healthy_bag/presentation/write/write_view_model.dart';
 
-class WritePage extends StatelessWidget {
+class WritePage extends ConsumerWidget {
   const WritePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final state = ref.watch(writeViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('게시물 추가', style: TextStyle(fontSize: 24)),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              ref.read(writeViewModelProvider.notifier).uploadImage();
+            },
             child: const Text(
               '확인',
               style: TextStyle(fontSize: 18, color: Colors.pink),
@@ -23,54 +30,11 @@ class WritePage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.shade200,
-              ),
-              width: double.infinity,
-              height: 360,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Symbols.add_rounded,
-                    size: 200,
-                    weight: 300,
-                    color: Colors.grey.shade400,
-                  ),
-                  Text(
-                    'new',
-                    style: TextStyle(color: Colors.grey.shade400, fontSize: 22),
-                  ),
-                ],
-              ),
-            ),
+            ImagePickerArea(),
             SizedBox(height: 35),
-            TextField(
-              style: TextStyle(fontSize: 22),
-              decoration: InputDecoration(
-                hintText: '#태그를 추가하세요',
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade400,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
+            TagInputField(),
             SizedBox(height: 12),
-            TextField(
-              style: TextStyle(fontSize: 22),
-              maxLines: 4,
-              decoration: InputDecoration(
-                hintText: '내용을 입력하세요',
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade400,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
+            ContentInputField(),
           ],
         ),
       ),
