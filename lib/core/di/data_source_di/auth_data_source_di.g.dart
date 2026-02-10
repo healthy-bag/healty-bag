@@ -36,7 +36,7 @@ final class AuthDataSourceProvider
 
   @override
   AuthDataSource create(Ref ref) {
-    return authDataSource(ref);
+    return authDataSource();
   }
 
   /// {@macro riverpod.override_with_value}

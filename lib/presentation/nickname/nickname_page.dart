@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_bag/presentation/widgets/home/home_page.dart';
 
-class NicknamePage extends StatefulWidget{
+class NicknamePage extends StatefulWidget {
+  const NicknamePage({super.key});
+
   @override
   State<NicknamePage> createState() => _NicknamePageState();
 }
@@ -75,7 +77,9 @@ class _NicknamePageState extends State<NicknamePage> {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: _isValid ? () {
-                    HomePage();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
                   } : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isValid ? Colors.pinkAccent : Colors.white10,
