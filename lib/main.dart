@@ -1,9 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:healthy_bag/core/theme/app_theme.dart';
-import 'package:healthy_bag/presentation/home/home_page.dart';
+import 'package:healthy_bag/firebase_options.dart';
 import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

@@ -17,4 +17,28 @@ class FeedDTO {
     required this.thumbnailUrl,
     required this.createdAt,
   });
+
+  factory FeedDTO.fromJson(Map<String, dynamic> json) {
+    return FeedDTO(
+      uid: json['uid'] as String,
+      feedId: json['feedId'] as String,
+      fileUrl: json['fileUrl'] as String,
+      likeCount: json['likeCount'] as int,
+      commentCount: json['commentCount'] as int,
+      thumbnailUrl: json['thumbnailUrl'] as String,
+      createdAt: json['createdAt'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'uid': uid,
+      'feedId': feedId,
+      'fileUrl': fileUrl,
+      'likeCount': likeCount,
+      'commentCount': commentCount,
+      'thumbnailUrl': thumbnailUrl,
+      'createdAt': createdAt,
+    };
+  }
 }
