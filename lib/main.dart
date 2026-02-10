@@ -1,12 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy_bag/presentation/home/home_page.dart';
 import 'package:healthy_bag/presentation/my/my_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:healthy_bag/firebase_options.dart';
 import 'package:healthy_bag/presentation/write/write_page.dart';
 import 'package:healthy_bag/core/theme/app_theme.dart';
-
 import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
 import 'package:healthy_bag/core/theme/app_theme.dart';
 
@@ -25,6 +24,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       // home: WelcomePage(),
       home: WritePage(),
+      // home: MyPage(),
+      // home: HomePage(),
     );
   }
 }

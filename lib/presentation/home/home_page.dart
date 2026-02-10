@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_bag/presentation/comment/comment_sheet.dart';
 import 'package:healthy_bag/presentation/widgets/custom_bottom_navigation_bar.dart';
+import 'package:healthy_bag/presentation/widgets/healthy_bag_logo.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,7 +19,7 @@ class _HomePageState extends State<HomePage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('Home Page'),
+        title: HealthyBagLogo(),
         // actions: [
         //   IconButton(onPressed: () {},
         //   icon: Icon(Icons.favorite_border, color: Colors.black,),),
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           SizedBox.expand(
             child: Image.asset(
-              'assets/kiiiiit.jpeg',
+              'assets/images/kiiiiit.jpeg',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Center(
