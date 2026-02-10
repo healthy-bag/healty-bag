@@ -19,13 +19,6 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text('Home Page'),
-        // actions: [
-        //   IconButton(onPressed: () {}, 
-        //   icon: Icon(Icons.favorite_border, color: Colors.black,),),
-        //   IconButton(onPressed: () {}, 
-        //   icon: Icon(Icons.search, color: Colors.black,
-        //   ))
-        // ],
       ),
       body: Stack(
         children: [
