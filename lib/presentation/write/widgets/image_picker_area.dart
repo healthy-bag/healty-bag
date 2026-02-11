@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/presentation/write/write_view_model.dart';
@@ -43,7 +42,7 @@ class ImagePickerArea extends ConsumerWidget {
                   ),
                   Text(
                     'new',
-                    style: TextStyle(color: Colors.grey.shade400, fontSize: 22),
+                    style: TextStyle(color: Colors.grey.shade400, fontSize: 26),
                   ),
                 ],
               ),
