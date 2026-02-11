@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Healthy Bag',
       theme: AppTheme.lightTheme,
       // home: WelcomePage(),
-      home: WritePage(),
+      // home: WritePage(),
       // home: MyPage(),
       // home: HomePage(),
       home: NicknamePage(),

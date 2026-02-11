@@ -14,7 +14,7 @@ class ImagePickerArea extends ConsumerWidget {
       onTap: () async {
         await ref.read(writeViewModelProvider.notifier).pickImage();
       },
-      child: state.localPath != null
+      child: state.imagePath != null
           ? Container(
               width: double.infinity,
               height: 360,
@@ -22,7 +22,7 @@ class ImagePickerArea extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               clipBehavior: Clip.antiAlias,
-              child: Image.file(File(state.localPath!), fit: BoxFit.cover),
+              child: Image.file(File(state.imagePath!), fit: BoxFit.cover),
             )
           : Container(
               decoration: BoxDecoration(
