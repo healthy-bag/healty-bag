@@ -21,7 +21,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Healthy Bag',
       theme: AppTheme.lightTheme,
-      home: HomePage(),
+      // home: WelcomePage(),
+      // home: WritePage(),
+      // home: MyPage(),
+      // home: HomePage(),
+      home: NicknamePage(),
     );
   }
 }
