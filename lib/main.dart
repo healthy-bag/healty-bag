@@ -6,8 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/firebase_options.dart';
 import 'package:healthy_bag/presentation/write/write_page.dart';
 import 'package:healthy_bag/core/theme/app_theme.dart';
-import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
-import 'package:healthy_bag/core/theme/app_theme.dart';
 import 'package:healthy_bag/presentation/nickname/nickname_page.dart';
 
 void main() async {
@@ -23,11 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Healthy Bag',
       theme: AppTheme.lightTheme,
-      // home: WelcomePage(),
-      home: WritePage(),
-      // home: MyPage(),
-      // home: HomePage(),
-      home: NicknamePage(),
+      home: HomePage(),
     );
   }
 }
