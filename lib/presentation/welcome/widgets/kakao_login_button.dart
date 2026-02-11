@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:healthy_bag/presentation/welcome/widgets/sign_in_button.dart';
 
 class KakaoLoginButton extends StatelessWidget {
-  const KakaoLoginButton({super.key});
+  const KakaoLoginButton({super.key, required this.onPressed});
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +12,7 @@ class KakaoLoginButton extends StatelessWidget {
       logoUrl: 'assets/images/kakao_logo.png',
       provider: 'Kakao',
       backgroundColor: Color(0xFFFCE400),
+      onPressed: onPressed,
     );
   }
 }

@@ -36,7 +36,7 @@ final class AuthDataSourceProvider
 
   @override
   AuthDataSource create(Ref ref) {
-    return authDataSource();
+    return authDataSource(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -48,4 +48,4 @@ final class AuthDataSourceProvider
   }
 }
 
-String _$authDataSourceHash() => r'85ea3281ecb6a9346fb4a35a5beaf6146907a4c7';
+String _$authDataSourceHash() => r'1350c982a47b06cee07c21650c14b1460c4fa6f5';

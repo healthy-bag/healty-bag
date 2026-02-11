@@ -6,10 +6,12 @@ class SignInButton extends StatelessWidget {
     required this.logoUrl,
     required this.provider,
     required this.backgroundColor,
+    required this.onPressed,
   });
   final String logoUrl;
   final String provider;
   final Color backgroundColor;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
