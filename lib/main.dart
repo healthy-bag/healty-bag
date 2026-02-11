@@ -8,6 +8,7 @@ import 'package:healthy_bag/presentation/write/write_page.dart';
 import 'package:healthy_bag/core/theme/app_theme.dart';
 import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
 import 'package:healthy_bag/core/theme/app_theme.dart';
+import 'package:healthy_bag/presentation/nickname/nickname_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       home: WritePage(),
       // home: MyPage(),
       // home: HomePage(),
+      home: NicknamePage(),
     );
   }
 }
