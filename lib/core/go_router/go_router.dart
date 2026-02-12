@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/presentation/home/home_page.dart';
 import 'package:healthy_bag/presentation/my/my_page.dart';
 import 'package:healthy_bag/presentation/nickname/nickname_page.dart';
@@ -38,9 +39,9 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/home:user',
+              path: '/home',
               builder: (context, state) =>
-                  HomePage(user: state.pathParameters['user']!),
+                  HomePage(user: state.extra as UserEntity),
             ),
           ],
         ),

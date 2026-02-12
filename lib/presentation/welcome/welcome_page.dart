@@ -20,7 +20,7 @@ class WelcomePage extends ConsumerWidget {
         data: (data) {
           switch (data) {
             case AuthSuccess():
-              context.go('/home$data');
+              context.go('/home', extra: data.user);
             case NewUser():
               context.go('/nickname:${data.uid}');
             case AuthFailure():
