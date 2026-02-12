@@ -39,5 +39,6 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (e) {
       rethrow;
     }
+    return null;
   }
 }
