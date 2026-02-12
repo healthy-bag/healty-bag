@@ -7,7 +7,7 @@ import 'package:healthy_bag/presentation/write/write_page.dart';
 import 'package:healthy_bag/presentation/widgets/scaffold_with_nav_bar.dart';
 
 final router = GoRouter(
-  initialLocation: '/nickname',
+  initialLocation: '/welcome',
   routes: [
     // 1. 로그인 페이지 (바텀바 없음)
     GoRoute(
