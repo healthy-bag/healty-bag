@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_bag/presentation/comment/comment_sheet.dart';
-import 'package:healthy_bag/presentation/widgets/custom_bottom_navigation_bar.dart';
 import 'package:healthy_bag/presentation/widgets/healthy_bag_logo.dart';
 
 class HomePage extends StatefulWidget {

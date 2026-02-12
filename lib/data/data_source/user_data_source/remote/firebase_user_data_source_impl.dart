@@ -15,4 +15,14 @@ class FirebaseUserDataSourceImpl implements UserDataSource {
     }
     return null;
   }
+
+  // @override
+  // Future<void> saveUserInfo(UserDTO user) async {
+  //   await firestore.collection('users').doc(user.uid).set(user.toJson());
+  // }
+
+  // @override
+  // Future<void> updateUserInfo(String uid, Map<String, dynamic> data) async {
+  //   await firestore.collection('users').doc(uid).update(data);
+  // }
 }
