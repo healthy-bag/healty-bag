@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       // home: WritePage(),
       // home: MyPage(),
       // home: HomePage(),
-      home: WelcomePage(),
+      // home: WelcomePage(),
     );
   }
 }
