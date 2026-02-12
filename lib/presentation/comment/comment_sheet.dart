@@ -24,7 +24,7 @@ class CommentSheet extends StatelessWidget{
             color: Colors.grey, borderRadius: BorderRadius.circular(2)
           ),
         ),
-        Padding(padding: EdgeInsetsGeometry.symmetric(vertical: 10),
+        Padding(padding: EdgeInsets.symmetric(vertical: 10),
         child: Text('댓글', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
         ),
         // 댓글 리스트
