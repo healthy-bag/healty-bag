@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:healthy_bag/presentation/nickname/nickname_view_model.dart';
 
 class StartButton extends StatelessWidget {
