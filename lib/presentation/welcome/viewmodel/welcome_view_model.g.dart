@@ -13,7 +13,7 @@ part of 'welcome_view_model.dart';
 final welcomeViewModelProvider = WelcomeViewModelProvider._();
 
 final class WelcomeViewModelProvider
-    extends $AsyncNotifierProvider<WelcomeViewModel, void> {
+    extends $AsyncNotifierProvider<WelcomeViewModel, AuthResult?> {
   WelcomeViewModelProvider._()
     : super(
         from: null,
@@ -33,19 +33,19 @@ final class WelcomeViewModelProvider
   WelcomeViewModel create() => WelcomeViewModel();
 }
 
-String _$welcomeViewModelHash() => r'7d1c9549be22e2b9aa69f69d938e21235b2af368';
+String _$welcomeViewModelHash() => r'1ea590b768bad99d409c5e88e67796791cc2ecc1';
 
-abstract class _$WelcomeViewModel extends $AsyncNotifier<void> {
-  FutureOr<void> build();
+abstract class _$WelcomeViewModel extends $AsyncNotifier<AuthResult?> {
+  FutureOr<AuthResult?> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final ref = this.ref as $Ref<AsyncValue<AuthResult?>, AuthResult?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<void>, void>,
-              AsyncValue<void>,
+              AnyNotifier<AsyncValue<AuthResult?>, AuthResult?>,
+              AsyncValue<AuthResult?>,
               Object?,
               Object?
             >;

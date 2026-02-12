@@ -5,7 +5,8 @@ import 'package:healthy_bag/presentation/nickname/widgets/nickname_image_picker_
 import 'package:healthy_bag/presentation/nickname/widgets/start_button.dart';
 
 class NicknamePage extends ConsumerStatefulWidget {
-  const NicknamePage({super.key});
+  final String uid;
+  const NicknamePage({super.key, required this.uid});
 
   @override
   ConsumerState<NicknamePage> createState() => _NicknamePageState();

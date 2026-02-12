@@ -8,29 +8,23 @@ part 'welcome_view_model.g.dart';
 @riverpod
 class WelcomeViewModel extends _$WelcomeViewModel {
   @override
-  Future<void> build() async {}
-
-  Future<AuthResult> googleLogin() async {
-    state = const AsyncLoading();
-
-    AuthResult result = AuthFailure(message: "로그인 실패");
-
-    state = await AsyncValue.guard(() async {
-      result = await ref.read(loginUsecaseProvider).login(SocialType.google);
-    });
-
-    return result;
+  Future<AuthResult?> build() async {
+    return null;
   }
 
-  Future<AuthResult> kakaoLogin() async {
+  Future<void> googleLogin() async {
     state = const AsyncLoading();
 
-    AuthResult result = AuthFailure(message: "로그인 실패");
+    state = await AsyncValue.guard(() async {
+      return await ref.read(loginUsecaseProvider).login(SocialType.google);
+    });
+  }
+
+  Future<void> kakaoLogin() async {
+    state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
-      result = await ref.read(loginUsecaseProvider).login(SocialType.kakao);
+      return await ref.read(loginUsecaseProvider).login(SocialType.kakao);
     });
-
-    return result;
   }
 }

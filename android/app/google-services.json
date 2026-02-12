@@ -37,6 +37,13 @@
             {
               "client_id": "368651561908-eqfcnoioug04bmfca3jb72jdea8obvnt.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "368651561908-m1q5sou6bc4s30b645jfcoresc3se45j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.healthybag.healthybag"
+              }
             }
           ]
         }
