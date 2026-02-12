@@ -1,5 +1,5 @@
 import 'package:healthy_bag/data/data_source/auth_data_source/auth_data_source.dart';
-import 'package:healthy_bag/domain/entity/user_entity.dart';
+import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/repositories/auth_repository.dart';
 
 // Auth DataSource에서 가져온 UserCredential을 기반으로 AuthResult를 usecase로 반환

@@ -1,8 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:healthy_bag/data/data_source/auth_data_source/remote/google_auth_data_source.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:healthy_bag/data/data_source/auth_data_source/remote/google_sign_in.dart';
+
 
 class MockGoogleSignIn extends Mock implements GoogleSignIn {}
 
