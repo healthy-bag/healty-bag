@@ -49,20 +49,23 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDl6zuB97Mq7JJWsys5HsswCzq-eXDvPBI',
+    appId: '1:368651561908:ios:edabd37a64d1f0c4e920e1',
+    messagingSenderId: '368651561908',
+    projectId: 'healthy-bag-29485',
+    storageBucket: 'healthy-bag-29485.firebasestorage.app',
+    androidClientId: '368651561908-pbf82o557hpr9drf0qflecdr1tj9gav0.apps.googleusercontent.com',
+    iosClientId: '368651561908-m1q5sou6bc4s30b645jfcoresc3se45j.apps.googleusercontent.com',
+    iosBundleId: 'com.healthybag.healthybag',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCU64Gw6OV68NRmTradYMS926vInB1G3so',
-    appId: '1:368651561908:android:fbc60987d8271f48e920e1',
+    appId: '1:368651561908:android:d57e2f16c34cedbbe920e1',
     messagingSenderId: '368651561908',
     projectId: 'healthy-bag-29485',
     storageBucket: 'healthy-bag-29485.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDl6zuB97Mq7JJWsys5HsswCzq-eXDvPBI',
-    appId: '1:368651561908:ios:2ea3db1db6120aa5e920e1',
-    messagingSenderId: '368651561908',
-    projectId: 'healthy-bag-29485',
-    storageBucket: 'healthy-bag-29485.firebasestorage.app',
-    iosBundleId: 'com.example.healthyBag',
-  );
 }

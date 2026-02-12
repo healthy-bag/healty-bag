@@ -1,9 +1,10 @@
 import 'package:healthy_bag/domain/models/auth_result.dart';
+import 'package:healthy_bag/domain/models/social_type.dart';
 import 'package:healthy_bag/domain/repositories/auth_repository.dart';
 import 'package:healthy_bag/domain/repositories/user_repository.dart';
 
-class KakaoLoginUsecase {
-  KakaoLoginUsecase({
+class LoginUsecase {
+  LoginUsecase({
     required AuthRepository authRepository,
     required UserRepository userRepository,
   }) : _authRepository = authRepository,
@@ -12,13 +13,15 @@ class KakaoLoginUsecase {
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
 
-  Future<AuthResult> execute() async {
-    final result = await _authRepository.signIn();
+  Future<AuthResult> login(SocialType type) async {
+    final result = await _authRepository.signIn(type);
+    print('result: $result');
     if (result == null) {
-      return AuthFailure(message: "로그인을 실패했습니다");
+      return AuthFailure(message: "$type 로그인 실패");
     }
 
     final user = await _userRepository.getUserInfo(result.uid);
+    print('user: $user');
     if (user != null) {
       return AuthSuccess(user: user);
     } else {

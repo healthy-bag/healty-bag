@@ -1,5 +1,6 @@
 import 'package:healthy_bag/core/di/usecase_di/login_usecase_di.dart';
 import 'package:healthy_bag/domain/models/auth_result.dart';
+import 'package:healthy_bag/domain/models/social_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'welcome_view_model.g.dart';
@@ -7,29 +8,23 @@ part 'welcome_view_model.g.dart';
 @riverpod
 class WelcomeViewModel extends _$WelcomeViewModel {
   @override
-  Future<void> build() async {}
-
-  Future<AuthResult> googleLogin() async {
-    state = const AsyncLoading();
-
-    late final AuthResult result;
-
-    state = await AsyncValue.guard(() async {
-      result = await ref.read(googleLoginUsecaseProvider).execute();
-    });
-
-    return result;
+  Future<AuthResult?> build() async {
+    return null;
   }
 
-  Future<AuthResult> kakaoLogin() async {
+  Future<void> googleLogin() async {
     state = const AsyncLoading();
 
-    late final AuthResult result;
+    state = await AsyncValue.guard(() async {
+      return await ref.read(loginUsecaseProvider).login(SocialType.google);
+    });
+  }
+
+  Future<void> kakaoLogin() async {
+    state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
-      result = await ref.read(kakaoLoginUsecaseProvider).execute();
+      return await ref.read(loginUsecaseProvider).login(SocialType.kakao);
     });
-
-    return result;
   }
 }

@@ -7,7 +7,7 @@ import 'package:healthy_bag/presentation/write/write_page.dart';
 import 'package:healthy_bag/presentation/widgets/scaffold_with_nav_bar.dart';
 
 final router = GoRouter(
-  initialLocation: '/nickname',
+  initialLocation: '/welcome',
   routes: [
     // 1. 로그인 페이지 (바텀바 없음)
     GoRoute(
@@ -18,9 +18,10 @@ final router = GoRouter(
 
     // 2. 닉네임 설정 페이지 (바텀바 없음)
     GoRoute(
-      path: '/nickname',
+      path: '/nickname:uid',
       name: 'nickname',
-      builder: (context, state) => const NicknamePage(),
+      builder: (context, state) =>
+          NicknamePage(uid: state.pathParameters['uid']!),
     ),
 
     StatefulShellRoute.indexedStack(
@@ -37,8 +38,9 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/home',
-              builder: (context, state) => const HomePage(),
+              path: '/home:user',
+              builder: (context, state) =>
+                  HomePage(user: state.pathParameters['user']!),
             ),
           ],
         ),
