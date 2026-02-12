@@ -41,7 +41,7 @@ class AuthDataSourceImpl implements AuthDataSource {
       return credential;
     } catch (e) {
       if (e is PlatformException && e.code == 'CANCELED') {
-        throw Exception('로그인 취소');
+        return null;
       }
       rethrow;
     }
