@@ -11,8 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _tabIndex = 1;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +19,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         title: HealthyBagLogo(),
       ),
-      
+
       body: Stack(
         children: [
           SizedBox.expand(
@@ -83,14 +81,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        activeIndex: _tabIndex,
-        onTap: (index) {
-          setState(() {
-            _tabIndex = index;
-          });
-        },
-      ),
+      // bottomNavigationBar: CustomBottomNavigationBar(
+      //   activeIndex: _tabIndex,
+      //   onTap: (index) {
+      //     setState(() {
+      //       _tabIndex = index;
+      //     });
+      //   },
+      // ),
     );
   }
 

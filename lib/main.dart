@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy_bag/core/go_router/go_router.dart';
 import 'package:healthy_bag/presentation/home/home_page.dart';
 import 'package:healthy_bag/presentation/my/my_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,14 +19,15 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       title: 'Healthy Bag',
       theme: AppTheme.lightTheme,
       // home: WelcomePage(),
       // home: WritePage(),
       // home: MyPage(),
       // home: HomePage(),
-      home: NicknamePage(),
+      // home: NicknamePage(),
     );
   }
 }
