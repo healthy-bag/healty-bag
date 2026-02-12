@@ -1,3 +1,20 @@
+import 'package:healthy_bag/domain/entities/comment/comment_entity.dart';
+
+
+// dto를 entity로 변환하는 extension (mapper)
+extension CommentsDTOExtension on CommentsDTO {
+  CommentEntity toEntity (){
+    return CommentEntity (
+      nickname : this.nickname,
+      content : this.comment,
+      // DTO의 String 날짜를 DateTime으로 변환하는 로직
+      timeAgo : DateTime.parse(this.createdAt),
+      isLiked : false, // 기본값 설정
+      likeCount : 0, // 기본값 설정
+    );
+  }
+}
+
 class CommentsDTO {
   final String id;
   final String uid;

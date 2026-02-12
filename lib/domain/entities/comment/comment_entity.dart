@@ -1,7 +1,7 @@
 
 // 댓글에 들어갈 데이터 (닉네임, 내용, 좋아요, 좋아요수, 작성시간)
-class Comment {
-  Comment({
+class CommentEntity {
+  CommentEntity({
     required this.nickname,
     required this.content,
     this.isLiked = false,

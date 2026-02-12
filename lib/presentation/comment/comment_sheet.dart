@@ -1,15 +1,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:healthy_bag/presentation/comment/widgets/comment_item.dart';
-import 'package:healthy_bag/presentation/comment/widgets/comment_model.dart';
+import 'package:healthy_bag/domain/entities/comment/comment_entity.dart';
 
 // 하단에 올라오는 전체 댓글창
 class CommentSheet extends StatelessWidget{
   CommentSheet({super.key});
 
   // 임시 댓글 데이터
-  final List<Comment> comments = [
-    Comment(nickname: 'jiii12', content: '오운완', timeAgo: DateTime.now())
+  final List<CommentEntity> comments = [
+    CommentEntity(nickname: 'jiii12', content: '오운완', timeAgo: DateTime.now())
   ];
 
   @override

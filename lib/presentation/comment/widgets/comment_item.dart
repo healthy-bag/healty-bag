@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healthy_bag/presentation/comment/widgets/comment_model.dart';
+import 'package:healthy_bag/domain/entities/comment/comment_entity.dart';
 
 class CommentItem extends StatefulWidget {
   const CommentItem({
@@ -7,7 +7,7 @@ class CommentItem extends StatefulWidget {
     required this.comment,
   });
 
-  final Comment comment;
+  final CommentEntity comment;
 
   @override
   State<CommentItem> createState() => _CommentItemState();
