@@ -3,7 +3,8 @@ import 'package:healthy_bag/presentation/comment/comment_sheet.dart';
 import 'package:healthy_bag/presentation/widgets/healthy_bag_logo.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String user;
+  const HomePage({super.key, required this.user});
 
   @override
   State<HomePage> createState() => _HomePageState();

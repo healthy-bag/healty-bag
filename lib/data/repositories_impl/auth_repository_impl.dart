@@ -36,7 +36,6 @@ class AuthRepositoryImpl implements AuthRepository {
           profileUrl: "",
         );
       }
-      return null;
     } catch (e) {
       rethrow;
     }

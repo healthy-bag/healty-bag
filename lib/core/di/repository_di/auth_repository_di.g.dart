@@ -48,4 +48,4 @@ final class AuthRepositoryProvider
   }
 }
 
-String _$authRepositoryHash() => r'7517005bd7782fbda76383527638e9f71de8c232';
+String _$authRepositoryHash() => r'60384a7d9d9de226a2707b6fe6ff13c557899b05';

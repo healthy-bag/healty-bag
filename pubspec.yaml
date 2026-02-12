@@ -51,6 +51,7 @@ dependencies:
   google_sign_in: ^6.3.0
   go_router: ^17.1.0
   kakao_flutter_sdk_user: ^1.10.0
+  top_snackbar_flutter: ^3.3.0
 
 dev_dependencies:
   flutter_test:

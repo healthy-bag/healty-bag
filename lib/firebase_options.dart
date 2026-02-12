@@ -24,10 +24,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
@@ -62,4 +59,13 @@ class DefaultFirebaseOptions {
     iosClientId: '368651561908-m1q5sou6bc4s30b645jfcoresc3se45j.apps.googleusercontent.com',
     iosBundleId: 'com.healthybag.healthybag',
   );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyCU64Gw6OV68NRmTradYMS926vInB1G3so',
+    appId: '1:368651561908:android:d57e2f16c34cedbbe920e1',
+    messagingSenderId: '368651561908',
+    projectId: 'healthy-bag-29485',
+    storageBucket: 'healthy-bag-29485.firebasestorage.app',
+  );
+
 }
