@@ -25,13 +25,17 @@ class WelcomePage extends ConsumerWidget {
               HealthyBagLogo(),
               Spacer(flex: 1),
               GoogleLoginButton(
-                onPressed: () {
-                  ref.read(welcomeViewModelProvider.notifier).googleLogin();
+                onPressed: () async {
+                  await ref
+                      .read(welcomeViewModelProvider.notifier)
+                      .googleLogin();
                 },
               ),
               KakaoLoginButton(
-                onPressed: () {
-                  ref.read(welcomeViewModelProvider.notifier).kakaoLogin();
+                onPressed: () async {
+                  await ref
+                      .read(welcomeViewModelProvider.notifier)
+                      .kakaoLogin();
                 },
               ),
               Spacer(flex: 1),

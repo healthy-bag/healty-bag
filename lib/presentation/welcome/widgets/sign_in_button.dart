@@ -19,7 +19,7 @@ class SignInButton extends StatelessWidget {
       width: double.infinity,
       height: 48,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),

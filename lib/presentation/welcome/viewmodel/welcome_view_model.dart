@@ -1,5 +1,6 @@
 import 'package:healthy_bag/core/di/usecase_di/login_usecase_di.dart';
 import 'package:healthy_bag/domain/models/auth_result.dart';
+import 'package:healthy_bag/domain/models/social_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'welcome_view_model.g.dart';
@@ -12,10 +13,10 @@ class WelcomeViewModel extends _$WelcomeViewModel {
   Future<AuthResult> googleLogin() async {
     state = const AsyncLoading();
 
-    late final AuthResult result;
+    AuthResult result = AuthFailure(message: "로그인 실패");
 
     state = await AsyncValue.guard(() async {
-      result = await ref.read(googleLoginUsecaseProvider).execute();
+      result = await ref.read(loginUsecaseProvider).login(SocialType.google);
     });
 
     return result;
@@ -24,10 +25,10 @@ class WelcomeViewModel extends _$WelcomeViewModel {
   Future<AuthResult> kakaoLogin() async {
     state = const AsyncLoading();
 
-    late final AuthResult result;
+    AuthResult result = AuthFailure(message: "로그인 실패");
 
     state = await AsyncValue.guard(() async {
-      result = await ref.read(kakaoLoginUsecaseProvider).execute();
+      result = await ref.read(loginUsecaseProvider).login(SocialType.kakao);
     });
 
     return result;
