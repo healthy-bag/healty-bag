@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:healthy_bag/presentation/nickname/nickname_view_model.dart';
-import 'package:healthy_bag/presentation/widgets/home/home_page.dart';
 
 class StartButton extends StatelessWidget {
   const StartButton({super.key, required this.state});
@@ -15,9 +15,7 @@ class StartButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: state.isValid
             ? () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                );
+                context.go('/home');
               }
             : null,
         style: ElevatedButton.styleFrom(
