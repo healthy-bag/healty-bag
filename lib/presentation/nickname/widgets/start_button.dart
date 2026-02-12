@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_bag/presentation/home/home_page.dart';
 import 'package:healthy_bag/presentation/nickname/nickname_view_model.dart';
-import 'package:healthy_bag/presentation/widgets/home/home_page.dart';
 
 class StartButton extends StatelessWidget {
   const StartButton({super.key, required this.state});

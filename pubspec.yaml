@@ -49,6 +49,7 @@ dependencies:
   build_runner: ^2.11.0
   riverpod_annotation: ^4.0.0
   google_sign_in: ^6.3.0
+  kakao_flutter_sdk_user: ^1.10.0
 
 dev_dependencies:
   flutter_test:

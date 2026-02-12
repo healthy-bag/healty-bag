@@ -33,7 +33,7 @@ final class WelcomeViewModelProvider
   WelcomeViewModel create() => WelcomeViewModel();
 }
 
-String _$welcomeViewModelHash() => r'43464e2a52fe26a4c4cacf8ff3070526a5bce176';
+String _$welcomeViewModelHash() => r'7d1c9549be22e2b9aa69f69d938e21235b2af368';
 
 abstract class _$WelcomeViewModel extends $AsyncNotifier<void> {
   FutureOr<void> build();
