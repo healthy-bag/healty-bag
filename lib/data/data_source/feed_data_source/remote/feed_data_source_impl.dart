@@ -1,0 +1,49 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:healthy_bag/data/DTO/feed_dto.dart';
+import 'package:healthy_bag/data/data_source/feed_data_source/feed_data_source.dart';
+
+class FeedDataSourceImpl implements FeedDataSource {
+  final firestore = FirebaseFirestore.instance;
+
+  @override
+  Future<FeedDTO?> fetchFeed(String feedId) async {
+    final doc = await firestore.collection('feeds').doc(feedId).get();
+    if (doc.exists) {
+      return FeedDTO.fromJson(doc.data()!);
+    }
+    return null;
+  }
+
+  @override
+  Future<List<FeedDTO>> fetchFeeds() async {
+    // feeds 컬렉션에서 생성일자(createdAt) 내림차순으로 가져오기
+    final snapshot = await firestore
+        .collection('feeds')
+        .orderBy('createdAt', descending: true)
+        .get();
+
+    return snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList();
+  }
+
+  @override
+  Future<void> saveFeed(FeedDTO feed) async {
+    // 1. 만약 feedId가 비어있다면 Firestore에서 새 ID를 발급받습니다.
+    // 2. 이미 ID를 받아서 객체를 만든 상태라면 그대로 씁니다.
+    final docRef = firestore
+        .collection('feeds')
+        .doc(feed.feedId.isEmpty ? null : feed.feedId);
+
+    // 문서 ID와 필드 내부의 feedId를 일치시켜서 저장하는 것이 좋습니다.
+    final newFeed = feed.feedId.isEmpty
+        ? feed.copyWith(feedId: docRef.id) // FeedDTO에 copyWith가 있다는 가정하에
+        : feed;
+
+    await docRef.set(newFeed.toJson());
+  }
+
+  @override
+  Future<void> updateFeed(FeedDTO feed) async {
+    // 이미 존재하는 문서의 특정 필드만 바꿀 때 update 사용
+    await firestore.collection('feeds').doc(feed.feedId).update(feed.toJson());
+  }
+}
