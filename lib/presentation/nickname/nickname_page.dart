@@ -20,6 +20,7 @@ class _NicknamePageState extends ConsumerState<NicknamePage> {
   Widget build(BuildContext context) {
     final state = ref.watch(nicknameViewModelProvider);
     final viewModel = ref.read(nicknameViewModelProvider.notifier);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();

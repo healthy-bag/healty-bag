@@ -1,17 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_bag/presentation/nickname/nickname_view_model.dart';
+import 'package:healthy_bag/presentation/nickname/viewmodel/nickname_viewmodel.dart';
 
 class NicknameImagePickerArea extends ConsumerWidget {
-  const NicknameImagePickerArea({
-    super.key,
-    required this.viewModel,
-    required this.state,
-  });
-
-  final NicknameViewModel viewModel;
-  final NicknameState state;
+  const NicknameImagePickerArea({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:healthy_bag/core/di/usecase_di/register_usecase_di.dart';
-import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
