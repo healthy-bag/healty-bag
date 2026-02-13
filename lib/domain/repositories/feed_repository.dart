@@ -1,4 +1,4 @@
-import 'package:healthy_bag/domain/entities/feed/feed_entity.dart';
+import 'package:healthy_bag/domain/entities/feed_entity.dart';
 
 abstract class FeedRepository {
   Future<FeedEntity?> fetchFeed(String feedId);
