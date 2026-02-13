@@ -37,4 +37,22 @@ class UserDTO {
       'profileUrl': profileUrl,
     };
   }
+
+  UserDTO copyWith({
+    String? uid,
+    String? nickname,
+    int? followerCount,
+    int? followingCount,
+    int? feedCount,
+    String? profileUrl,
+  }) {
+    return UserDTO(
+      uid: uid ?? this.uid,
+      nickname: nickname ?? this.nickname,
+      followerCount: followerCount ?? this.followerCount,
+      followingCount: followingCount ?? this.followingCount,
+      feedCount: feedCount ?? this.feedCount,
+      profileUrl: profileUrl ?? this.profileUrl,
+    );
+  }
 }
