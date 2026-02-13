@@ -8,7 +8,7 @@
 PRODUCT_NAME = healthy_bag
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.healthyBag
+PRODUCT_BUNDLE_IDENTIFIER = com.healthybag.healthybag
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2026 com.example. All rights reserved.

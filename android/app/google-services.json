@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "368651561908",
+    "project_id": "healthy-bag-29485",
+    "storage_bucket": "healthy-bag-29485.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368651561908:android:d57e2f16c34cedbbe920e1",
+        "android_client_info": {
+          "package_name": "com.healthybag.healthybag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368651561908-pbf82o557hpr9drf0qflecdr1tj9gav0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.healthybag.healthybag",
+            "certificate_hash": "a08eb93fa7cd68a919df2f01c13baf4a05439f16"
+          }
+        },
+        {
+          "client_id": "368651561908-eqfcnoioug04bmfca3jb72jdea8obvnt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU64Gw6OV68NRmTradYMS926vInB1G3so"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368651561908-eqfcnoioug04bmfca3jb72jdea8obvnt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "368651561908-m1q5sou6bc4s30b645jfcoresc3se45j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.healthybag.healthybag"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
