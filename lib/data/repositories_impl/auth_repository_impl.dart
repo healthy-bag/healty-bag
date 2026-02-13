@@ -36,8 +36,8 @@ class AuthRepositoryImpl implements AuthRepository {
           profileUrl: "",
         );
       }
-    } catch (e) {
-      rethrow;
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message);
     }
     return null;
   }

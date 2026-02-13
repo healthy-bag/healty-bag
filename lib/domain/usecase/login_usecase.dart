@@ -15,13 +15,11 @@ class LoginUsecase {
 
   Future<AuthResult> login(SocialType type) async {
     final result = await _authRepository.signIn(type);
-    print('result: $result');
     if (result == null) {
       return AuthFailure(message: "$type 로그인 실패");
     }
 
     final user = await _userRepository.getUserInfo(result.uid);
-    print('user: $user');
     if (user != null) {
       return AuthSuccess(user: user);
     } else {

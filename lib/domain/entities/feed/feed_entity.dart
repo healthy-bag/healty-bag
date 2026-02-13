@@ -1,4 +1,3 @@
-
 // 피드 데이터 모델
 
 class FeedEntity {
@@ -13,7 +12,7 @@ class FeedEntity {
   final DateTime updatedAt;
   final bool isLiked;
 
-  FeedEntity ({
+  FeedEntity({
     required this.id,
     required this.authorId,
     required this.authorimageUrl,
