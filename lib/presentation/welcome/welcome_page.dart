@@ -20,9 +20,9 @@ class WelcomePage extends ConsumerWidget {
         data: (data) {
           switch (data) {
             case AuthSuccess():
-              context.go('/home', extra: data.user);
+              context.goNamed('home');
             case NewUser():
-              context.go('/nickname/${data.uid}');
+              context.goNamed('nickname');
             case AuthFailure():
               showTopSnackBar(
                 Overlay.of(context),

@@ -1,5 +1,6 @@
-import 'package:healthy_bag/data/DTO/user_dto.dart';
+import 'dart:io';
 import 'package:healthy_bag/data/data_source/user_data_source/user_data_source.dart';
+import 'package:healthy_bag/data/dto/user_dto.dart';
 import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/repositories/user_repository.dart';
 
@@ -11,8 +12,10 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<UserEntity?> getUserInfo(String uid) async {
-    final userDTO = await _userDataSource.fetchUserInfo(uid);
+    final userDTO = await _userDataSource.fetchUserInfo(uid); // 값 반환 X
+
     if (userDTO == null) return null;
+
     return UserEntity(
       uid: userDTO.uid,
       nickname: userDTO.nickname,
@@ -24,7 +27,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> saveUserInfo(UserEntity user) async {
+  Future<void> registerUser(UserEntity user) async {
     final userDTO = UserDTO(
       uid: user.uid,
       nickname: user.nickname,
@@ -33,6 +36,16 @@ class UserRepositoryImpl implements UserRepository {
       feedCount: user.feedCount,
       profileUrl: user.profileUrl,
     );
-    await _userDataSource.saveUserInfo(userDTO);
+    await _userDataSource.registerUser(userDTO);
+  }
+
+  @override
+  Future<bool> checkNickname(String nickname) async {
+    return await _userDataSource.checkNickname(nickname);
+  }
+
+  @override
+  Future<String> uploadProfileImage(File file) async {
+    return await _userDataSource.uploadProfileImage(file);
   }
 }

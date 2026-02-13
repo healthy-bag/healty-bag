@@ -4,7 +4,7 @@ class UserEntity {
   final int followerCount;
   final int followingCount;
   final int feedCount;
-  final String profileUrl;
+  final String? profileUrl;
 
   UserEntity({
     required this.uid,
@@ -12,7 +12,7 @@ class UserEntity {
     required this.followerCount,
     required this.followingCount,
     required this.feedCount,
-    required this.profileUrl,
+    this.profileUrl,
   });
 
   factory UserEntity.fromJson(Map<String, dynamic> json) {

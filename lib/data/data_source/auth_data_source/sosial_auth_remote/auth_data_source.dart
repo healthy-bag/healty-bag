@@ -40,7 +40,6 @@ class AuthDataSourceImpl implements AuthDataSource {
 
       return credential;
     } catch (e) {
-      print('Login Error: $e');
       if (e is PlatformException && e.code == 'CANCELED') {
         return null;
       }

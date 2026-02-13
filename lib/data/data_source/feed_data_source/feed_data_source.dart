@@ -1,6 +1,6 @@
 // lib/data/data_source/feed_data_source/feed_data_source.dart
 
-import 'package:healthy_bag/data/DTO/feed_dto.dart';
+import 'package:healthy_bag/data/dto/feed_dto.dart';
 
 abstract class FeedDataSource {
   // 특정 피드 가져오기
