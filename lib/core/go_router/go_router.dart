@@ -19,10 +19,9 @@ final router = GoRouter(
 
     // 2. 닉네임 설정 페이지 (바텀바 없음)
     GoRoute(
-      path: '/nickname/:uid',
+      path: '/nickname',
       name: 'nickname',
-      builder: (context, state) =>
-          NicknamePage(uid: state.pathParameters['uid']!),
+      builder: (context, state) => NicknamePage(),
     ),
 
     StatefulShellRoute.indexedStack(
@@ -33,15 +32,19 @@ final router = GoRouter(
       branches: [
         StatefulShellBranch(
           routes: [
-            GoRoute(path: '/my', builder: (context, state) => const MyPage()),
+            GoRoute(
+              path: '/my',
+              name: 'my',
+              builder: (context, state) => const MyPage(),
+            ),
           ],
         ),
         StatefulShellBranch(
           routes: [
             GoRoute(
               path: '/home',
-              builder: (context, state) =>
-                  HomePage(user: state.extra as UserEntity),
+              name: 'home',
+              builder: (context, state) => const HomePage(),
             ),
           ],
         ),
@@ -49,6 +52,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/edit',
+              name: 'edit',
               builder: (context, state) => const WritePage(),
             ),
           ],

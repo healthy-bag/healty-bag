@@ -5,7 +5,7 @@ class UserDTO {
   final int followerCount;
   final int followingCount;
   final int feedCount;
-  final String profileUrl;
+  final String? profileUrl;
 
   UserDTO({
     required this.uid,
@@ -13,17 +13,18 @@ class UserDTO {
     required this.followerCount,
     required this.followingCount,
     required this.feedCount,
-    required this.profileUrl,
+    this.profileUrl,
   });
 
   factory UserDTO.fromJson(Map<String, dynamic> json) {
+    print("json : $json");
     return UserDTO(
-      uid: json['uid'] as String,
-      nickname: json['nickname'] as String,
-      followerCount: json['followerCount'] as int,
-      followingCount: json['followingCount'] as int,
-      feedCount: json['feedCount'] as int,
-      profileUrl: json['profileUrl'] as String,
+      uid: json['uid'],
+      nickname: json['nickname'],
+      followerCount: json['followerCount'],
+      followingCount: json['followingCount'],
+      feedCount: json['feedCount'],
+      profileUrl: json['profileUrl'],
     );
   }
 

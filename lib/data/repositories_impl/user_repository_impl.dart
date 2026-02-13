@@ -12,8 +12,10 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<UserEntity?> getUserInfo(String uid) async {
-    final userDTO = await _userDataSource.fetchUserInfo(uid);
+    final userDTO = await _userDataSource.fetchUserInfo(uid); // 값 반환 X
+
     if (userDTO == null) return null;
+
     return UserEntity(
       uid: userDTO.uid,
       nickname: userDTO.nickname,

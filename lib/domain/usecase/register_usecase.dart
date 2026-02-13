@@ -11,15 +11,20 @@ class RegisterUsecase {
 
   Future<bool> register({
     required String nickname,
-    required String imagePath,
+    required String? imagePath,
   }) async {
     final isNicknameAvailable = await _userRepository.checkNickname(nickname);
     if (!isNicknameAvailable) {
       return false;
     }
 
-    final profileUrl = await _userRepository.uploadProfileImage(
-      File(imagePath),
+    String? profileUrl;
+    if (imagePath != null) {
+      profileUrl = await _userRepository.uploadProfileImage(File(imagePath));
+    }
+
+    print(
+      "FirebaseAuth.instance.currentUser!.uid: ${FirebaseAuth.instance.currentUser!.uid}",
     );
 
     final user = UserEntity(
