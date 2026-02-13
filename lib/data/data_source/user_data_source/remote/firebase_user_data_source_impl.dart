@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthy_bag/data/DTO/user_dto.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:healthy_bag/data/dto/user_dto.dart';
 import 'package:healthy_bag/data/data_source/user_data_source/user_data_source.dart';
 
 class FirebaseUserDataSourceImpl implements UserDataSource {
@@ -16,13 +19,44 @@ class FirebaseUserDataSourceImpl implements UserDataSource {
     return null;
   }
 
-  // @override
-  // Future<void> saveUserInfo(UserDTO user) async {
-  //   await firestore.collection('users').doc(user.uid).set(user.toJson());
-  // }
+  @override
+  Future<void> registerUser(UserDTO user) async {
+    try {
+      final docRef = firestore.collection('users').doc(user.uid);
+      await docRef.set(user.toJson());
+    } on FirebaseException catch (e) {
+      rethrow;
+    }
+  }
 
-  // @override
-  // Future<void> updateUserInfo(String uid, Map<String, dynamic> data) async {
-  //   await firestore.collection('users').doc(uid).update(data);
-  // }
+  @override
+  Future<bool> checkNickname(String nickname) async {
+    try {
+      final querySnapshot = await firestore
+          .collection('users')
+          .where('nickname', isEqualTo: nickname)
+          .limit(1)
+          .get();
+      return querySnapshot.docs.isEmpty;
+    } on FirebaseException catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> uploadProfileImage(File file) async {
+    try {
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('profile_images')
+          .child('${DateTime.now().microsecondsSinceEpoch}');
+
+      await storageRef.putFile(file);
+      final downloadUrl = await storageRef.getDownloadURL();
+
+      return downloadUrl;
+    } on FirebaseException catch (e) {
+      rethrow;
+    }
+  }
 }

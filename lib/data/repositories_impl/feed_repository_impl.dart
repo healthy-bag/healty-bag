@@ -1,4 +1,4 @@
-import 'package:healthy_bag/data/DTO/feed_dto.dart';
+import 'package:healthy_bag/data/dto/feed_dto.dart';
 import 'package:healthy_bag/data/data_source/feed_data_source/feed_data_source.dart';
 import 'package:healthy_bag/domain/entities/feed/feed_entity.dart';
 import 'package:healthy_bag/domain/repositories/feed_repository.dart';
@@ -16,6 +16,7 @@ class FeedRepositoryImpl implements FeedRepository {
       uid: feedDTO.uid,
       feedId: feedDTO.feedId,
       fileUrl: feedDTO.fileUrl,
+      content: feedDTO.content,
       likeCount: feedDTO.likeCount,
       commentCount: feedDTO.commentCount,
       thumbnailUrl: feedDTO.thumbnailUrl,
@@ -32,6 +33,7 @@ class FeedRepositoryImpl implements FeedRepository {
             uid: feedDTO.uid,
             feedId: feedDTO.feedId,
             fileUrl: feedDTO.fileUrl,
+            content: feedDTO.content,
             likeCount: feedDTO.likeCount,
             commentCount: feedDTO.commentCount,
             thumbnailUrl: feedDTO.thumbnailUrl,
@@ -47,6 +49,7 @@ class FeedRepositoryImpl implements FeedRepository {
       uid: feed.uid,
       feedId: feed.feedId,
       fileUrl: feed.fileUrl,
+      content: feed.content,
       likeCount: feed.likeCount,
       commentCount: feed.commentCount,
       thumbnailUrl: feed.thumbnailUrl,
@@ -61,6 +64,7 @@ class FeedRepositoryImpl implements FeedRepository {
       uid: feed.uid,
       feedId: feed.feedId,
       fileUrl: feed.fileUrl,
+      content: feed.content,
       likeCount: feed.likeCount,
       commentCount: feed.commentCount,
       thumbnailUrl: feed.thumbnailUrl,

@@ -27,15 +27,13 @@ class FeedDataSourceImpl implements FeedDataSource {
 
   @override
   Future<void> saveFeed(FeedDTO feed) async {
-    // 1. 만약 feedId가 비어있다면 Firestore에서 새 ID를 발급받습니다.
-    // 2. 이미 ID를 받아서 객체를 만든 상태라면 그대로 씁니다.
     final docRef = firestore
         .collection('feeds')
         .doc(feed.feedId.isEmpty ? null : feed.feedId);
 
     // 문서 ID와 필드 내부의 feedId를 일치시켜서 저장하는 것이 좋습니다.
     final newFeed = feed.feedId.isEmpty
-        ? feed.copyWith(feedId: docRef.id) // FeedDTO에 copyWith가 있다는 가정하에
+        ? feed.copyWith(feedId: docRef.id)
         : feed;
 
     await docRef.set(newFeed.toJson());
