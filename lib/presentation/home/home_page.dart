@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/presentation/comment/comment_sheet.dart';
 import 'package:healthy_bag/presentation/home/home_view_model.dart';
 import 'package:healthy_bag/presentation/home/widgets/feed_item.dart';
 import 'package:healthy_bag/presentation/widgets/healthy_bag_logo.dart';
 
 class HomePage extends ConsumerWidget {
-  final UserEntity user;
-  const HomePage({super.key, required this.user});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

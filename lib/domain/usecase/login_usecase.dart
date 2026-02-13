@@ -18,7 +18,6 @@ class LoginUsecase {
     if (result == null) {
       return AuthFailure(message: "$type 로그인 실패");
     }
-
     final user = await _userRepository.getUserInfo(result.uid);
     if (user != null) {
       return AuthSuccess(user: user);

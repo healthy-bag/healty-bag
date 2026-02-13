@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:healthy_bag/core/di/usecase_di/register_usecase_di.dart';
-import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -51,6 +48,7 @@ class NicknameViewmodel extends _$NicknameViewmodel {
     );
   }
 
+  // XFile xfile param
   Future<void> setImage() async {
     final imagePicker = ImagePicker();
     final xFile = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -66,7 +64,7 @@ class NicknameViewmodel extends _$NicknameViewmodel {
           .read(registerUsecaseProvider)
           .register(
             nickname: state.value!.nickname,
-            imagePath: state.value!.imagePath!,
+            imagePath: state.value!.imagePath,
           );
       return state.value!.copyWith(isAvailable: isAvailable);
     });
