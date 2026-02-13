@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_bag/core/di/repository_di/user_repository_di.dart';
+import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NicknameState {
@@ -76,6 +78,23 @@ class NicknameViewModel extends Notifier<NicknameState> {
       // TODO: 에러 처리 개선 (사용자에게 알림 표시)
       print('업로드 실패: $e');
     }
+  }
+
+  Future<UserEntity> saveUser(String uid) async {
+    state = state.copyWith(isLoading: true);
+
+    final user = UserEntity(
+      uid: uid,
+      nickname: state.nickname,
+      followerCount: 0,
+      followingCount: 0,
+      feedCount: 0,
+      profileUrl: state.imageUrl ?? '',
+    );
+
+    await ref.read(userRepositoryProvider).saveUserInfo(user);
+    state = state.copyWith(isLoading: false);
+    return user;
   }
 }
 

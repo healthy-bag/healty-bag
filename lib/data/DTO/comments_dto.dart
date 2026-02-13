@@ -1,3 +1,5 @@
+import 'package:healthy_bag/domain/entities/comment/comment_entity.dart';
+
 class CommentsDTO {
   final String id;
   final String uid;
@@ -35,5 +37,13 @@ class CommentsDTO {
       'comment': comment,
       'createdAt': createdAt,
     };
+  }
+
+  CommentEntity toEntity() {
+    return CommentEntity(
+      nickname: nickname,
+      content: comment,
+      timeAgo: DateTime.parse(createdAt),
+    );
   }
 }

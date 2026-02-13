@@ -6,6 +6,7 @@ class FeedDTO {
   final int likeCount; // 컨셉에 맞게 변경 가능, 내가 좋아요를 눌렀는지 알 수 없음 -> 별로 컬렉션
   final int commentCount; // 컨셉에 맞게 변경 가능
   final String thumbnailUrl;
+  final String content;
   final String createdAt;
 
   FeedDTO({
@@ -15,6 +16,7 @@ class FeedDTO {
     required this.likeCount,
     required this.commentCount,
     required this.thumbnailUrl,
+    required this.content,
     required this.createdAt,
   });
 
@@ -26,6 +28,7 @@ class FeedDTO {
       likeCount: json['likeCount'] as int,
       commentCount: json['commentCount'] as int,
       thumbnailUrl: json['thumbnailUrl'] as String,
+      content: json['content'] as String? ?? '',
       createdAt: json['createdAt'] as String,
     );
   }
@@ -38,6 +41,7 @@ class FeedDTO {
       'likeCount': likeCount,
       'commentCount': commentCount,
       'thumbnailUrl': thumbnailUrl,
+      'content': content,
       'createdAt': createdAt,
     };
   }
@@ -49,6 +53,7 @@ class FeedDTO {
     int? likeCount,
     int? commentCount,
     String? thumbnailUrl,
+    String? content,
     String? createdAt,
   }) {
     return FeedDTO(
@@ -58,6 +63,7 @@ class FeedDTO {
       likeCount: likeCount ?? this.likeCount,
       commentCount: commentCount ?? this.commentCount,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      content: content ?? this.content,
       createdAt: createdAt ?? this.createdAt,
     );
   }

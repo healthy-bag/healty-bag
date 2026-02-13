@@ -19,7 +19,7 @@ final router = GoRouter(
 
     // 2. 닉네임 설정 페이지 (바텀바 없음)
     GoRoute(
-      path: '/nickname:uid',
+      path: '/nickname/:uid',
       name: 'nickname',
       builder: (context, state) =>
           NicknamePage(uid: state.pathParameters['uid']!),

@@ -66,7 +66,7 @@ class _NicknamePageState extends ConsumerState<NicknamePage> {
                 ),
               ),
               SizedBox(height: 16),
-              StartButton(state: state),
+              StartButton(state: state, uid: widget.uid),
             ],
           ),
         ),
