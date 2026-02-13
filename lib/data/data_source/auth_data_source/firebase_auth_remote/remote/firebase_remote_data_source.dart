@@ -14,7 +14,7 @@ class FirebaseRemoteDataSource implements AuthRemoteDataSource {
         credential,
       );
       return userCredential;
-    } catch (e) {
+    } on FirebaseAuthException {
       rethrow;
     }
   }

@@ -24,7 +24,7 @@ class FirebaseUserDataSourceImpl implements UserDataSource {
     try {
       final docRef = firestore.collection('users').doc(user.uid);
       await docRef.set(user.toJson());
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       rethrow;
     }
   }
@@ -38,7 +38,7 @@ class FirebaseUserDataSourceImpl implements UserDataSource {
           .limit(1)
           .get();
       return querySnapshot.docs.isEmpty;
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       rethrow;
     }
   }
@@ -55,7 +55,7 @@ class FirebaseUserDataSourceImpl implements UserDataSource {
       final downloadUrl = await storageRef.getDownloadURL();
 
       return downloadUrl;
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       rethrow;
     }
   }
