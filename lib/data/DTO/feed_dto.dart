@@ -20,16 +20,16 @@ class FeedDTO {
     required this.createdAt,
   });
 
-  factory FeedDTO.fromJson(Map<String, dynamic> json) {
+  factory FeedDTO.fromJson(Map<String, dynamic> json, String id) {
     return FeedDTO(
-      uid: json['uid'] as String,
-      feedId: json['feedId'] as String,
-      fileUrl: json['fileUrl'] as String,
-      likeCount: json['likeCount'] as int,
-      commentCount: json['commentCount'] as int,
-      thumbnailUrl: json['thumbnailUrl'] as String,
+      uid: json['uid'] as String? ?? '',
+      feedId: json['feedId'] as String? ?? id,
+      fileUrl: json['fileUrl'] as String? ?? '',
+      likeCount: json['likeCount'] as int? ?? 0,
+      commentCount: json['commentCount'] as int? ?? 0,
+      thumbnailUrl: json['thumbnailUrl'] as String? ?? '',
       content: json['content'] as String? ?? '',
-      createdAt: json['createdAt'] as String,
+      createdAt: json['createdAt'] as String? ?? '',
     );
   }
 
