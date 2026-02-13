@@ -19,10 +19,9 @@ final router = GoRouter(
 
     // 2. 닉네임 설정 페이지 (바텀바 없음)
     GoRoute(
-      path: '/nickname:uid',
+      path: '/nickname',
       name: 'nickname',
-      builder: (context, state) =>
-          NicknamePage(uid: state.pathParameters['uid']!),
+      builder: (context, state) => NicknamePage(uid: state.extra as String),
     ),
 
     StatefulShellRoute.indexedStack(

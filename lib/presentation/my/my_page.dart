@@ -15,16 +15,16 @@ class MyPage extends StatelessWidget {
           'HB_coding12',
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.favorite_outline, color: Colors.black),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search, color: Colors.black),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(Icons.favorite_outline, color: Colors.black),
+        //   ),
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(Icons.search, color: Colors.black),
+        //   ),
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -45,7 +45,7 @@ class MyPage extends StatelessWidget {
                 Spacer(),
               ],
             ),
-            Align(alignment: Alignment.centerRight, child: ProfileEditButton()),
+            // Align(alignment: Alignment.centerRight, child: ProfileEditButton()),
             SizedBox(height: 32),
             Expanded(child: ProfilePostGrid()),
           ],
