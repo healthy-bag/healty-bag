@@ -5,9 +5,6 @@ import 'package:healthy_bag/domain/models/social_type.dart';
 import 'package:healthy_bag/domain/repositories/auth_repository.dart';
 import 'package:healthy_bag/domain/entities/user_entity.dart';
 
-// Auth DataSource에서 가져온 UserCredential을 기반으로 AuthResult를 usecase로 반환
-// 1. entity 자체를 던져줄건지 -> heavy한가?
-// 2. uid만 던져줄건지 -> domain 구조에 맞지 않나?
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
     required AuthDataSource authDataSource,
@@ -40,5 +37,10 @@ class AuthRepositoryImpl implements AuthRepository {
       throw Exception(e.message);
     }
     return null;
+  }
+
+  @override
+  Future<String?> getCurrentUid() async {
+    return _authRemoteDataSource.getCurrentUid();
   }
 }

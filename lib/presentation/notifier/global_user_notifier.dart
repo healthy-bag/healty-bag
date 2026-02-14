@@ -1,0 +1,16 @@
+import 'package:healthy_bag/domain/entities/user_entity.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'global_user_notifier.g.dart';
+
+@Riverpod(keepAlive: true)
+class GlobalUserViewModel extends _$GlobalUserViewModel {
+  @override
+  UserEntity? build() {
+    return null;
+  }
+
+  void setUser(UserEntity user) {
+    state = user;
+  }
+}

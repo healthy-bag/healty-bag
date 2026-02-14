@@ -1,4 +1,5 @@
 import 'package:healthy_bag/core/di/usecase_di/register_usecase_di.dart';
+import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -64,8 +65,12 @@ class NicknameViewmodel extends _$NicknameViewmodel {
           .read(registerUsecaseProvider)
           .register(
             nickname: state.value!.nickname,
-            imagePath: state.value!.imagePath,
+            imagePath: state.value?.imagePath,
           );
+      print('isAvailable : $isAvailable');
+      if (isAvailable) {
+        // ref.read(globalUserViewModelProvider.notifier).setUser();
+      }
       return state.value!.copyWith(isAvailable: isAvailable);
     });
   }

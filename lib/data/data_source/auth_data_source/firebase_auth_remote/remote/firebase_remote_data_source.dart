@@ -18,4 +18,9 @@ class FirebaseRemoteDataSource implements AuthRemoteDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<String?> getCurrentUid() async {
+    return _firebaseAuth.currentUser?.uid;
+  }
 }
