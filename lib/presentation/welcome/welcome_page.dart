@@ -46,32 +46,35 @@ class WelcomePage extends ConsumerWidget {
 
     return state.when(
       data: (data) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            spacing: 12,
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(flex: 2),
-              HealthyBagLogo(),
-              Spacer(flex: 1),
-              GoogleLoginButton(
-                onPressed: () async {
-                  await ref
-                      .read(welcomeViewModelProvider.notifier)
-                      .googleLogin();
-                },
-              ),
-              KakaoLoginButton(
-                onPressed: () async {
-                  await ref
-                      .read(welcomeViewModelProvider.notifier)
-                      .kakaoLogin();
-                },
-              ),
-              Spacer(flex: 1),
-            ],
+        return Scaffold(
+          backgroundColor: Colors.black,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              spacing: 12,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Spacer(flex: 2),
+                HealthyBagLogo(),
+                Spacer(flex: 1),
+                GoogleLoginButton(
+                  onPressed: () async {
+                    await ref
+                        .read(welcomeViewModelProvider.notifier)
+                        .googleLogin();
+                  },
+                ),
+                KakaoLoginButton(
+                  onPressed: () async {
+                    await ref
+                        .read(welcomeViewModelProvider.notifier)
+                        .kakaoLogin();
+                  },
+                ),
+                Spacer(flex: 1),
+              ],
+            ),
           ),
         );
       },

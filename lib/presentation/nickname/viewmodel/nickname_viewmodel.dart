@@ -1,16 +1,19 @@
 import 'package:healthy_bag/core/di/usecase_di/register_usecase_di.dart';
+import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'nickname_viewmodel.g.dart';
 
 class NicknameState {
+  final String uid;
   final String nickname;
   final bool isAvailable;
   final bool isValid;
   final String? imagePath;
 
   NicknameState({
+    required this.uid,
     this.nickname = '',
     this.isAvailable = false,
     this.isValid = false,
@@ -18,12 +21,14 @@ class NicknameState {
   });
 
   NicknameState copyWith({
+    String? uid,
     String? nickname,
     bool? isAvailable,
     bool? isValid,
     String? imagePath,
   }) {
     return NicknameState(
+      uid: uid ?? this.uid,
       nickname: nickname ?? this.nickname,
       isAvailable: isAvailable ?? this.isAvailable,
       isValid: isValid ?? this.isValid,
@@ -36,7 +41,8 @@ class NicknameState {
 class NicknameViewmodel extends _$NicknameViewmodel {
   @override
   Future<NicknameState> build() async {
-    return NicknameState();
+    final uid = ref.read(globalUserViewModelProvider.notifier).state!.uid;
+    return NicknameState(uid: uid);
   }
 
   void setNickname(String nickname) {
@@ -63,9 +69,15 @@ class NicknameViewmodel extends _$NicknameViewmodel {
       final isAvailable = await ref
           .read(registerUsecaseProvider)
           .register(
+            uid: state.value!.uid,
             nickname: state.value!.nickname,
             imagePath: state.value!.imagePath,
           );
+      if (isAvailable) {
+        ref
+            .read(globalUserViewModelProvider.notifier)
+            .setUserById(state.value!.uid);
+      }
       return state.value!.copyWith(isAvailable: isAvailable);
     });
   }
