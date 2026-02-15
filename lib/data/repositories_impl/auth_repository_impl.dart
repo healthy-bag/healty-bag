@@ -41,4 +41,9 @@ class AuthRepositoryImpl implements AuthRepository {
     }
     return null;
   }
+
+  @override
+  Future<String?> getCurrentUid() async {
+    return FirebaseAuth.instance.currentUser?.uid;
+  }
 }

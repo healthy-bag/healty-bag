@@ -12,36 +12,25 @@ class SignUpButton extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       height: 56,
-      child: ElevatedButton(
-        onPressed: state.value?.isValid ?? false
-            ? () async {
+      child: state.value?.isValid ?? false
+          ? ElevatedButton(
+              onPressed: () async {
                 await ref.read(nicknameViewmodelProvider.notifier).signUp();
                 if (context.mounted && state.value!.isAvailable) {
                   context.goNamed('home');
                 }
-              }
-            : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: state.value?.isValid ?? false
-              ? Colors.pinkAccent
-              : Colors.transparent,
-          foregroundColor: state.value?.isValid ?? false
-              ? Colors.white
-              : Colors.transparent,
-          elevation: state.value?.isValid ?? false ? 4 : 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: Text(
-          "시작하기",
-          style: TextStyle(
-            color: state.value?.isValid ?? false
-                ? Colors.white
-                : Colors.transparent,
-          ),
-        ),
-      ),
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pinkAccent,
+                foregroundColor: Colors.white,
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text("시작하기", style: TextStyle(color: Colors.white)),
+            )
+          : SizedBox(),
     );
   }
 }

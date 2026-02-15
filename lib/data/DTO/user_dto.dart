@@ -17,7 +17,6 @@ class UserDTO {
   });
 
   factory UserDTO.fromJson(Map<String, dynamic> json) {
-    print("json : $json");
     return UserDTO(
       uid: json['uid'],
       nickname: json['nickname'],

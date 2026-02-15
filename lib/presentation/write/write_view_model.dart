@@ -52,8 +52,6 @@ class WriteViewModel extends Notifier<WriteState> {
       state = state.copyWith(isLoading: false, imageUrl: downloadUrl);
     } catch (e) {
       state = state.copyWith(isLoading: false);
-      // TODO: 에러 처리 개선 (사용자에게 알림 표시)
-      print('업로드 실패: $e');
     }
   }
 }
