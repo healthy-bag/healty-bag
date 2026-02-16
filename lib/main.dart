@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +54,14 @@ Future<void> setupFCM() async {
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
     print('✅ 알림 권한 허용됨');
 
+    if (Platform.isIOS) {
+      // iOS의 경우 APNS 토큰이 설정될 때까지 기다려야 하는 경우가 있음
+      String? apnsToken = await messaging.getAPNSToken();
+      if (apnsToken == null) {
+        print('아직 APNS 토큰이 설정되지 않았습니다.');
+        return;
+      }
+    }
     // 기기 고유 토큰(Token) 가져오기
     String? token = await messaging.getToken();
 
