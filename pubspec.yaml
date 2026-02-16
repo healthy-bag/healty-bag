@@ -53,6 +53,7 @@ dependencies:
   kakao_flutter_sdk_user: ^1.10.0
   top_snackbar_flutter: ^3.3.0
   flutter_native_splash: ^2.4.7
+  firebase_messaging: ^16.1.1
 
 dev_dependencies:
   flutter_test:

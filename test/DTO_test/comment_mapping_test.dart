@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:healthy_bag/data/dto/comments_dto.dart';
-import 'package:healthy_bag/data/mapper/comments_dto_extension.dart';
 
 // DTO에서 Entity로 변환하는 테스트 확인
 void main() {

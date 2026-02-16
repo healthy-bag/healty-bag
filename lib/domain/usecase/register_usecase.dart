@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/repositories/user_repository.dart';
 
