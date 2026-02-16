@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthy_bag/core/di/repository_di/feed_repository_di.dart';
+import 'package:healthy_bag/core/di/usecase_di/feed_usecase_di.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -72,36 +73,27 @@ class WriteViewModel extends Notifier<WriteState> {
     if (state.imagePath == null) return;
     state = state.copyWith(isLoading: true);
     try {
-      // Firebase Storage에 이미지 업로드
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('feeds')
-          .child('${DateTime.now().microsecondsSinceEpoch}');
-
-      await storageRef.putFile(File(state.imagePath!));
-      final fileUrl = await storageRef.getDownloadURL();
-      // Firestore에 피드 데이터 저장
-      final repository = ref.read(feedRepositoryProvider);
-      final newFeed = FeedEntity(
-        uid: 'user_uid', // TODO: 실제 로그인 유저 UID 연동
-        feedId: '', // DataSourceImpl에서 자동 생성됨
-        fileUrl: fileUrl,
+      final feedUseCase = ref.read(feedUseCaseProvider);
+      await feedUseCase.execute(
+        uid: 'uid',
+        feedId: '',
+        imageFile: File(state.imagePath!),
         content: state.content,
         tag: state.tag,
         likeCount: 0,
         commentCount: 0,
-        thumbnailUrl: fileUrl,
+        thumbnailUrl: '',
         createdAt: DateTime.now().toIso8601String(),
       );
-      await repository.saveFeed(newFeed);
       contentController.clear();
       tagController.clear();
       state = WriteState();
-      state = state.copyWith(isLoading: false);
+      // state = state.copyWith(isLoading: false);
       // TODO: 성공 후 페이지 이동 로직 추가 (Context 필요시 View에서 처리)
     } catch (e) {
       state = state.copyWith(isLoading: false);
       print('업로드 실패: $e');
+      rethrow; // UI에서 catch 할 수 있도록 에러를 다시 던집니다.
     }
   }
 }
