@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProfilePostGrid extends StatelessWidget {
-  const ProfilePostGrid({super.key});
+  const ProfilePostGrid({super.key, required this.feedCount});
+  final int feedCount;
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +13,9 @@ class ProfilePostGrid extends StatelessWidget {
         crossAxisSpacing: 2,
         childAspectRatio: 0.95,
       ),
-      itemCount: 10,
+      itemCount: feedCount,
       itemBuilder: (context, index) {
-        return Container(
-          decoration: BoxDecoration(color: Colors.grey.shade300),
-        );
+        return SizedBox.expand();
       },
     );
   }

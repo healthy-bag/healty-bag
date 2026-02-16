@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_bag/domain/models/auth_result.dart';
+import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:healthy_bag/presentation/welcome/viewmodel/welcome_view_model.dart';
 import 'package:healthy_bag/presentation/welcome/widgets/google_login_button.dart';
 import 'package:healthy_bag/presentation/welcome/widgets/kakao_login_button.dart';
@@ -20,6 +21,7 @@ class WelcomePage extends ConsumerWidget {
         data: (data) {
           switch (data) {
             case AuthSuccess():
+              ref.read(globalUserViewModelProvider.notifier).setUser(data.user);
               context.goNamed('home');
             case NewUser():
               context.goNamed('nickname');
