@@ -20,6 +20,7 @@ class FeedRepositoryImpl implements FeedRepository {
       likeCount: feedDTO.likeCount,
       commentCount: feedDTO.commentCount,
       thumbnailUrl: feedDTO.thumbnailUrl,
+      tag: feedDTO.tag,
       createdAt: feedDTO.createdAt,
     );
   }
@@ -37,6 +38,7 @@ class FeedRepositoryImpl implements FeedRepository {
             likeCount: feedDTO.likeCount,
             commentCount: feedDTO.commentCount,
             thumbnailUrl: feedDTO.thumbnailUrl,
+            tag: feedDTO.tag,
             createdAt: feedDTO.createdAt,
           ),
         )
@@ -53,6 +55,7 @@ class FeedRepositoryImpl implements FeedRepository {
       likeCount: feed.likeCount,
       commentCount: feed.commentCount,
       thumbnailUrl: feed.thumbnailUrl,
+      tag: feed.tag,
       createdAt: feed.createdAt,
     );
     await feedDataSource.saveFeed(feedDTO);
@@ -68,6 +71,7 @@ class FeedRepositoryImpl implements FeedRepository {
       likeCount: feed.likeCount,
       commentCount: feed.commentCount,
       thumbnailUrl: feed.thumbnailUrl,
+      tag: feed.tag,
       createdAt: feed.createdAt,
     );
     await feedDataSource.updateFeed(feedDTO);

@@ -6,6 +6,7 @@ class FeedEntity {
   final int likeCount;
   final int commentCount;
   final String thumbnailUrl;
+  final String tag;
   final String createdAt;
   final bool isLiked; // 좋아요 여부 추가
   final String authorId; // 작성자 ID (닉네임 등) 추가
@@ -19,6 +20,7 @@ class FeedEntity {
     required this.likeCount,
     required this.commentCount,
     required this.thumbnailUrl,
+    required this.tag,
     required this.createdAt,
     this.isLiked = false,
     this.authorId = '',
@@ -34,6 +36,7 @@ class FeedEntity {
     int? likeCount,
     int? commentCount,
     String? thumbnailUrl,
+    String? tag,
     String? createdAt,
     bool? isLiked,
     String? authorId,
@@ -47,6 +50,7 @@ class FeedEntity {
       likeCount: likeCount ?? this.likeCount,
       commentCount: commentCount ?? this.commentCount,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      tag: tag ?? this.tag,
       createdAt: createdAt ?? this.createdAt,
       isLiked: isLiked ?? this.isLiked,
       authorId: authorId ?? this.authorId,
