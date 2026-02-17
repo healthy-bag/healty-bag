@@ -1,3 +1,4 @@
+import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/models/auth_result.dart';
 import 'package:healthy_bag/domain/models/social_type.dart';
 import 'package:healthy_bag/domain/repositories/auth_repository.dart';
@@ -24,5 +25,17 @@ class LoginUsecase {
     } else {
       return NewUser(uid: result.uid);
     }
+  }
+
+  Future<UserEntity?> loginCheck() async {
+    final String? uid = await _authRepository.getCurrentUid();
+    if (uid == null) {
+      return null;
+    }
+    final user = await _userRepository.getUserInfo(uid);
+    if (user != null) {
+      return user;
+    }
+    return null;
   }
 }
