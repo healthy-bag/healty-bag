@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/models/auth_result.dart';
 import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:healthy_bag/presentation/welcome/viewmodel/welcome_view_model.dart';
@@ -26,6 +27,18 @@ class WelcomePage extends ConsumerWidget {
                 context.goNamed('home');
               });
             case NewUser():
+              ref
+                  .read(globalUserViewModelProvider.notifier)
+                  .setUser(
+                    UserEntity(
+                      uid: data.uid,
+                      nickname: '',
+                      followerCount: 0,
+                      followingCount: 0,
+                      feedCount: 0,
+                      profileUrl: '',
+                    ),
+                  );
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 context.goNamed('nickname');
               });
