@@ -53,6 +53,7 @@ dependencies:
   kakao_flutter_sdk_user: ^1.10.0
   top_snackbar_flutter: ^3.3.0
   flutter_native_splash: ^2.4.7
+  firebase_messaging: ^16.1.1
 
 dev_dependencies:
   flutter_test:
@@ -107,3 +108,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_native_splash:
+  color: "#000000"         
+  image: assets/images/healthy_bag_logo.png
+  ios: true
+  android_12:
+    image: assets/images/healthy_bag_logo12.png
+    color: "#000000"
+
+  fullscreen: true

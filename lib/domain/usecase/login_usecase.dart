@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/models/auth_result.dart';
 import 'package:healthy_bag/domain/models/social_type.dart';
