@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:healthy_bag/data/dto/feed_dto.dart';
 import 'package:healthy_bag/data/data_source/feed_data_source/feed_data_source.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
@@ -7,6 +9,23 @@ class FeedRepositoryImpl implements FeedRepository {
   final FeedDataSource feedDataSource;
 
   FeedRepositoryImpl({required this.feedDataSource});
+
+  @override
+  Future<void> saveFeed(FeedEntity feed, File imageFile) async {
+    final imageUrl = await feedDataSource.uploadImage(imageFile);
+    final feedDTO = FeedDTO(
+      uid: feed.uid,
+      feedId: feed.feedId,
+      fileUrl: imageUrl,
+      content: feed.content,
+      likeCount: feed.likeCount,
+      commentCount: feed.commentCount,
+      thumbnailUrl: imageUrl,
+      tag: feed.tag,
+      createdAt: feed.createdAt,
+    );
+    await feedDataSource.saveFeed(feedDTO);
+  }
 
   @override
   Future<FeedEntity?> fetchFeed(String feedId) async {
@@ -20,6 +39,7 @@ class FeedRepositoryImpl implements FeedRepository {
       likeCount: feedDTO.likeCount,
       commentCount: feedDTO.commentCount,
       thumbnailUrl: feedDTO.thumbnailUrl,
+      tag: feedDTO.tag,
       createdAt: feedDTO.createdAt,
     );
   }
@@ -37,25 +57,11 @@ class FeedRepositoryImpl implements FeedRepository {
             likeCount: feedDTO.likeCount,
             commentCount: feedDTO.commentCount,
             thumbnailUrl: feedDTO.thumbnailUrl,
+            tag: feedDTO.tag,
             createdAt: feedDTO.createdAt,
           ),
         )
         .toList();
-  }
-
-  @override
-  Future<void> saveFeed(FeedEntity feed) async {
-    final feedDTO = FeedDTO(
-      uid: feed.uid,
-      feedId: feed.feedId,
-      fileUrl: feed.fileUrl,
-      content: feed.content,
-      likeCount: feed.likeCount,
-      commentCount: feed.commentCount,
-      thumbnailUrl: feed.thumbnailUrl,
-      createdAt: feed.createdAt,
-    );
-    await feedDataSource.saveFeed(feedDTO);
   }
 
   @override
@@ -68,6 +74,7 @@ class FeedRepositoryImpl implements FeedRepository {
       likeCount: feed.likeCount,
       commentCount: feed.commentCount,
       thumbnailUrl: feed.thumbnailUrl,
+      tag: feed.tag,
       createdAt: feed.createdAt,
     );
     await feedDataSource.updateFeed(feedDTO);

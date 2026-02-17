@@ -1,9 +1,38 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:healthy_bag/data/dto/feed_dto.dart';
 import 'package:healthy_bag/data/data_source/feed_data_source/feed_data_source.dart';
 
 class FeedDataSourceImpl implements FeedDataSource {
   final firestore = FirebaseFirestore.instance;
+  final storage = FirebaseStorage.instance;
+
+  @override
+  Future<String> uploadImage(File imageFile) async {
+    final storageRef = storage
+        .ref()
+        .child('feeds')
+        .child('${DateTime.now().microsecondsSinceEpoch}');
+    // 해당 위치에 이미지파일 업로드
+    await storageRef.putFile(imageFile);
+    // 업로드 후 참조에서 URL 가져오기
+    return await storageRef.getDownloadURL();
+  }
+
+  @override
+  Future<void> saveFeed(FeedDTO feed) async {
+    final docRef = firestore
+        .collection('feeds')
+        .doc(feed.feedId.isEmpty ? null : feed.feedId);
+
+    // 문서 ID와 필드 내부의 feedId를 일치시켜서 저장하는 것이 좋습니다.
+    final newFeed = feed.feedId.isEmpty
+        ? feed.copyWith(feedId: docRef.id)
+        : feed;
+
+    await docRef.set(newFeed.toJson());
+  }
 
   @override
   Future<FeedDTO?> fetchFeed(String feedId) async {
@@ -23,20 +52,6 @@ class FeedDataSourceImpl implements FeedDataSource {
         .get();
 
     return snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList();
-  }
-
-  @override
-  Future<void> saveFeed(FeedDTO feed) async {
-    final docRef = firestore
-        .collection('feeds')
-        .doc(feed.feedId.isEmpty ? null : feed.feedId);
-
-    // 문서 ID와 필드 내부의 feedId를 일치시켜서 저장하는 것이 좋습니다.
-    final newFeed = feed.feedId.isEmpty
-        ? feed.copyWith(feedId: docRef.id)
-        : feed;
-
-    await docRef.set(newFeed.toJson());
   }
 
   @override

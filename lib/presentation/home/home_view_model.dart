@@ -13,6 +13,7 @@ class HomeViewModel extends Notifier<FeedEntity> {
       likeCount: 1000,
       commentCount: 30,
       thumbnailUrl: 'https://picsum.photos/200/200',
+      tag: '#헬스',
       createdAt: DateTime.now().toIso8601String(),
       authorId: 'HealthyUser',
       authorimageUrl: 'https://picsum.photos/200/200',
@@ -23,14 +24,11 @@ class HomeViewModel extends Notifier<FeedEntity> {
   void toggleLike() {
     final currentState = state;
     final newIsLiked = !currentState.isLiked;
-    final newLikeCount = newIsLiked 
-        ? currentState.likeCount + 1 
+    final newLikeCount = newIsLiked
+        ? currentState.likeCount + 1
         : currentState.likeCount - 1;
 
-    state = currentState.copyWith(
-      isLiked: newIsLiked,
-      likeCount: newLikeCount,
-    );
+    state = currentState.copyWith(isLiked: newIsLiked, likeCount: newLikeCount);
   }
 }
 
