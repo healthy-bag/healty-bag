@@ -49,7 +49,6 @@ class MyPage extends ConsumerWidget {
                 Spacer(),
               ],
             ),
-            // Align(alignment: Alignment.centerRight, child: ProfileEditButton()),
             SizedBox(height: 32),
             Expanded(child: ProfilePostGrid(feedCount: user.feedCount)),
           ],

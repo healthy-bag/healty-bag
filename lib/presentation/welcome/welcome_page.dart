@@ -22,9 +22,13 @@ class WelcomePage extends ConsumerWidget {
           switch (data) {
             case AuthSuccess():
               ref.read(globalUserViewModelProvider.notifier).setUser(data.user);
-              context.goNamed('home');
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed('home');
+              });
             case NewUser():
-              context.goNamed('nickname');
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed('nickname');
+              });
             case AuthFailure():
               showTopSnackBar(
                 Overlay.of(context),
