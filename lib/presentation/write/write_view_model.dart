@@ -98,6 +98,7 @@ class WriteViewModel extends Notifier<WriteState> {
   }
 }
 
+// TODO: autoDispose 제거
 final writeViewModelProvider =
     NotifierProvider.autoDispose<WriteViewModel, WriteState>(
       WriteViewModel.new,
