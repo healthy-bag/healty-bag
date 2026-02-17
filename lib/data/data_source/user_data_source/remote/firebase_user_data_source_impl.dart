@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:healthy_bag/data/dto/user_dto.dart';
+import 'package:healthy_bag/data/DTO/user_dto.dart';
 import 'package:healthy_bag/data/data_source/user_data_source/user_data_source.dart';
 
 class FirebaseUserDataSourceImpl implements UserDataSource {

@@ -29,7 +29,7 @@ class HomePage extends ConsumerWidget {
             final feed = feeds[index];
             return FeedItemWidget(
               feed: feed,
-              onCommentTap: () => _showCommentSheet(context),
+              onCommentTap: () => _showCommentSheet(context, feed.feedId),
               onLikeTap: () => ref
                   .read(homeViewModelProvider.notifier)
                   .toggleLike(feed.feedId),
@@ -42,7 +42,7 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  void _showCommentSheet(BuildContext context) {
+  void _showCommentSheet(BuildContext context, String feedId) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -51,8 +51,8 @@ class HomePage extends ConsumerWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) => SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
-        child: CommentSheet(),
+        height: MediaQuery.of(context).size.height * 0.7,
+        child: CommentSheet(feedId: feedId),
       ),
     );
   }

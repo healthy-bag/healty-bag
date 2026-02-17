@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthy_bag/data/dto/feed_dto.dart';
+import 'package:healthy_bag/data/DTO/feed_dto.dart';
 import 'package:healthy_bag/data/data_source/feed_data_source/feed_data_source.dart';
 
 class FeedDataSourceImpl implements FeedDataSource {

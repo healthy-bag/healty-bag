@@ -1,17 +1,47 @@
-
-// 댓글에 들어갈 데이터 (닉네임, 내용, 좋아요, 좋아요수, 작성시간)
 class CommentEntity {
+  final String commentId;
+  final String feedId;
+  final String uid;
+  final String content;
+  final DateTime timeAgo;
+  final String nickname;
+  final String authorImageUrl;
+  final bool isLiked;
+  final int likeCount;
+
   CommentEntity({
-    required this.nickname,
+    this.commentId = '',
+    this.feedId = '',
+    this.uid = '',
     required this.content,
+    required this.timeAgo,
+    required this.nickname,
+    this.authorImageUrl = '',
     this.isLiked = false,
     this.likeCount = 0,
-    required this.timeAgo,
   });
 
-  final String nickname;
-  final String content;
-  bool isLiked;
-  int likeCount;
-  DateTime timeAgo;
+  CommentEntity copyWith({
+    String? commentId,
+    String? feedId,
+    String? uid,
+    String? content,
+    DateTime? timeAgo,
+    String? nickname,
+    String? authorImageUrl,
+    bool? isLiked,
+    int? likeCount,
+  }) {
+    return CommentEntity(
+      commentId: commentId ?? this.commentId,
+      feedId: feedId ?? this.feedId,
+      uid: uid ?? this.uid,
+      content: content ?? this.content,
+      timeAgo: timeAgo ?? this.timeAgo,
+      nickname: nickname ?? this.nickname,
+      authorImageUrl: authorImageUrl ?? this.authorImageUrl,
+      isLiked: isLiked ?? this.isLiked,
+      likeCount: likeCount ?? this.likeCount,
+    );
+  }
 }

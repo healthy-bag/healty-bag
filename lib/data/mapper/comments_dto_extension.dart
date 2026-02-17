@@ -1,5 +1,5 @@
 // dto를 entity로 변환하는 extension (mapper)
-import 'package:healthy_bag/data/dto/comments_dto.dart';
+import 'package:healthy_bag/data/DTO/comments_dto.dart';
 import 'package:healthy_bag/domain/entities/comment/comment_entity.dart';
 
 extension CommentsDTOExtension on CommentsDTO {
