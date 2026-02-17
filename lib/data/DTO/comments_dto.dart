@@ -19,12 +19,12 @@ class CommentsDTO {
 
   factory CommentsDTO.fromJson(Map<String, dynamic> json) {
     return CommentsDTO(
-      id: json['id'] as String,
-      uid: json['uid'] as String,
-      feedId: json['feedId'] as String,
-      nickname: json['nickname'] as String,
-      comment: json['comment'] as String,
-      createdAt: json['createdAt'] as String,
+      id: json['id'] as String? ?? '',
+      uid: json['uid'] as String? ?? '',
+      feedId: json['feedId'] as String? ?? '',
+      nickname: json['nickname'] as String? ?? '',
+      comment: json['comment'] as String? ?? '',
+      createdAt: json['createdAt'] as String? ?? '',
     );
   }
 
@@ -41,9 +41,25 @@ class CommentsDTO {
 
   CommentEntity toEntity() {
     return CommentEntity(
+      commentId: id,
+      uid: uid,
+      feedId: feedId,
       nickname: nickname,
       content: comment,
       timeAgo: DateTime.parse(createdAt),
+      isLiked: false, // 기본값
+      likeCount: 0, // 기본값
+    );
+  }
+
+  factory CommentsDTO.fromEntity(CommentEntity entity) {
+    return CommentsDTO(
+      id: entity.commentId,
+      uid: entity.uid,
+      feedId: entity.feedId,
+      nickname: entity.nickname,
+      comment: entity.content,
+      createdAt: entity.timeAgo.toIso8601String(),
     );
   }
 }

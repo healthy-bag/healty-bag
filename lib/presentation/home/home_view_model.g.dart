@@ -33,7 +33,7 @@ final class HomeViewModelProvider
   HomeViewModel create() => HomeViewModel();
 }
 
-String _$homeViewModelHash() => r'ba555e7b26d3fa025275219bf5fd544293552080';
+String _$homeViewModelHash() => r'e5a27f76429334b4751aa51db06ea2dc6e80aee0';
 
 abstract class _$HomeViewModel extends $AsyncNotifier<List<FeedEntity>> {
   FutureOr<List<FeedEntity>> build();
@@ -52,4 +52,81 @@ abstract class _$HomeViewModel extends $AsyncNotifier<List<FeedEntity>> {
             >;
     element.handleCreate(ref, build);
   }
+}
+
+@ProviderFor(feedComments)
+final feedCommentsProvider = FeedCommentsFamily._();
+
+final class FeedCommentsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<CommentEntity>>,
+          List<CommentEntity>,
+          Stream<List<CommentEntity>>
+        >
+    with
+        $FutureModifier<List<CommentEntity>>,
+        $StreamProvider<List<CommentEntity>> {
+  FeedCommentsProvider._({
+    required FeedCommentsFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'feedCommentsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$feedCommentsHash();
+
+  @override
+  String toString() {
+    return r'feedCommentsProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $StreamProviderElement<List<CommentEntity>> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<CommentEntity>> create(Ref ref) {
+    final argument = this.argument as String;
+    return feedComments(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FeedCommentsProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$feedCommentsHash() => r'87839086718ed48945e23befc49fdc8c20000a45';
+
+final class FeedCommentsFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<List<CommentEntity>>, String> {
+  FeedCommentsFamily._()
+    : super(
+        retry: null,
+        name: r'feedCommentsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  FeedCommentsProvider call(String feedId) =>
+      FeedCommentsProvider._(argument: feedId, from: this);
+
+  @override
+  String toString() => r'feedCommentsProvider';
 }

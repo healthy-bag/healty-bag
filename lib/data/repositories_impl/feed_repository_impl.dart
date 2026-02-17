@@ -1,4 +1,4 @@
-import 'package:healthy_bag/data/dto/feed_dto.dart';
+import 'package:healthy_bag/data/DTO/feed_dto.dart';
 import 'package:healthy_bag/data/data_source/feed_data_source/feed_data_source.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
 import 'package:healthy_bag/domain/repositories/feed_repository.dart';
