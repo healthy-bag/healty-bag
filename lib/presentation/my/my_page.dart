@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_image.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_post_grid.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_stat.dart';
@@ -11,9 +12,11 @@ class MyPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(globalUserViewModelProvider);
+    final feedUrls = ref.watch(myTapViewmodelProvider);
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           user!.nickname,
           style: TextStyle(color: Colors.black, fontSize: 18),
@@ -50,7 +53,12 @@ class MyPage extends ConsumerWidget {
               ],
             ),
             SizedBox(height: 32),
-            Expanded(child: ProfilePostGrid(feedCount: user.feedCount)),
+            Expanded(
+              child: ProfilePostGrid(
+                feedCount: user.feedCount,
+                imageUrls: feedUrls ?? [],
+              ),
+            ),
           ],
         ),
       ),

@@ -16,4 +16,6 @@ abstract class FeedDataSource {
 
   // 피드 수정 (설명 수정 등)
   Future<void> updateFeed(FeedDTO feed);
+
+  Future<List<FeedDTO>> fetchMyFeeds(String userId);
 }

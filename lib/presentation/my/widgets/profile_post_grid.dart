@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ProfilePostGrid extends StatelessWidget {
-  const ProfilePostGrid({super.key, required this.feedCount});
+  const ProfilePostGrid({
+    super.key,
+    required this.feedCount,
+    required this.imageUrls,
+  });
   final int feedCount;
+  final List<String> imageUrls;
 
   @override
   Widget build(BuildContext context) {
+    print("feedCount : $feedCount");
+    print("imageUrls : $imageUrls");
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -15,7 +22,7 @@ class ProfilePostGrid extends StatelessWidget {
       ),
       itemCount: feedCount,
       itemBuilder: (context, index) {
-        return SizedBox.expand();
+        return Image.network(imageUrls[index]);
       },
     );
   }

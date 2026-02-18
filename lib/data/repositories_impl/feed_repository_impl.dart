@@ -79,4 +79,10 @@ class FeedRepositoryImpl implements FeedRepository {
     );
     await feedDataSource.updateFeed(feedDTO);
   }
+
+  @override
+  Future<List<String>> fetchMyFeedUrls(String userId) async {
+    final feeds = await feedDataSource.fetchMyFeeds(userId);
+    return feeds.map((feed) => feed.fileUrl).toList();
+  }
 }
