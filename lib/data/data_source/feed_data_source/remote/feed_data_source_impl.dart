@@ -38,7 +38,7 @@ class FeedDataSourceImpl implements FeedDataSource {
   Future<FeedDTO?> fetchFeed(String feedId) async {
     final doc = await firestore.collection('feeds').doc(feedId).get();
     if (doc.exists) {
-      return FeedDTO.fromJson(doc.data()!, doc.id);
+      return FeedDTO.fromJson(doc.data()!);
     }
     return null;
   }
@@ -49,9 +49,7 @@ class FeedDataSourceImpl implements FeedDataSource {
     // 필드명이 createdAt일 수도, createAt일 수도 있으므로 일단 가져온 후 코드에서 정렬하거나 처리
     final snapshot = await firestore.collection('feeds').get();
 
-    return snapshot.docs
-        .map((doc) => FeedDTO.fromJson(doc.data(), doc.id))
-        .toList();
+    return snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList();
   }
 
   @override
