@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
 import 'package:healthy_bag/domain/repositories/feed_repository.dart';
 
@@ -8,7 +9,6 @@ class FeedUseCase {
   FeedUseCase({required this.repository});
 
   Future<void> execute({
-    required String uid,
     required String feedId,
     required File imageFile,
     required String content,
@@ -17,6 +17,7 @@ class FeedUseCase {
     required int commentCount,
     required String thumbnailUrl,
     required String createdAt,
+    required String uid,
   }) async {
     final newFeed = FeedEntity(
       uid: uid,
@@ -29,6 +30,7 @@ class FeedUseCase {
       thumbnailUrl: '',
       createdAt: DateTime.now().toIso8601String(),
     );
+    print("uid: $uid");
     await repository.saveFeed(newFeed, imageFile);
   }
 }

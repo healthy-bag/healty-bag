@@ -59,4 +59,22 @@ class FeedDataSourceImpl implements FeedDataSource {
     // 이미 존재하는 문서의 특정 필드만 바꿀 때 update 사용
     await firestore.collection('feeds').doc(feed.feedId).update(feed.toJson());
   }
+
+  @override
+  Stream<List<FeedDTO>> fetchMyFeeds(String userId) async* {
+    try {
+      final snapshot = firestore
+          .collection('feeds')
+          .where('uid', isEqualTo: userId)
+          .orderBy('createdAt', descending: true)
+          .snapshots();
+
+      yield* snapshot.map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList(),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

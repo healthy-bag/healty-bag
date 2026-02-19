@@ -7,4 +7,5 @@ abstract class UserRepository {
   Future<void> registerUser(UserEntity user);
   Future<bool> checkNickname(String nickname);
   Future<String> uploadProfileImage(File file);
+  Future<void> addfeedCount(String uid);
 }

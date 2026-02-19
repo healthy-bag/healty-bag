@@ -6,11 +6,26 @@ import 'package:healthy_bag/presentation/write/widgets/image_picker_area.dart';
 import 'package:healthy_bag/presentation/write/widgets/tag_input_field.dart';
 import 'package:healthy_bag/presentation/write/write_view_model.dart';
 
-class WritePage extends ConsumerWidget {
+class WritePage extends ConsumerStatefulWidget {
   const WritePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<WritePage> createState() => _WritePageState();
+}
+
+class _WritePageState extends ConsumerState<WritePage> {
+  final contentController = TextEditingController();
+  final tagController = TextEditingController();
+
+  @override
+  void dispose() {
+    contentController.dispose();
+    tagController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final isLoading = ref.watch(
       writeViewModelProvider.select((state) => state.isLoading),
     );
@@ -39,9 +54,9 @@ class WritePage extends ConsumerWidget {
               children: [
                 ImagePickerArea(),
                 SizedBox(height: 35),
-                TagInputField(),
+                TagInputField(controller: tagController),
                 SizedBox(height: 12),
-                ContentInputField(),
+                ContentInputField(controller: contentController),
               ],
             ),
           ),

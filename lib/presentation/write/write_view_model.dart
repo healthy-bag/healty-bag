@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthy_bag/core/di/repository_di/feed_repository_di.dart';
+import 'package:healthy_bag/core/di/repository_di/user_repository_di.dart';
 import 'package:healthy_bag/core/di/usecase_di/feed_usecase_di.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
+import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -40,14 +43,8 @@ class WriteState {
 }
 
 class WriteViewModel extends Notifier<WriteState> {
-  final contentController = TextEditingController();
-  final tagController = TextEditingController();
   @override
   WriteState build() {
-    ref.onDispose(() {
-      contentController.dispose();
-      tagController.dispose();
-    });
     return WriteState();
   }
 
@@ -74,8 +71,10 @@ class WriteViewModel extends Notifier<WriteState> {
     state = state.copyWith(isLoading: true);
     try {
       final feedUseCase = ref.read(feedUseCaseProvider);
+      final user = ref.read(globalUserViewModelProvider);
+      await ref.read(globalUserViewModelProvider.notifier).updateFeedCount();
       await feedUseCase.execute(
-        uid: 'uid',
+        uid: user!.uid,
         feedId: '',
         imageFile: File(state.imagePath!),
         content: state.content,
@@ -85,8 +84,7 @@ class WriteViewModel extends Notifier<WriteState> {
         thumbnailUrl: '',
         createdAt: DateTime.now().toIso8601String(),
       );
-      contentController.clear();
-      tagController.clear();
+
       state = WriteState();
       // state = state.copyWith(isLoading: false);
       // TODO: 성공 후 페이지 이동 로직 추가 (Context 필요시 View에서 처리)

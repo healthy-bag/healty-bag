@@ -79,4 +79,10 @@ class FeedRepositoryImpl implements FeedRepository {
     );
     await feedDataSource.updateFeed(feedDTO);
   }
+
+  @override
+  Stream<List<String>> fetchMyFeedUrls(String userId) {
+    final feeds = feedDataSource.fetchMyFeeds(userId);
+    return feeds.map((list) => list.map((dto) => dto.fileUrl).toList());
+  }
 }
