@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/repositories/user_repository.dart';
 
@@ -12,6 +11,7 @@ class RegisterUsecase {
   Future<bool> register({
     required String nickname,
     required String? imagePath,
+    required String uid,
   }) async {
     final isNicknameAvailable = await _userRepository.checkNickname(nickname);
     if (!isNicknameAvailable) {
@@ -23,12 +23,8 @@ class RegisterUsecase {
       profileUrl = await _userRepository.uploadProfileImage(File(imagePath));
     }
 
-    print(
-      "FirebaseAuth.instance.currentUser!.uid: ${FirebaseAuth.instance.currentUser!.uid}",
-    );
-
     final user = UserEntity(
-      uid: FirebaseAuth.instance.currentUser!.uid,
+      uid: uid,
       nickname: nickname,
       followerCount: 0,
       followingCount: 0,

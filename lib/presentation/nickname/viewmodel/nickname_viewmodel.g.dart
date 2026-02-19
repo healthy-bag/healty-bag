@@ -33,7 +33,7 @@ final class NicknameViewmodelProvider
   NicknameViewmodel create() => NicknameViewmodel();
 }
 
-String _$nicknameViewmodelHash() => r'3fda19085dc8bec9dc570dbc770c0b8640c348e4';
+String _$nicknameViewmodelHash() => r'0ce268115c22d7c140be550486b8e3fbce538cdd';
 
 abstract class _$NicknameViewmodel extends $AsyncNotifier<NicknameState> {
   FutureOr<NicknameState> build();

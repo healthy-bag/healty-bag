@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_bag/presentation/write/write_view_model.dart';
 
-class TagInputField extends StatelessWidget {
-  const TagInputField({super.key});
+class TagInputField extends ConsumerWidget {
+  const TagInputField({super.key, required this.controller});
+  final TextEditingController controller;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.read(writeViewModelProvider.notifier);
     return TextField(
+      controller: controller,
+      onChanged: (value) {
+        vm.updateTag(value);
+      },
       style: TextStyle(fontSize: 22),
       decoration: InputDecoration(
         hintText: '#태그를 추가하세요',

@@ -59,4 +59,14 @@ class FirebaseUserDataSourceImpl implements UserDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> addfeedCount(String uid) async {
+    try {
+      final docRef = firestore.collection('users').doc(uid);
+      await docRef.update({'feedCount': FieldValue.increment(1)});
+    } on FirebaseException {
+      rethrow;
+    }
+  }
 }

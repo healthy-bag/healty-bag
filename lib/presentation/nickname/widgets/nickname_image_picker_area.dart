@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/presentation/nickname/viewmodel/nickname_viewmodel.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class NicknameImagePickerArea extends ConsumerWidget {
@@ -11,6 +12,16 @@ class NicknameImagePickerArea extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(nicknameViewmodelProvider);
     final viewModel = ref.read(nicknameViewmodelProvider.notifier);
+
+    ref.listen(nicknameViewmodelProvider, (previous, next) {
+      if (next.hasError && !next.isLoading) {
+        showTopSnackBar(
+          Overlay.of(context),
+          CustomSnackBar.error(message: "알 수 없는 에러가 발생했습니다."),
+        );
+      }
+    });
+
     return state.when(
       data: (data) => GestureDetector(
         onTap: () async {
@@ -60,7 +71,6 @@ class NicknameImagePickerArea extends ConsumerWidget {
         ),
       ),
       error: (Object error, StackTrace stackTrace) {
-        showTopSnackBar(Overlay.of(context), Text("알 수 없는 에러가 발생했습니다."));
         return const Center(child: Text("에러"));
       },
       loading: () {

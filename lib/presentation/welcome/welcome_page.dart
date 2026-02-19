@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/models/auth_result.dart';
+import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:healthy_bag/presentation/welcome/viewmodel/welcome_view_model.dart';
 import 'package:healthy_bag/presentation/welcome/widgets/google_login_button.dart';
 import 'package:healthy_bag/presentation/welcome/widgets/kakao_login_button.dart';
@@ -20,9 +22,26 @@ class WelcomePage extends ConsumerWidget {
         data: (data) {
           switch (data) {
             case AuthSuccess():
-              context.goNamed('home');
+              ref.read(globalUserViewModelProvider.notifier).setUser(data.user);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed('home');
+              });
             case NewUser():
-              context.goNamed('nickname');
+              ref
+                  .read(globalUserViewModelProvider.notifier)
+                  .setUser(
+                    UserEntity(
+                      uid: data.uid,
+                      nickname: '',
+                      followerCount: 0,
+                      followingCount: 0,
+                      feedCount: 0,
+                      profileUrl: '',
+                    ),
+                  );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed('nickname');
+              });
             case AuthFailure():
               showTopSnackBar(
                 Overlay.of(context),
@@ -46,32 +65,35 @@ class WelcomePage extends ConsumerWidget {
 
     return state.when(
       data: (data) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            spacing: 12,
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(flex: 2),
-              HealthyBagLogo(),
-              Spacer(flex: 1),
-              GoogleLoginButton(
-                onPressed: () async {
-                  await ref
-                      .read(welcomeViewModelProvider.notifier)
-                      .googleLogin();
-                },
-              ),
-              KakaoLoginButton(
-                onPressed: () async {
-                  await ref
-                      .read(welcomeViewModelProvider.notifier)
-                      .kakaoLogin();
-                },
-              ),
-              Spacer(flex: 1),
-            ],
+        return Scaffold(
+          backgroundColor: Colors.black,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              spacing: 12,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Spacer(flex: 2),
+                HealthyBagLogo(),
+                Spacer(flex: 1),
+                GoogleLoginButton(
+                  onPressed: () async {
+                    await ref
+                        .read(welcomeViewModelProvider.notifier)
+                        .googleLogin();
+                  },
+                ),
+                KakaoLoginButton(
+                  onPressed: () async {
+                    await ref
+                        .read(welcomeViewModelProvider.notifier)
+                        .kakaoLogin();
+                  },
+                ),
+                Spacer(flex: 1),
+              ],
+            ),
           ),
         );
       },

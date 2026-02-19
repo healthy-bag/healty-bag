@@ -1,52 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_image.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_post_grid.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_stat.dart';
+import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 
-class MyPage extends StatelessWidget {
+class MyPage extends ConsumerWidget {
   const MyPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(globalUserViewModelProvider);
+    final feedUrlsAsync = ref.watch(myTapViewmodelProvider);
+
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          'HB_coding12',
+          user!.nickname,
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(Icons.favorite_outline, color: Colors.black),
-        //   ),
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(Icons.search, color: Colors.black),
-        //   ),
-        // ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: ProfileImage(),
+                ProfileImage(profileUrl: user.profileUrl),
+                Padding(padding: const EdgeInsets.only(left: 16.0)),
+                Spacer(),
+                ProfileStat(
+                  label: '게시물',
+                  value: (user.feedCount - 1).toString(),
                 ),
                 Spacer(),
-                ProfileStat(label: '게시물', value: '2'),
+                ProfileStat(label: '팔로워', value: user.followerCount.toString()),
                 Spacer(),
-                ProfileStat(label: '팔로워', value: '100'),
-                Spacer(),
-                ProfileStat(label: '팔로우', value: '80'),
+                ProfileStat(
+                  label: '팔로우',
+                  value: user.followingCount.toString(),
+                ),
                 Spacer(),
               ],
             ),
-            // Align(alignment: Alignment.centerRight, child: ProfileEditButton()),
             SizedBox(height: 32),
-            Expanded(child: ProfilePostGrid()),
+            Expanded(
+              child: feedUrlsAsync.when(
+                data: (feedUrls) {
+                  return ProfilePostGrid(
+                    feedCount: user.feedCount,
+                    imageUrls: feedUrls,
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) => Center(child: Text(error.toString())),
+              ),
+            ),
           ],
         ),
       ),

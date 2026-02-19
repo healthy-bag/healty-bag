@@ -1,5 +1,12 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/widgets.dart';
+import 'package:healthy_bag/core/di/repository_di/feed_repository_di.dart';
+import 'package:healthy_bag/core/di/repository_di/user_repository_di.dart';
+import 'package:healthy_bag/core/di/usecase_di/feed_usecase_di.dart';
+import 'package:healthy_bag/domain/entities/feed_entity.dart';
+import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,14 +14,30 @@ class WriteState {
   final bool isLoading;
   final String? imagePath;
   final String? imageUrl;
+  final String content;
+  final String tag;
 
-  WriteState({this.isLoading = false, this.imagePath, this.imageUrl});
+  WriteState({
+    this.isLoading = false,
+    this.imagePath,
+    this.imageUrl,
+    this.content = '',
+    this.tag = '',
+  });
 
-  WriteState copyWith({bool? isLoading, String? imagePath, String? imageUrl}) {
+  WriteState copyWith({
+    bool? isLoading,
+    String? imagePath,
+    String? imageUrl,
+    String? content,
+    String? tag,
+  }) {
     return WriteState(
       isLoading: isLoading ?? this.isLoading,
       imagePath: imagePath ?? this.imagePath,
       imageUrl: imageUrl ?? this.imageUrl,
+      content: content ?? this.content,
+      tag: tag ?? this.tag,
     );
   }
 }
@@ -23,6 +46,14 @@ class WriteViewModel extends Notifier<WriteState> {
   @override
   WriteState build() {
     return WriteState();
+  }
+
+  void updateContent(String content) {
+    state = state.copyWith(content: content);
+  }
+
+  void updateTag(String tag) {
+    state = state.copyWith(tag: tag);
   }
 
   /// 갤러리에서 이미지 선택 (로컬 경로만 저장)
@@ -34,30 +65,38 @@ class WriteViewModel extends Notifier<WriteState> {
     state = state.copyWith(imagePath: xFile.path);
   }
 
-  /// Firebase Storage에 이미지 업로드
-  Future<void> uploadImage() async {
+  // 사진 업로드 + Firestore 데이터 저장 통합 로직
+  Future<void> uploadFeed() async {
     if (state.imagePath == null) return;
-
     state = state.copyWith(isLoading: true);
-
     try {
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('images')
-          .child('${DateTime.now().microsecondsSinceEpoch}');
+      final feedUseCase = ref.read(feedUseCaseProvider);
+      final user = ref.read(globalUserViewModelProvider);
+      await ref.read(globalUserViewModelProvider.notifier).updateFeedCount();
+      await feedUseCase.execute(
+        uid: user!.uid,
+        feedId: '',
+        imageFile: File(state.imagePath!),
+        content: state.content,
+        tag: state.tag,
+        likeCount: 0,
+        commentCount: 0,
+        thumbnailUrl: '',
+        createdAt: DateTime.now().toIso8601String(),
+      );
 
-      await storageRef.putFile(File(state.imagePath!));
-      final downloadUrl = await storageRef.getDownloadURL();
-
-      state = state.copyWith(isLoading: false, imageUrl: downloadUrl);
+      state = WriteState();
+      // state = state.copyWith(isLoading: false);
+      // TODO: 성공 후 페이지 이동 로직 추가 (Context 필요시 View에서 처리)
     } catch (e) {
       state = state.copyWith(isLoading: false);
-      // TODO: 에러 처리 개선 (사용자에게 알림 표시)
       print('업로드 실패: $e');
+      rethrow; // UI에서 catch 할 수 있도록 에러를 다시 던집니다.
     }
   }
 }
 
+// TODO: autoDispose 제거
 final writeViewModelProvider =
     NotifierProvider.autoDispose<WriteViewModel, WriteState>(
       WriteViewModel.new,
