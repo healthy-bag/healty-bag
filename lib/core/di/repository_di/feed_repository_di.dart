@@ -1,8 +1,12 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_bag/data/data_source/feed_data_source/remote/feed_data_source_impl.dart';
+import 'package:healthy_bag/core/di/data_source_di/feed_data_source_di.dart';
 import 'package:healthy_bag/data/repositories_impl/feed_repository_impl.dart';
 import 'package:healthy_bag/domain/repositories/feed_repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final feedRepositoryProvider = Provider<FeedRepository>((ref) {
-  return FeedRepositoryImpl(feedDataSource: FeedDataSourceImpl());
-});
+part 'feed_repository_di.g.dart';
+
+@riverpod
+FeedRepository feedRepository(Ref ref) {
+  final feedDataSource = ref.read(feedDataSourceProvider);
+  return FeedRepositoryImpl(feedDataSource: feedDataSource);
+}

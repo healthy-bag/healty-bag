@@ -14,6 +14,16 @@ class CommentItem extends StatefulWidget {
 }
 
 class _CommentItemState extends State<CommentItem> {
+  late bool _isLiked;
+  late int _likeCount;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLiked = widget.comment.isLiked;
+    _likeCount = widget.comment.likeCount;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -59,25 +69,24 @@ class _CommentItemState extends State<CommentItem> {
           // 좋아요 아이콘, 숫자
           Column(
             children: [
-             IconButton(
-              constraints: BoxConstraints(), // 아이콘 버튼 여백 최소화
-              padding: EdgeInsets.zero,
-              icon: Icon(
-                widget.comment.isLiked ? Icons.favorite : Icons.favorite_border,
-                color: widget.comment.isLiked ? Colors.pinkAccent : Colors.grey,
-                size: 20,
+              IconButton(
+                constraints: const BoxConstraints(), // 아이콘 버튼 여백 최소화
+                padding: EdgeInsets.zero,
+                icon: Icon(
+                  _isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: _isLiked ? Colors.pinkAccent : Colors.grey,
+                  size: 20,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isLiked = !_isLiked;
+                    _isLiked ? _likeCount++ : _likeCount--;
+                  });
+                },
               ),
-              onPressed: () {
-                setState(() {
-                  widget.comment.isLiked = !widget.comment.isLiked;
-                  widget.comment.isLiked
-                  ? widget.comment.likeCount ++
-                  : widget.comment.likeCount --;
-                });
-              }, 
-              ),
-              Text('${widget.comment.likeCount}',
-              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+              Text(
+                '$_likeCount',
+                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               )
             ],
           )

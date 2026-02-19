@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:healthy_bag/data/dto/feed_dto.dart';
+import 'package:healthy_bag/data/DTO/feed_dto.dart';
 
 abstract class FeedDataSource {
   // 이미지 업로드 후 URL 반환

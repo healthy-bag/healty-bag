@@ -22,7 +22,7 @@ class FeedDTO {
     required this.createdAt,
   });
 
-  factory FeedDTO.fromJson(Map<String, dynamic> json) {
+  factory FeedDTO.fromJson(Map<String, dynamic> json, String id) {
     return FeedDTO(
       uid: json['uid'] as String,
       feedId: json['feedId'] as String,
@@ -32,7 +32,7 @@ class FeedDTO {
       thumbnailUrl: json['thumbnailUrl'] as String,
       tag: json['tag'] as String,
       content: json['content'] as String? ?? '',
-      createdAt: json['createdAt'] as String,
+      createdAt: json['createdAt'] as String? ?? '',
     );
   }
 
