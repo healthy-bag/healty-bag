@@ -39,6 +39,8 @@ class _WritePageState extends ConsumerState<WritePage> {
                 onPressed: () async {
                   await ref.read(writeViewModelProvider.notifier).uploadFeed();
                   if (!context.mounted) return;
+                  contentController.clear();
+                  tagController.clear();
                   context.go('/home');
                 },
                 child: const Text(

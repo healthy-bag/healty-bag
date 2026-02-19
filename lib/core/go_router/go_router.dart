@@ -2,13 +2,19 @@ import 'package:go_router/go_router.dart';
 import 'package:healthy_bag/presentation/home/home_page.dart';
 import 'package:healthy_bag/presentation/my/my_page.dart';
 import 'package:healthy_bag/presentation/nickname/nickname_page.dart';
+import 'package:healthy_bag/presentation/splash/splash_screen.dart';
 import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
 import 'package:healthy_bag/presentation/write/write_page.dart';
 import 'package:healthy_bag/presentation/widgets/scaffold_with_nav_bar.dart';
 
 final router = GoRouter(
-  initialLocation: '/welcome',
+  initialLocation: '/splash',
   routes: [
+    GoRoute(
+      path: '/splash',
+      name: 'splash',
+      builder: (context, state) => const SplashScreen(),
+    ),
     // 1. 로그인 페이지 (바텀바 없음)
     GoRoute(
       path: '/welcome',
