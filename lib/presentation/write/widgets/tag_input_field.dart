@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/presentation/write/write_view_model.dart';
 
 class TagInputField extends ConsumerWidget {
-  const TagInputField({super.key});
+  const TagInputField({super.key, required this.controller});
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final vm = ref.read(writeViewModelProvider.notifier);
     return TextField(
-      controller: vm.tagController,
+      controller: controller,
       onChanged: (value) {
         vm.updateTag(value);
       },

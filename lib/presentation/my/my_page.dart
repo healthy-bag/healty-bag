@@ -12,7 +12,7 @@ class MyPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(globalUserViewModelProvider);
-    final feedUrls = ref.watch(myTapViewmodelProvider);
+    final feedUrlsAsync = ref.watch(myTapViewmodelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -21,16 +21,6 @@ class MyPage extends ConsumerWidget {
           user!.nickname,
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(Icons.favorite_outline, color: Colors.black),
-        //   ),
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(Icons.search, color: Colors.black),
-        //   ),
-        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -38,10 +28,13 @@ class MyPage extends ConsumerWidget {
           children: [
             Row(
               children: [
-                ProfileImage(profileUrl: user.profileUrl ?? null),
+                ProfileImage(profileUrl: user.profileUrl),
                 Padding(padding: const EdgeInsets.only(left: 16.0)),
                 Spacer(),
-                ProfileStat(label: '게시물', value: user!.feedCount.toString()),
+                ProfileStat(
+                  label: '게시물',
+                  value: (user.feedCount - 1).toString(),
+                ),
                 Spacer(),
                 ProfileStat(label: '팔로워', value: user.followerCount.toString()),
                 Spacer(),
@@ -54,9 +47,15 @@ class MyPage extends ConsumerWidget {
             ),
             SizedBox(height: 32),
             Expanded(
-              child: ProfilePostGrid(
-                feedCount: user.feedCount,
-                imageUrls: feedUrls ?? [],
+              child: feedUrlsAsync.when(
+                data: (feedUrls) {
+                  return ProfilePostGrid(
+                    feedCount: user.feedCount,
+                    imageUrls: feedUrls,
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) => Center(child: Text(error.toString())),
               ),
             ),
           ],

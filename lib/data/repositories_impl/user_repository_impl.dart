@@ -48,4 +48,9 @@ class UserRepositoryImpl implements UserRepository {
   Future<String> uploadProfileImage(File file) async {
     return await _userDataSource.uploadProfileImage(file);
   }
+
+  @override
+  Future<void> addfeedCount(String uid) async {
+    await _userDataSource.addfeedCount(uid);
+  }
 }

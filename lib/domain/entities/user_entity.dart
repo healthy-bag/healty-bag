@@ -36,4 +36,22 @@ class UserEntity {
       'profileUrl': profileUrl,
     };
   }
+
+  UserEntity copyWith({
+    String? uid,
+    String? nickname,
+    int? followerCount,
+    int? followingCount,
+    int? feedCount,
+    String? profileUrl,
+  }) {
+    return UserEntity(
+      uid: uid ?? this.uid,
+      nickname: nickname ?? this.nickname,
+      followerCount: followerCount ?? this.followerCount,
+      followingCount: followingCount ?? this.followingCount,
+      feedCount: feedCount ?? this.feedCount,
+      profileUrl: profileUrl ?? this.profileUrl,
+    );
+  }
 }

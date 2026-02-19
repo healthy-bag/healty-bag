@@ -11,8 +11,9 @@ class ProfilePostGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("feedCount : $feedCount");
-    print("imageUrls : $imageUrls");
+    if (imageUrls.isEmpty) {
+      return const Center(child: Text('아직 등록된 게시물이 없습니다.'));
+    }
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -20,7 +21,7 @@ class ProfilePostGrid extends StatelessWidget {
         crossAxisSpacing: 2,
         childAspectRatio: 0.95,
       ),
-      itemCount: feedCount,
+      itemCount: imageUrls.length,
       itemBuilder: (context, index) {
         return Image.network(imageUrls[index]);
       },

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthy_bag/core/di/repository_di/feed_repository_di.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -7,11 +7,15 @@ part 'my_tap_viewmodel.g.dart';
 @riverpod
 class MyTapViewmodel extends _$MyTapViewmodel {
   @override
-  List<String>? build() {
-    return null;
-  }
+  Stream<List<String>> build() {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
 
-  void setThumbnail(String userId) async {
-    state = await ref.watch(feedRepositoryProvider).fetchMyFeedUrls(userId);
+    if (userId == null) return Stream.value([]);
+
+    return ref.watch(feedRepositoryProvider).fetchMyFeedUrls(userId).map((
+      urls,
+    ) {
+      return urls;
+    });
   }
 }

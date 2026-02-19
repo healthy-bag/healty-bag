@@ -13,7 +13,7 @@ part of 'my_tap_viewmodel.dart';
 final myTapViewmodelProvider = MyTapViewmodelProvider._();
 
 final class MyTapViewmodelProvider
-    extends $NotifierProvider<MyTapViewmodel, List<String>?> {
+    extends $StreamNotifierProvider<MyTapViewmodel, List<String>> {
   MyTapViewmodelProvider._()
     : super(
         from: null,
@@ -31,29 +31,21 @@ final class MyTapViewmodelProvider
   @$internal
   @override
   MyTapViewmodel create() => MyTapViewmodel();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<String>? value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<String>?>(value),
-    );
-  }
 }
 
-String _$myTapViewmodelHash() => r'7b349c68938a32d29548c7da56f0c00a8364ef4c';
+String _$myTapViewmodelHash() => r'e3cc34e30f7b082a444061fceedb46059a9e04a5';
 
-abstract class _$MyTapViewmodel extends $Notifier<List<String>?> {
-  List<String>? build();
+abstract class _$MyTapViewmodel extends $StreamNotifier<List<String>> {
+  Stream<List<String>> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<List<String>?, List<String>?>;
+    final ref = this.ref as $Ref<AsyncValue<List<String>>, List<String>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<List<String>?, List<String>?>,
-              List<String>?,
+              AnyNotifier<AsyncValue<List<String>>, List<String>>,
+              AsyncValue<List<String>>,
               Object?,
               Object?
             >;

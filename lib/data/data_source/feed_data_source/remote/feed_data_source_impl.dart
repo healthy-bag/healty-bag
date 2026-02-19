@@ -61,13 +61,20 @@ class FeedDataSourceImpl implements FeedDataSource {
   }
 
   @override
-  Future<List<FeedDTO>> fetchMyFeeds(String userId) async {
-    final snapshot = await firestore
-        .collection('feeds')
-        .where('uid', isEqualTo: userId)
-        .orderBy('createdAt', descending: true)
-        .get();
+  Stream<List<FeedDTO>> fetchMyFeeds(String userId) async* {
+    try {
+      final snapshot = firestore
+          .collection('feeds')
+          .where('uid', isEqualTo: userId)
+          .orderBy('createdAt', descending: true)
+          .snapshots();
 
-    return snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList();
+      yield* snapshot.map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList(),
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 }

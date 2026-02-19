@@ -7,4 +7,5 @@ abstract class UserDataSource {
   Future<void> registerUser(UserDTO user);
   Future<bool> checkNickname(String nickname);
   Future<String> uploadProfileImage(File file);
+  Future<void> addfeedCount(String uid);
 }
