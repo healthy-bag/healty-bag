@@ -11,7 +11,7 @@ class LikesDto {
     required this.feedId,
   });
 
-  factory LikesDto.fromMap(Map<String, dynamic> map) {
+  factory LikesDto.fromJson(Map<String, dynamic> map) {
     return LikesDto(
       id: map['id'],
       uid: map['uid'],
@@ -20,7 +20,7 @@ class LikesDto {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {'id': id, 'uid': uid, 'nickname': nickname, 'feedId': feedId};
   }
 }
