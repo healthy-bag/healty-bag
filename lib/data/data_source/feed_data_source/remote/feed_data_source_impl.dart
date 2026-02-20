@@ -111,7 +111,7 @@ class FeedDataSourceImpl implements FeedDataSource {
       // 생성된 데이터 흐름(Stream)을 외부로 전달
       yield* snapshot.map(
         (snapshot) => snapshot.docs
-            .map((doc) => FeedDTO.fromJson(doc.data(), doc.id))
+            .map((doc) => FeedDTO.fromJson(doc.data()))
             .toList(),
       );
     } catch (e) {

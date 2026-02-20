@@ -91,6 +91,7 @@ class FeedRepositoryImpl implements FeedRepository {
                   thumbnailUrl: dto.thumbnailUrl,
                   tag: dto.tag,
                   createdAt: dto.createdAt,
+                  deletedAt: dto.deletedAt,
                   authorId: dto.authorId,
                   authorimageUrl: dto.authorimageUrl,
                 ),
