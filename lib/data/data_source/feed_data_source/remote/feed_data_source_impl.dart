@@ -58,9 +58,10 @@ class FeedDataSourceImpl implements FeedDataSource {
         .collection('feeds')
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => FeedDTO.fromJson(doc.data(), doc.id))
-            .toList());
+        .map(
+          (snapshot) =>
+              snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList(),
+        );
   }
 
   @override
@@ -86,7 +87,7 @@ class FeedDataSourceImpl implements FeedDataSource {
       // 생성된 데이터 흐름(Stream)을 외부로 전달
       yield* snapshot.map(
         (snapshot) =>
-            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data(), doc.id)).toList(),
+            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList(),
       );
     } catch (e) {
       rethrow;
