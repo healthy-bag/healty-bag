@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
 
 class FeedItemWidget extends StatelessWidget {
@@ -26,15 +27,20 @@ class FeedItemWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 18,
-                  backgroundColor: Colors.grey,
-                  backgroundImage: feed.authorimageUrl.isNotEmpty
-                      ? NetworkImage(feed.authorimageUrl)
-                      : null,
-                  child: feed.authorimageUrl.isEmpty
-                      ? const Icon(Icons.person, color: Colors.white)
-                      : null,
+                GestureDetector(
+                  onTap: () {
+                    context.push('/people/${feed.uid}');
+                  },
+                  child: CircleAvatar(
+                    radius: 18,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: feed.authorimageUrl.isNotEmpty
+                        ? NetworkImage(feed.authorimageUrl)
+                        : null,
+                    child: feed.authorimageUrl.isEmpty
+                        ? const Icon(Icons.person, color: Colors.white)
+                        : null,
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -62,7 +68,8 @@ class FeedItemWidget extends StatelessWidget {
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: Colors.grey[200],
                     child: const Center(
-                        child: Icon(Icons.error, color: Colors.grey)),
+                      child: Icon(Icons.error, color: Colors.grey),
+                    ),
                   ),
                 ),
               ),
@@ -77,7 +84,9 @@ class FeedItemWidget extends StatelessWidget {
                 style: const TextStyle(color: Colors.black, fontSize: 18),
                 children: [
                   TextSpan(
-                    text: (feed.content.length > 30 || feed.content.contains('\n'))
+                    text:
+                        (feed.content.length > 30 ||
+                            feed.content.contains('\n'))
                         ? feed.content.replaceAll('\n', ' ').substring(0, 30)
                         : feed.content,
                     style: const TextStyle(fontWeight: FontWeight.w500),
@@ -166,10 +175,7 @@ class FeedItemWidget extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ],
       ),

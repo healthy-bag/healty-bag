@@ -13,7 +13,7 @@ part of 'my_tap_viewmodel.dart';
 final myTapViewmodelProvider = MyTapViewmodelProvider._();
 
 final class MyTapViewmodelProvider
-    extends $StreamNotifierProvider<MyTapViewmodel, List<String>> {
+    extends $StreamNotifierProvider<MyTapViewmodel, List<FeedEntity>> {
   MyTapViewmodelProvider._()
     : super(
         from: null,
@@ -33,19 +33,20 @@ final class MyTapViewmodelProvider
   MyTapViewmodel create() => MyTapViewmodel();
 }
 
-String _$myTapViewmodelHash() => r'987d8c9b632e3acf945b8a8fd1b47e39a8f4b36e';
+String _$myTapViewmodelHash() => r'1ae113cd9576e15139f4042c35667c25ef04e87f';
 
-abstract class _$MyTapViewmodel extends $StreamNotifier<List<String>> {
-  Stream<List<String>> build();
+abstract class _$MyTapViewmodel extends $StreamNotifier<List<FeedEntity>> {
+  Stream<List<FeedEntity>> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<List<String>>, List<String>>;
+    final ref =
+        this.ref as $Ref<AsyncValue<List<FeedEntity>>, List<FeedEntity>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<List<String>>, List<String>>,
-              AsyncValue<List<String>>,
+              AnyNotifier<AsyncValue<List<FeedEntity>>, List<FeedEntity>>,
+              AsyncValue<List<FeedEntity>>,
               Object?,
               Object?
             >;

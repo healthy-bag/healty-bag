@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthy_bag/domain/entities/feed_entity.dart';
+import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 
-class ProfilePostGrid extends StatelessWidget {
+class ProfilePostGrid extends ConsumerWidget {
   const ProfilePostGrid({
     super.key,
     required this.feedCount,
-    required this.imageUrls,
+    required this.feeds,
   });
   final int feedCount;
-  final List<String> imageUrls;
+  final List<FeedEntity> feeds;
 
   @override
-  Widget build(BuildContext context) {
-    if (imageUrls.isEmpty) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (feeds.isEmpty) {
       return const Center(child: Text('아직 등록된 게시물이 없습니다.'));
     }
     return GridView.builder(
@@ -21,20 +24,46 @@ class ProfilePostGrid extends StatelessWidget {
         crossAxisSpacing: 5,
         childAspectRatio: 0.95,
       ),
-      itemCount: imageUrls.length,
+      itemCount: feeds.length,
       itemBuilder: (context, index) {
+        final feed = feeds[index];
         return GestureDetector(
           onLongPress: () {
-            print('long press');
+            _showDeleteDialog(context, ref, feed.feedId);
           },
           child: Image.network(
-            imageUrls[index],
+            feed.fileUrl,
             height: 100,
             width: 100,
             fit: BoxFit.cover,
           ),
         );
       },
+    );
+  }
+
+  void _showDeleteDialog(BuildContext context, WidgetRef ref, String feedId) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('게시물 삭제'),
+        content: const Text('이 게시물을 정말로 삭제하시겠습니까?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('취소'),
+          ),
+          TextButton(
+            onPressed: () {
+              ref.read(myTapViewmodelProvider.notifier).deleteFeed(feedId);
+              Navigator.pop(context);
+            },
+            child: const Text('삭제'),
+          ),
+        ],
+      ),
     );
   }
 }
