@@ -71,7 +71,7 @@ class MyPage extends ConsumerWidget {
                 ),
                 child: Center(
                   child: Text(
-                    '팔로우',
+                    '',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
