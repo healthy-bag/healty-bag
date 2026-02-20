@@ -32,47 +32,57 @@ class _WritePageState extends ConsumerState<WritePage> {
     final bool isValid = state.imagePath != null && state.content.isNotEmpty;
     return Stack(
       children: [
-        Scaffold(
-          appBar: AppBar(
-            title: const Text('새 게시물', style: TextStyle(fontSize: 24)),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-            child: Column(
-              children: [
-                // 이미지 선택
-                ImagePickerArea(),
-                SizedBox(height: 35),
-                // TagInputField(controller: tagController),
-                SizedBox(height: 12),
-                // 캡션 입력
-                ContentInputField(controller: contentController),
-                Spacer(),
-                // 게시하기 버튼
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50),
-                  ),
-                  onPressed: isValid
-                      ? () async {
-                          await ref
-                              .read(writeViewModelProvider.notifier)
-                              .uploadFeed();
-                          if (!context.mounted) return;
-                          contentController.clear();
-                          context.go('/home');
-                        }
-                      : null,
-                  child: Text(
-                    '게시하기',
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: isValid ? Colors.white : Colors.black,
-                    ),
-                  ),
+        GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('새 게시물', style: TextStyle(fontSize: 24)),
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 24,
                 ),
-                SizedBox(height: 32),
-              ],
+                child: Column(
+                  children: [
+                    // 이미지 선택
+                    ImagePickerArea(),
+                    SizedBox(height: 35),
+                    // TagInputField(controller: tagController),
+                    SizedBox(height: 12),
+                    // 캡션 입력
+                    ContentInputField(controller: contentController),
+                    SizedBox(height: 90),
+                    // 게시하기 버튼
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 50),
+                      ),
+                      onPressed: isValid
+                          ? () async {
+                              await ref
+                                  .read(writeViewModelProvider.notifier)
+                                  .uploadFeed();
+                              if (!context.mounted) return;
+                              contentController.clear();
+                              context.go('/home');
+                            }
+                          : null,
+                      child: Text(
+                        '게시하기',
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: isValid ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
