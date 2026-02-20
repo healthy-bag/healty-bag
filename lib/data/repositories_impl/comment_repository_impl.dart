@@ -1,5 +1,5 @@
 import 'package:healthy_bag/data/data_source/comment_data_source/comment_data_source.dart';
-import 'package:healthy_bag/data/DTO/comments_dto.dart';
+import 'package:healthy_bag/data/dto/comments_dto.dart';
 import 'package:healthy_bag/domain/entities/comment/comment_entity.dart';
 import 'package:healthy_bag/domain/repositories/comment_repository.dart';
 
@@ -19,5 +19,15 @@ class CommentRepositoryImpl implements CommentRepository {
   Future<void> addComment(CommentEntity comment) async {
     final dto = CommentsDTO.fromEntity(comment);
     await _commentDataSource.saveComment(dto);
+  }
+
+  @override
+  Future<void> updateComment(String commentId, String content) async {
+    await _commentDataSource.updateComment(commentId, content);
+  }
+
+  @override
+  Future<void> deleteComment(String commentId) async {
+    await _commentDataSource.deleteComment(commentId);
   }
 }

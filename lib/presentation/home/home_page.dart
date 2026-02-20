@@ -49,14 +49,8 @@ class HomePage extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => SizedBox(
-        height: MediaQuery.of(context).size.height * 0.7,
-        child: CommentSheet(feedId: feedId),
-      ),
+      backgroundColor: Colors.transparent, // 배경을 투명하게 하여 시트의 곡선이 잘 보이게 함
+      builder: (context) => CommentSheet(feedId: feedId),
     );
   }
 }

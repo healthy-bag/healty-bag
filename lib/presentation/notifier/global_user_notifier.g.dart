@@ -42,7 +42,7 @@ final class GlobalUserViewModelProvider
 }
 
 String _$globalUserViewModelHash() =>
-    r'8994f31cb94d2185745fdcc6f7e16edd44748f9f';
+    r'88e24aa13722917f0a7dd6fb7f2c26282ccdbdbb';
 
 abstract class _$GlobalUserViewModel extends $Notifier<UserEntity?> {
   UserEntity? build();

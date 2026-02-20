@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'nickname_viewmodel.dart';
+part of 'comment_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,51 @@ part of 'nickname_viewmodel.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(NicknameViewmodel)
-final nicknameViewmodelProvider = NicknameViewmodelProvider._();
+@ProviderFor(CommentViewModel)
+final commentViewModelProvider = CommentViewModelProvider._();
 
-final class NicknameViewmodelProvider
-    extends $NotifierProvider<NicknameViewmodel, NicknameState> {
-  NicknameViewmodelProvider._()
+final class CommentViewModelProvider
+    extends $NotifierProvider<CommentViewModel, CommentState> {
+  CommentViewModelProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'nicknameViewmodelProvider',
+        name: r'commentViewModelProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$nicknameViewmodelHash();
+  String debugGetCreateSourceHash() => _$commentViewModelHash();
 
   @$internal
   @override
-  NicknameViewmodel create() => NicknameViewmodel();
+  CommentViewModel create() => CommentViewModel();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(NicknameState value) {
+  Override overrideWithValue(CommentState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<NicknameState>(value),
+      providerOverride: $SyncValueProvider<CommentState>(value),
     );
   }
 }
 
-String _$nicknameViewmodelHash() => r'bc50a1624757198f451d3ca6fac114cb0c4538d2';
+String _$commentViewModelHash() => r'2acb0575434bc0077b661bcf9c37865dde4c0f4c';
 
-abstract class _$NicknameViewmodel extends $Notifier<NicknameState> {
-  NicknameState build();
+abstract class _$CommentViewModel extends $Notifier<CommentState> {
+  CommentState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<NicknameState, NicknameState>;
+    final ref = this.ref as $Ref<CommentState, CommentState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<NicknameState, NicknameState>,
-              NicknameState,
+              AnyNotifier<CommentState, CommentState>,
+              CommentState,
               Object?,
               Object?
             >;
