@@ -32,10 +32,7 @@ class MyPage extends ConsumerWidget {
                 ProfileImage(profileUrl: user.profileUrl),
                 Padding(padding: const EdgeInsets.only(left: 16.0)),
                 Spacer(),
-                ProfileStat(
-                  label: '게시물',
-                  value: (user.feedCount - 1).toString(),
-                ),
+                ProfileStat(label: '게시물', value: user.feedCount.toString()),
                 Spacer(),
                 ProfileStat(label: '팔로워', value: user.followerCount.toString()),
                 Spacer(),

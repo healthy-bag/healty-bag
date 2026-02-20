@@ -8,7 +8,6 @@ part 'global_user_notifier.g.dart';
 class GlobalUserViewModel extends _$GlobalUserViewModel {
   @override
   UserEntity? build() {
-    print(state);
     return null;
   }
 

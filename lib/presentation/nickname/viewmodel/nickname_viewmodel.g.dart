@@ -41,7 +41,7 @@ final class NicknameViewmodelProvider
   }
 }
 
-String _$nicknameViewmodelHash() => r'f6042218bd5fb21c43b09565effce5912a1bd440';
+String _$nicknameViewmodelHash() => r'bc50a1624757198f451d3ca6fac114cb0c4538d2';
 
 abstract class _$NicknameViewmodel extends $Notifier<NicknameState> {
   NicknameState build();
