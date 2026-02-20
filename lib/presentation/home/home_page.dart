@@ -14,16 +14,18 @@ class HomePage extends ConsumerWidget {
     final feedsAsync = ref.watch(homeViewModelProvider);
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.white, // 배경색을 흰색으로 변경
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const HealthyBagLogo(),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: const SizedBox(
+          height: 40,
+          child: HealthyBagLogo(),
+        ),
       ),
-      // AsyncValue.when : 상태에 따른 화면 분기 처리
-      // 데이터 로딩, 성공, 에러 상태 처리
       body: feedsAsync.when(
-        data: (feeds) => PageView.builder(
-          scrollDirection: Axis.vertical,
+        data: (feeds) => ListView.builder(
           itemCount: feeds.length,
           itemBuilder: (context, index) {
             final feed = feeds[index];
@@ -39,6 +41,7 @@ class HomePage extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('에러 발생: $err')),
       ),
+     
     );
   }
 

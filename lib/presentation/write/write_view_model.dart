@@ -1,11 +1,5 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/widgets.dart';
-import 'package:healthy_bag/core/di/repository_di/feed_repository_di.dart';
-import 'package:healthy_bag/core/di/repository_di/user_repository_di.dart';
 import 'package:healthy_bag/core/di/usecase_di/feed_usecase_di.dart';
-import 'package:healthy_bag/domain/entities/feed_entity.dart';
 import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -83,6 +77,8 @@ class WriteViewModel extends Notifier<WriteState> {
         commentCount: 0,
         thumbnailUrl: '',
         createdAt: DateTime.now().toIso8601String(),
+        authorId: user.nickname, // 닉네임 전달
+        authorimageUrl: user.profileUrl ?? '', // 프로필 이미지 전달
       );
 
       state = WriteState();

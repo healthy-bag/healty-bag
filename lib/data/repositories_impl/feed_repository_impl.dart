@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:healthy_bag/data/dto/feed_dto.dart';
 import 'package:healthy_bag/data/data_source/feed_data_source/feed_data_source.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
@@ -23,6 +22,8 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: imageUrl,
       tag: feed.tag,
       createdAt: feed.createdAt,
+      authorId: feed.authorId,
+      authorimageUrl: feed.authorimageUrl,
     );
     await feedDataSource.saveFeed(feedDTO);
   }
@@ -41,6 +42,8 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: feedDTO.thumbnailUrl,
       tag: feedDTO.tag,
       createdAt: feedDTO.createdAt,
+      authorId: feedDTO.authorId,
+      authorimageUrl: feedDTO.authorimageUrl,
     );
   }
 
@@ -59,6 +62,8 @@ class FeedRepositoryImpl implements FeedRepository {
             thumbnailUrl: feedDTO.thumbnailUrl,
             tag: feedDTO.tag,
             createdAt: feedDTO.createdAt,
+            authorId: feedDTO.authorId,
+            authorimageUrl: feedDTO.authorimageUrl,
           ),
         )
         .toList();
@@ -76,6 +81,8 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: feed.thumbnailUrl,
       tag: feed.tag,
       createdAt: feed.createdAt,
+      authorId: feed.authorId,
+      authorimageUrl: feed.authorimageUrl,
     );
     await feedDataSource.updateFeed(feedDTO);
   }
