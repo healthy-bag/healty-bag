@@ -71,7 +71,7 @@ class FeedDataSourceImpl implements FeedDataSource {
 
       yield* snapshot.map(
         (snapshot) =>
-            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList(),
+            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data(), doc.id)).toList(),
       );
     } catch (e) {
       rethrow;

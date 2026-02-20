@@ -1,5 +1,6 @@
 import 'package:healthy_bag/core/di/repository_di/comment_repository_di.dart';
 import 'package:healthy_bag/core/di/repository_di/feed_repository_di.dart';
+import 'package:healthy_bag/core/di/repository_di/user_repository_di.dart'; // 추가
 import 'package:healthy_bag/domain/entities/comment/comment_entity.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,16 +10,27 @@ part 'home_view_model.g.dart';
 @riverpod
 class HomeViewModel extends _$HomeViewModel {
 
-  // FutureOr<List<FeedEntity>>를 반환, 이 상태는 자동으로 'AsyncValue'로 관리
   @override
   FutureOr<List<FeedEntity>> build() async {
-    // 의존성 주입된(ID) repository를 가져와 서버, 로컬 DB에서 데이터를 가져옴
     final feedRepository = ref.read(feedRepositoryProvider);
+    final userRepository = ref.read(userRepositoryProvider); // 추가
     final feeds = await feedRepository.fetchFeeds();
     
+    // 각 피드에 대한 작성자 정보(닉네임, 프로필 이미지)를 실시간으로 가져와 병합
+    final updatedFeeds = await Future.wait(feeds.map((feed) async {
+      final userInfo = await userRepository.getUserInfo(feed.uid);
+      if (userInfo != null) {
+        return feed.copyWith(
+          authorId: userInfo.nickname,
+          authorimageUrl: userInfo.profileUrl ?? '',
+        );
+      }
+      return feed;
+    }));
+
     // 가져온 데이터를 생성일자(createdAt) 기준 내림차순 정렬
-    feeds.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    return feeds;
+    updatedFeeds.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    return updatedFeeds;
   }
 
   // 좋아요 버튼을 눌렀을 때 호출
