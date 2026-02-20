@@ -72,7 +72,7 @@ class FeedDataSourceImpl implements FeedDataSource {
 
   // Stream<List<FeedDTO>> FeedDTO 객체들이 담긴 리스트를 실시간으로 반환
   @override
-  Stream<List<FeedDTO>> fetchMyFeeds(String userId) async* {
+  Stream<List<FeedDTO>> fetchMyFeeds(String userId) {
     try {
       final snapshot = firestore
           .collection('feeds')
@@ -85,7 +85,7 @@ class FeedDataSourceImpl implements FeedDataSource {
 
       // yield* : 스트림을 반환하는 함수
       // 생성된 데이터 흐름(Stream)을 외부로 전달
-      yield* snapshot.map(
+      return snapshot.map(
         (snapshot) =>
             snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList(),
       );

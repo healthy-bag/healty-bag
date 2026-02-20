@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_bag/domain/entities/feed_entity.dart';
+import 'package:healthy_bag/presentation/my/widgets/detail_dialog.dart';
 
 class ProfilePostGrid extends StatelessWidget {
-  const ProfilePostGrid({
-    super.key,
-    required this.feedCount,
-    required this.imageUrls,
-  });
-  final int feedCount;
-  final List<String> imageUrls;
+  const ProfilePostGrid({super.key, required this.feeds});
+
+  final List<FeedEntity> feeds;
 
   @override
   Widget build(BuildContext context) {
-    if (imageUrls.isEmpty) {
+    if (feeds.isEmpty) {
       return const Center(child: Text('아직 등록된 게시물이 없습니다.'));
     }
     return GridView.builder(
@@ -21,14 +19,15 @@ class ProfilePostGrid extends StatelessWidget {
         crossAxisSpacing: 5,
         childAspectRatio: 0.95,
       ),
-      itemCount: imageUrls.length,
+      itemCount: feeds.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onLongPress: () {
-            print('long press');
-          },
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) => DetailDialog(feed: feeds[index]),
+          ),
           child: Image.network(
-            imageUrls[index],
+            feeds[index].fileUrl,
             height: 100,
             width: 100,
             fit: BoxFit.cover,

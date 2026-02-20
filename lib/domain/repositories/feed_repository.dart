@@ -17,5 +17,5 @@ abstract class FeedRepository {
   // 피드 수정 (설명 수정 등)
   Future<void> updateFeed(FeedEntity feed);
 
-  Stream<List<String>> fetchMyFeedUrls(String userId);
+  Stream<List<FeedEntity>> fetchMyFeeds(String uid);
 }
