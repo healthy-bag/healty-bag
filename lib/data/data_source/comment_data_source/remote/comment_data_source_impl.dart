@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthy_bag/data/data_source/comment_data_source/comment_data_source.dart';
-import 'package:healthy_bag/data/DTO/comments_dto.dart';
+import 'package:healthy_bag/data/dto/comments_dto.dart';
 
 class CommentDataSourceImpl implements CommentDataSource {
   final _firestore = FirebaseFirestore.instance;
@@ -12,13 +12,13 @@ class CommentDataSourceImpl implements CommentDataSource {
         .where('feedId', isEqualTo: feedId)
         .snapshots()
         .map((snapshot) {
-      final comments = snapshot.docs
-          .map((doc) => CommentsDTO.fromJson(doc.data()))
-          .toList();
-      // 인 메모리 정렬 (인덱스 에러 방지용)
-      comments.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-      return comments;
-    });
+          final comments = snapshot.docs
+              .map((doc) => CommentsDTO.fromJson(doc.data()))
+              .toList();
+          // 인 메모리 정렬 (인덱스 에러 방지용)
+          comments.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+          return comments;
+        });
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'package:healthy_bag/data/DTO/comments_dto.dart';
+import 'package:healthy_bag/data/dto/comments_dto.dart';
 
 abstract interface class CommentDataSource {
   Stream<List<CommentsDTO>> fetchComments(String feedId);
