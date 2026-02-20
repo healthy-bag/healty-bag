@@ -22,7 +22,10 @@ class GlobalUserViewModel extends _$GlobalUserViewModel {
   }
 
   Future<void> updateFeedCount() async {
-    state = state!.copyWith(feedCount: state!.feedCount + 1);
+    if (state == null) return;
     await ref.read(userRepositoryProvider).addfeedCount(state!.uid);
+    setUserById(state!.uid);
+    // state = state!.copyWith(feedCount: state!.feedCount + 1);
+    // await ref.read(userRepositoryProvider).addfeedCount(state!.uid);
   }
 }
