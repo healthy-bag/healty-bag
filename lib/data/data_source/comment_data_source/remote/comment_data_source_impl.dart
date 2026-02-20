@@ -32,9 +32,25 @@ class CommentDataSourceImpl implements CommentDataSource {
             nickname: comment.nickname,
             comment: comment.comment,
             createdAt: comment.createdAt,
+            authorImageUrl: comment.authorImageUrl,
+            parentId: comment.parentId, // + 답글 부모 ID 추가
           )
         : comment;
 
     await docRef.set(newComment.toJson());
+  }
+
+  @override
+  // +답글 수정하기 기능
+  Future<void> updateComment(String commentId, String content) async {
+    await _firestore.collection('comments').doc(commentId).update({
+      'comment': content,
+    });
+  }
+
+  @override
+  // +답글 삭제하기 기능
+  Future<void> deleteComment(String commentId) async {
+    await _firestore.collection('comments').doc(commentId).delete();
   }
 }

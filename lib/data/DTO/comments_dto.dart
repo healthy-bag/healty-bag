@@ -7,6 +7,8 @@ class CommentsDTO {
   final String nickname;
   final String comment;
   final String createdAt;
+  final String authorImageUrl;
+  final String? parentId; // + 답글 기능을 위한 부모 댓글 ID
 
   CommentsDTO({
     required this.id,
@@ -15,6 +17,8 @@ class CommentsDTO {
     required this.nickname,
     required this.comment,
     required this.createdAt,
+    required this.authorImageUrl,
+    this.parentId,
   });
 
   factory CommentsDTO.fromJson(Map<String, dynamic> json) {
@@ -25,6 +29,8 @@ class CommentsDTO {
       nickname: json['nickname'] as String? ?? '',
       comment: json['comment'] as String? ?? '',
       createdAt: json['createdAt'] as String? ?? '',
+      authorImageUrl: json['authorImageUrl'] as String? ?? '',
+      parentId: json['parentId'] as String?,
     );
   }
 
@@ -36,6 +42,8 @@ class CommentsDTO {
       'nickname': nickname,
       'comment': comment,
       'createdAt': createdAt,
+      'authorImageUrl': authorImageUrl,
+      'parentId': parentId,
     };
   }
 
@@ -47,8 +55,10 @@ class CommentsDTO {
       nickname: nickname,
       content: comment,
       timeAgo: DateTime.parse(createdAt),
+      authorImageUrl: authorImageUrl,
       isLiked: false, // 기본값
       likeCount: 0, // 기본값
+      parentId: parentId,
     );
   }
 
@@ -60,6 +70,8 @@ class CommentsDTO {
       nickname: entity.nickname,
       comment: entity.content,
       createdAt: entity.timeAgo.toIso8601String(),
+      authorImageUrl: entity.authorImageUrl,
+      parentId: entity.parentId,
     );
   }
 }
