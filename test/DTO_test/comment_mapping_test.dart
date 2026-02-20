@@ -12,6 +12,7 @@ void main() {
       nickname: 'jin12',
       comment: '오운완',
       createdAt: '2026-02-12T15:08:46.000',
+      authorImageUrl: 'https://example.com/profile.jpg',
     );
 
     // dto를 entity로 변환

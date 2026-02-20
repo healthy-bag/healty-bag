@@ -8,6 +8,7 @@ class CommentEntity {
   final String authorImageUrl;
   final bool isLiked;
   final int likeCount;
+  final String? parentId; // + 답글 기능을 위한 부모 댓글 ID
 
   CommentEntity({
     this.commentId = '',
@@ -19,6 +20,7 @@ class CommentEntity {
     this.authorImageUrl = '',
     this.isLiked = false,
     this.likeCount = 0,
+    this.parentId,
   });
 
   CommentEntity copyWith({
@@ -31,6 +33,7 @@ class CommentEntity {
     String? authorImageUrl,
     bool? isLiked,
     int? likeCount,
+    String? parentId,
   }) {
     return CommentEntity(
       commentId: commentId ?? this.commentId,
@@ -42,6 +45,7 @@ class CommentEntity {
       authorImageUrl: authorImageUrl ?? this.authorImageUrl,
       isLiked: isLiked ?? this.isLiked,
       likeCount: likeCount ?? this.likeCount,
+      parentId: parentId ?? this.parentId,
     );
   }
 }
