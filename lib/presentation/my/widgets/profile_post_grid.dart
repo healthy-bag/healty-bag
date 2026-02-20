@@ -17,13 +17,23 @@ class ProfilePostGrid extends StatelessWidget {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 2,
-        crossAxisSpacing: 2,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
         childAspectRatio: 0.95,
       ),
       itemCount: imageUrls.length,
       itemBuilder: (context, index) {
-        return Image.network(imageUrls[index]);
+        return GestureDetector(
+          onLongPress: () {
+            print('long press');
+          },
+          child: Image.network(
+            imageUrls[index],
+            height: 100,
+            width: 100,
+            fit: BoxFit.cover,
+          ),
+        );
       },
     );
   }
