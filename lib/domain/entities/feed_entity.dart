@@ -8,6 +8,7 @@ class FeedEntity {
   final String thumbnailUrl;
   final String tag;
   final String createdAt;
+  final String deletedAt;
   final bool isLiked; // 좋아요 여부 추가
   final String authorId; // 작성자 ID (닉네임 등) 추가
   final String authorimageUrl; // 작성자 이미지 추가
@@ -22,6 +23,7 @@ class FeedEntity {
     required this.thumbnailUrl,
     required this.tag,
     required this.createdAt,
+    required this.deletedAt,
     this.isLiked = false,
     this.authorId = '',
     this.authorimageUrl = '',
@@ -38,6 +40,7 @@ class FeedEntity {
     String? thumbnailUrl,
     String? tag,
     String? createdAt,
+    String? deletedAt,
     bool? isLiked,
     String? authorId,
     String? authorimageUrl,
@@ -52,6 +55,7 @@ class FeedEntity {
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
       tag: tag ?? this.tag,
       createdAt: createdAt ?? this.createdAt,
+      deletedAt: deletedAt ?? this.deletedAt,
       isLiked: isLiked ?? this.isLiked,
       authorId: authorId ?? this.authorId,
       authorimageUrl: authorimageUrl ?? this.authorimageUrl,

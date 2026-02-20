@@ -22,10 +22,16 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: imageUrl,
       tag: feed.tag,
       createdAt: feed.createdAt,
+      deletedAt: feed.deletedAt,
       authorId: feed.authorId,
       authorimageUrl: feed.authorimageUrl,
     );
     await feedDataSource.saveFeed(feedDTO);
+  }
+
+  @override
+  Future<void> deleteFeed(String feedId) async {
+    await feedDataSource.deleteFeed(feedId);
   }
 
   @override
@@ -42,6 +48,7 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: feedDTO.thumbnailUrl,
       tag: feedDTO.tag,
       createdAt: feedDTO.createdAt,
+      deletedAt: feedDTO.deletedAt,
       authorId: feedDTO.authorId,
       authorimageUrl: feedDTO.authorimageUrl,
     );
@@ -62,6 +69,7 @@ class FeedRepositoryImpl implements FeedRepository {
             thumbnailUrl: feedDTO.thumbnailUrl,
             tag: feedDTO.tag,
             createdAt: feedDTO.createdAt,
+            deletedAt: feedDTO.deletedAt,
             authorId: feedDTO.authorId,
             authorimageUrl: feedDTO.authorimageUrl,
           ),
@@ -105,6 +113,7 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: feed.thumbnailUrl,
       tag: feed.tag,
       createdAt: feed.createdAt,
+      deletedAt: feed.deletedAt,
       authorId: feed.authorId,
       authorimageUrl: feed.authorimageUrl,
     );
@@ -134,5 +143,30 @@ class FeedRepositoryImpl implements FeedRepository {
               )
               .toList(),
         );
+  }
+
+  @override
+  Stream<List<FeedEntity>> fetchMyFeeds(String userId) {
+    final feeds = feedDataSource.fetchMyFeeds(userId);
+    return feeds.map(
+      (list) => list
+          .map(
+            (dto) => FeedEntity(
+              uid: dto.uid,
+              feedId: dto.feedId,
+              fileUrl: dto.fileUrl,
+              content: dto.content,
+              likeCount: dto.likeCount,
+              commentCount: dto.commentCount,
+              thumbnailUrl: dto.thumbnailUrl,
+              tag: dto.tag,
+              createdAt: dto.createdAt,
+              deletedAt: dto.deletedAt,
+              authorId: dto.authorId,
+              authorimageUrl: dto.authorimageUrl,
+            ),
+          )
+          .toList(),
+    );
   }
 }

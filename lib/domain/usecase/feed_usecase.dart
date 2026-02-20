@@ -16,6 +16,7 @@ class FeedUseCase {
     required int commentCount,
     required String thumbnailUrl,
     required String createdAt,
+    required String deletedAt,
     required String uid,
     required String authorId,
     required String authorimageUrl,
@@ -30,6 +31,7 @@ class FeedUseCase {
       commentCount: commentCount,
       thumbnailUrl: '',
       createdAt: createdAt,
+      deletedAt: deletedAt,
       authorId: authorId,
       authorimageUrl: authorimageUrl,
     );

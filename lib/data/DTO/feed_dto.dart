@@ -9,6 +9,7 @@ class FeedDTO {
   final String tag;
   final String content;
   final String createdAt;
+  final String deletedAt;
   final String authorId;
   final String authorimageUrl;
 
@@ -22,6 +23,7 @@ class FeedDTO {
     required this.tag,
     required this.content,
     required this.createdAt,
+    required this.deletedAt,
     this.authorId = '',
     this.authorimageUrl = '',
   });
@@ -37,8 +39,13 @@ class FeedDTO {
       tag: json['tag'] as String,
       content: json['content'] as String? ?? '',
       createdAt: json['createdAt'] as String? ?? '',
-      authorId: json['authorId'] as String? ?? json['nickname'] as String? ?? '',
-      authorimageUrl: json['authorimageUrl'] as String? ?? json['profileUrl'] as String? ?? '',
+      deletedAt: json['deletedAt'] as String? ?? '',
+      authorId:
+          json['authorId'] as String? ?? json['nickname'] as String? ?? '',
+      authorimageUrl:
+          json['authorimageUrl'] as String? ??
+          json['profileUrl'] as String? ??
+          '',
     );
   }
 
@@ -53,6 +60,7 @@ class FeedDTO {
       'tag': tag,
       'content': content,
       'createdAt': createdAt,
+      'deletedAt': deletedAt,
       'authorId': authorId,
       'authorimageUrl': authorimageUrl,
     };
@@ -68,6 +76,7 @@ class FeedDTO {
     String? tag,
     String? content,
     String? createdAt,
+    String? deletedAt,
     String? authorId,
     String? authorimageUrl,
   }) {
@@ -81,6 +90,7 @@ class FeedDTO {
       tag: tag ?? this.tag,
       content: content ?? this.content,
       createdAt: createdAt ?? this.createdAt,
+      deletedAt: deletedAt ?? this.deletedAt,
       authorId: authorId ?? this.authorId,
       authorimageUrl: authorimageUrl ?? this.authorimageUrl,
     );

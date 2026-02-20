@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:healthy_bag/presentation/home/home_page.dart';
 import 'package:healthy_bag/presentation/my/my_page.dart';
 import 'package:healthy_bag/presentation/nickname/nickname_page.dart';
+import 'package:healthy_bag/presentation/people/people_page.dart';
 import 'package:healthy_bag/presentation/splash/splash_screen.dart';
 import 'package:healthy_bag/presentation/welcome/welcome_page.dart';
 import 'package:healthy_bag/presentation/write/write_page.dart';
@@ -29,6 +30,14 @@ final router = GoRouter(
       path: '/nickname',
       name: 'nickname',
       builder: (context, state) => NicknamePage(),
+    ),
+    GoRoute(
+      path: '/people/:uid',
+      name: 'people',
+      builder: (context, state) {
+        final uid = state.pathParameters['uid'] as String;
+        return PeoplePage(uid: uid);
+      },
     ),
 
     StatefulShellRoute.indexedStack(

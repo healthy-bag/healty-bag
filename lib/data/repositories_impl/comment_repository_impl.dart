@@ -20,4 +20,14 @@ class CommentRepositoryImpl implements CommentRepository {
     final dto = CommentsDTO.fromEntity(comment);
     await _commentDataSource.saveComment(dto);
   }
+
+  @override
+  Future<void> updateComment(String commentId, String content) async {
+    await _commentDataSource.updateComment(commentId, content);
+  }
+
+  @override
+  Future<void> deleteComment(String commentId) async {
+    await _commentDataSource.deleteComment(commentId);
+  }
 }

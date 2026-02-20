@@ -21,6 +21,7 @@ class ProfilePostGrid extends StatelessWidget {
       ),
       itemCount: feeds.length,
       itemBuilder: (context, index) {
+        final feed = feeds[index];
         return GestureDetector(
           onTap: () => showDialog(
             context: context,
@@ -28,12 +29,42 @@ class ProfilePostGrid extends StatelessWidget {
           ),
           child: Image.network(
             feeds[index].fileUrl,
+          onLongPress: () {
+            _showDeleteDialog(context, ref, feed.feedId);
+          },
+          child: Image.network(
+            feed.fileUrl,
             height: 100,
             width: 100,
             fit: BoxFit.cover,
           ),
         );
       },
+    );
+  }
+
+  void _showDeleteDialog(BuildContext context, WidgetRef ref, String feedId) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('게시물 삭제'),
+        content: const Text('이 게시물을 정말로 삭제하시겠습니까?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('취소'),
+          ),
+          TextButton(
+            onPressed: () {
+              ref.read(myTapViewmodelProvider.notifier).deleteFeed(feedId);
+              Navigator.pop(context);
+            },
+            child: const Text('삭제'),
+          ),
+        ],
+      ),
     );
   }
 }

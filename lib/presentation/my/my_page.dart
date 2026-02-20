@@ -22,6 +22,22 @@ class MyPage extends ConsumerWidget {
           user!.nickname,
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: Icon(Icons.more_vert, size: 25, color: Colors.black),
+            onSelected: (value) {},
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'delete',
+                child: Center(child: Text('삭제하기')),
+              ),
+              const PopupMenuItem<String>(
+                value: 'edit',
+                child: Center(child: Text('수정하기')),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -32,7 +48,7 @@ class MyPage extends ConsumerWidget {
                 ProfileImage(profileUrl: user.profileUrl),
                 Padding(padding: const EdgeInsets.only(left: 16.0)),
                 Spacer(),
-                ProfileStat(label: '게시물', value: user.feedCount.toString()),
+                ProfileStat(label: '게시물', value: (user.feedCount).toString()),
                 Spacer(),
                 ProfileStat(label: '팔로워', value: user.followerCount.toString()),
                 Spacer(),
@@ -55,7 +71,7 @@ class MyPage extends ConsumerWidget {
                 ),
                 child: Center(
                   child: Text(
-                    '팔로우',
+                    '',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
