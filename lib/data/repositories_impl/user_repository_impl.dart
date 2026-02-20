@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:healthy_bag/data/data_source/user_data_source/user_data_source.dart';
-import 'package:healthy_bag/data/DTO/user_dto.dart';
+import 'package:healthy_bag/data/dto/user_dto.dart';
 import 'package:healthy_bag/domain/entities/user_entity.dart';
+import 'package:healthy_bag/domain/models/save_image_result.dart';
 import 'package:healthy_bag/domain/repositories/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
@@ -45,8 +46,13 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<String> uploadProfileImage(File file) async {
-    return await _userDataSource.uploadProfileImage(file);
+  Future<SaveImageResult> uploadProfileImage(File file) async {
+    try {
+      final imageUrl = await _userDataSource.uploadProfileImage(file);
+      return SaveImageSuccess(imageUrl: imageUrl);
+    } on Exception catch (e) {
+      return SaveImageFailure(message: e.toString());
+    }
   }
 
   @override

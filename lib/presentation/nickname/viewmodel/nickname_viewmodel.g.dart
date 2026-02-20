@@ -13,7 +13,7 @@ part of 'nickname_viewmodel.dart';
 final nicknameViewmodelProvider = NicknameViewmodelProvider._();
 
 final class NicknameViewmodelProvider
-    extends $AsyncNotifierProvider<NicknameViewmodel, NicknameState> {
+    extends $NotifierProvider<NicknameViewmodel, NicknameState> {
   NicknameViewmodelProvider._()
     : super(
         from: null,
@@ -31,21 +31,29 @@ final class NicknameViewmodelProvider
   @$internal
   @override
   NicknameViewmodel create() => NicknameViewmodel();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NicknameState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NicknameState>(value),
+    );
+  }
 }
 
-String _$nicknameViewmodelHash() => r'0ce268115c22d7c140be550486b8e3fbce538cdd';
+String _$nicknameViewmodelHash() => r'f6042218bd5fb21c43b09565effce5912a1bd440';
 
-abstract class _$NicknameViewmodel extends $AsyncNotifier<NicknameState> {
-  FutureOr<NicknameState> build();
+abstract class _$NicknameViewmodel extends $Notifier<NicknameState> {
+  NicknameState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<NicknameState>, NicknameState>;
+    final ref = this.ref as $Ref<NicknameState, NicknameState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<NicknameState>, NicknameState>,
-              AsyncValue<NicknameState>,
+              AnyNotifier<NicknameState, NicknameState>,
+              NicknameState,
               Object?,
               Object?
             >;

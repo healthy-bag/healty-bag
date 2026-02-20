@@ -16,7 +16,7 @@ class GlobalUserViewModel extends _$GlobalUserViewModel {
     state = user;
   }
 
-  void setUserById(String uid) async {
+  Future<void> setUserById(String uid) async {
     final user = await ref.read(userRepositoryProvider).getUserInfo(uid);
     state = user;
   }
