@@ -7,6 +7,8 @@ abstract class FeedDataSource {
   Future<String> uploadImage(File imageFile);
   // 피드 등록 (최초 생성)
   Future<void> saveFeed(FeedDTO feed);
+  // 피드 삭제
+  Future<void> deleteFeed(String feedId);
 
   // 특정 피드 가져오기
   Future<FeedDTO?> fetchFeed(String feedId);

@@ -77,6 +77,7 @@ class WriteViewModel extends Notifier<WriteState> {
         commentCount: 0,
         thumbnailUrl: '',
         createdAt: DateTime.now().toIso8601String(),
+        deletedAt: '',
         authorId: user.nickname, // 닉네임 전달
         authorimageUrl: user.profileUrl ?? '', // 프로필 이미지 전달
       );

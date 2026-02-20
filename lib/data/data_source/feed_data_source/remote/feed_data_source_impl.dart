@@ -35,6 +35,11 @@ class FeedDataSourceImpl implements FeedDataSource {
   }
 
   @override
+  Future<void> deleteFeed(String feedId) async {
+    await firestore.collection('feeds').doc(feedId).delete();
+  }
+
+  @override
   Future<FeedDTO?> fetchFeed(String feedId) async {
     final doc = await firestore.collection('feeds').doc(feedId).get();
     if (doc.exists) {
@@ -70,8 +75,9 @@ class FeedDataSourceImpl implements FeedDataSource {
           .snapshots();
 
       yield* snapshot.map(
-        (snapshot) =>
-            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data(), doc.id)).toList(),
+        (snapshot) => snapshot.docs
+            .map((doc) => FeedDTO.fromJson(doc.data(), doc.id))
+            .toList(),
       );
     } catch (e) {
       rethrow;

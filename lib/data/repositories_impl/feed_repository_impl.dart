@@ -22,10 +22,16 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: imageUrl,
       tag: feed.tag,
       createdAt: feed.createdAt,
+      deletedAt: feed.deletedAt,
       authorId: feed.authorId,
       authorimageUrl: feed.authorimageUrl,
     );
     await feedDataSource.saveFeed(feedDTO);
+  }
+
+  @override
+  Future<void> deleteFeed(String feedId) async {
+    await feedDataSource.deleteFeed(feedId);
   }
 
   @override
@@ -42,6 +48,7 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: feedDTO.thumbnailUrl,
       tag: feedDTO.tag,
       createdAt: feedDTO.createdAt,
+      deletedAt: feedDTO.deletedAt,
       authorId: feedDTO.authorId,
       authorimageUrl: feedDTO.authorimageUrl,
     );
@@ -62,6 +69,7 @@ class FeedRepositoryImpl implements FeedRepository {
             thumbnailUrl: feedDTO.thumbnailUrl,
             tag: feedDTO.tag,
             createdAt: feedDTO.createdAt,
+            deletedAt: feedDTO.deletedAt,
             authorId: feedDTO.authorId,
             authorimageUrl: feedDTO.authorimageUrl,
           ),
@@ -81,6 +89,7 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: feed.thumbnailUrl,
       tag: feed.tag,
       createdAt: feed.createdAt,
+      deletedAt: feed.deletedAt,
       authorId: feed.authorId,
       authorimageUrl: feed.authorimageUrl,
     );

@@ -11,6 +11,8 @@ abstract class FeedRepository {
   // 피드 등록 (최초 생성)
   Future<void> saveFeed(FeedEntity feed, File imageFile);
 
+  Future<void> deleteFeed(String feedId);
+
   // 피드 수정 (설명 수정 등)
   Future<void> updateFeed(FeedEntity feed);
 
