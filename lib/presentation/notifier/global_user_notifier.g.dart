@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'global_user_notifier.dart';
+part of 'nickname_viewmodel.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,52 +9,51 @@ part of 'global_user_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(GlobalUserViewModel)
-final globalUserViewModelProvider = GlobalUserViewModelProvider._();
+@ProviderFor(NicknameViewmodel)
+final nicknameViewmodelProvider = NicknameViewmodelProvider._();
 
-final class GlobalUserViewModelProvider
-    extends $NotifierProvider<GlobalUserViewModel, UserEntity?> {
-  GlobalUserViewModelProvider._()
+final class NicknameViewmodelProvider
+    extends $NotifierProvider<NicknameViewmodel, NicknameState> {
+  NicknameViewmodelProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'globalUserViewModelProvider',
-        isAutoDispose: false,
+        name: r'nicknameViewmodelProvider',
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$globalUserViewModelHash();
+  String debugGetCreateSourceHash() => _$nicknameViewmodelHash();
 
   @$internal
   @override
-  GlobalUserViewModel create() => GlobalUserViewModel();
+  NicknameViewmodel create() => NicknameViewmodel();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(UserEntity? value) {
+  Override overrideWithValue(NicknameState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<UserEntity?>(value),
+      providerOverride: $SyncValueProvider<NicknameState>(value),
     );
   }
 }
+r'f6042218bd5fb21c43b09565effce5912a1bd440';
 
-String _$globalUserViewModelHash() =>
-    r'9dfa2c0ff903372d1ba317e2bc0ec313ad8ac07d';
-
-abstract class _$GlobalUserViewModel extends $Notifier<UserEntity?> {
-  UserEntity? build();
+String _$nicknameViewmodelHash() => 
+abstract class _$NicknameViewmodel extends $Notifier<NicknameState> {
+  NicknameState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<UserEntity?, UserEntity?>;
+    final ref = this.ref as $Ref<NicknameState, NicknameState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<UserEntity?, UserEntity?>,
-              UserEntity?,
+              AnyNotifier<NicknameState, NicknameState>,
+              NicknameState,
               Object?,
               Object?
             >;

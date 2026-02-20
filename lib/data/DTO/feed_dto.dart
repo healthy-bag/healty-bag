@@ -26,7 +26,7 @@ class FeedDTO {
     this.authorimageUrl = '',
   });
 
-  factory FeedDTO.fromJson(Map<String, dynamic> json, String id) {
+  factory FeedDTO.fromJson(Map<String, dynamic> json) {
     return FeedDTO(
       uid: json['uid'] as String,
       feedId: json['feedId'] as String,
