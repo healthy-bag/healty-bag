@@ -16,6 +16,7 @@ class TagInputField extends ConsumerWidget {
       },
       style: TextStyle(fontSize: 22),
       decoration: InputDecoration(
+        border: InputBorder.none,
         hintText: '#태그를 추가하세요',
         hintStyle: TextStyle(
           color: Colors.grey.shade400,

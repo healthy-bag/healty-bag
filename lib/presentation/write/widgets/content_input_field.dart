@@ -17,10 +17,11 @@ class ContentInputField extends ConsumerWidget {
       style: TextStyle(fontSize: 22),
       maxLines: 4,
       decoration: InputDecoration(
-        hintText: '내용을 입력하세요',
+        border: InputBorder.none,
+        hintText: '캡션 추가',
         hintStyle: TextStyle(
           color: Colors.grey.shade400,
-          fontSize: 22,
+          fontSize: 20,
           fontWeight: FontWeight.w400,
         ),
       ),

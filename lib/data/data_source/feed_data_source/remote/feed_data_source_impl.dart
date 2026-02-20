@@ -53,23 +53,40 @@ class FeedDataSourceImpl implements FeedDataSource {
   }
 
   @override
+  Stream<List<FeedDTO>> fetchFeedsStream() {
+    return firestore
+        .collection('feeds')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => FeedDTO.fromJson(doc.data(), doc.id))
+            .toList());
+  }
+
+  @override
   Future<void> updateFeed(FeedDTO feed) async {
     // 이미 존재하는 문서의 특정 필드만 바꿀 때 update 사용
     await firestore.collection('feeds').doc(feed.feedId).update(feed.toJson());
   }
 
+  // Stream<List<FeedDTO>> FeedDTO 객체들이 담긴 리스트를 실시간으로 반환
   @override
   Stream<List<FeedDTO>> fetchMyFeeds(String userId) async* {
     try {
       final snapshot = firestore
           .collection('feeds')
+          // (필터링) 문서의 uid 필드가 입력받은 userId와 일치하는 데이터만 찾음
           .where('uid', isEqualTo: userId)
+          // (정렬) createdAt 필드를 기준으로 내림차순 정렬
           .orderBy('createdAt', descending: true)
+          // (실시간) 스트림으로 데이터 변경을 실시간으로 받음
           .snapshots();
 
+      // yield* : 스트림을 반환하는 함수
+      // 생성된 데이터 흐름(Stream)을 외부로 전달
       yield* snapshot.map(
         (snapshot) =>
-            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList(),
+            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data(), doc.id)).toList(),
       );
     } catch (e) {
       rethrow;

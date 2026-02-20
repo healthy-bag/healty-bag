@@ -16,33 +16,33 @@ class ImagePickerArea extends ConsumerWidget {
       },
       child: state.imagePath != null
           ? Container(
-              width: double.infinity,
+              width: 340,
               height: 360,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(50),
               ),
               clipBehavior: Clip.antiAlias,
               child: Image.file(File(state.imagePath!), fit: BoxFit.cover),
             )
           : Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(50),
                 color: Colors.grey.shade200,
               ),
-              width: double.infinity,
+              width: 260,
               height: 360,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Symbols.add_rounded,
-                    size: 200,
-                    weight: 300,
+                    size: 160,
+                    weight: 160,
                     color: Colors.grey.shade400,
                   ),
                   Text(
-                    'new',
-                    style: TextStyle(color: Colors.grey.shade400, fontSize: 26),
+                    '사진을 추가해주세요',
+                    style: TextStyle(color: Colors.grey.shade400, fontSize: 20),
                   ),
                 ],
               ),

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:healthy_bag/data/dto/feed_dto.dart';
 import 'package:healthy_bag/data/data_source/feed_data_source/feed_data_source.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
@@ -23,6 +22,8 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: imageUrl,
       tag: feed.tag,
       createdAt: feed.createdAt,
+      authorId: feed.authorId,
+      authorimageUrl: feed.authorimageUrl,
     );
     await feedDataSource.saveFeed(feedDTO);
   }
@@ -41,6 +42,8 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: feedDTO.thumbnailUrl,
       tag: feedDTO.tag,
       createdAt: feedDTO.createdAt,
+      authorId: feedDTO.authorId,
+      authorimageUrl: feedDTO.authorimageUrl,
     );
   }
 
@@ -59,11 +62,36 @@ class FeedRepositoryImpl implements FeedRepository {
             thumbnailUrl: feedDTO.thumbnailUrl,
             tag: feedDTO.tag,
             createdAt: feedDTO.createdAt,
+            authorId: feedDTO.authorId,
+            authorimageUrl: feedDTO.authorimageUrl,
           ),
         )
         .toList();
   }
+  @override
+  Stream<List<FeedEntity>> fetchFeedsStream() {
+    return feedDataSource.fetchFeedsStream().map(
+          (dtoList) => dtoList
+              .map(
+                (dto) => FeedEntity(
+                  uid: dto.uid,
+                  feedId: dto.feedId,
+                  fileUrl: dto.fileUrl,
+                  content: dto.content,
+                  likeCount: dto.likeCount,
+                  commentCount: dto.commentCount,
+                  thumbnailUrl: dto.thumbnailUrl,
+                  tag: dto.tag,
+                  createdAt: dto.createdAt,
+                  authorId: dto.authorId,
+                  authorimageUrl: dto.authorimageUrl,
+                ),
+              )
+              .toList(),
+        );
+  }
 
+  // Stream<List<String>>: FeedEntity 리스트가 실시간으로 반환
   @override
   Future<void> updateFeed(FeedEntity feed) async {
     final feedDTO = FeedDTO(
@@ -76,6 +104,8 @@ class FeedRepositoryImpl implements FeedRepository {
       thumbnailUrl: feed.thumbnailUrl,
       tag: feed.tag,
       createdAt: feed.createdAt,
+      authorId: feed.authorId,
+      authorimageUrl: feed.authorimageUrl,
     );
     await feedDataSource.updateFeed(feedDTO);
   }
