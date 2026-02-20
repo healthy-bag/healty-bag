@@ -39,7 +39,7 @@ class FeedItemWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    feed.authorId.isNotEmpty ? feed.authorId : feed.uid,
+                    feed.authorId,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

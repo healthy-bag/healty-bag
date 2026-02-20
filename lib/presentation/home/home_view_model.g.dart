@@ -13,7 +13,7 @@ part of 'home_view_model.dart';
 final homeViewModelProvider = HomeViewModelProvider._();
 
 final class HomeViewModelProvider
-    extends $AsyncNotifierProvider<HomeViewModel, List<FeedEntity>> {
+    extends $StreamNotifierProvider<HomeViewModel, List<FeedEntity>> {
   HomeViewModelProvider._()
     : super(
         from: null,
@@ -33,10 +33,10 @@ final class HomeViewModelProvider
   HomeViewModel create() => HomeViewModel();
 }
 
-String _$homeViewModelHash() => r'e5a27f76429334b4751aa51db06ea2dc6e80aee0';
+String _$homeViewModelHash() => r'e7c30278922c67af13241c9b8fab491ed4bbe2f8';
 
-abstract class _$HomeViewModel extends $AsyncNotifier<List<FeedEntity>> {
-  FutureOr<List<FeedEntity>> build();
+abstract class _$HomeViewModel extends $StreamNotifier<List<FeedEntity>> {
+  Stream<List<FeedEntity>> build();
   @$mustCallSuper
   @override
   void runBuild() {
