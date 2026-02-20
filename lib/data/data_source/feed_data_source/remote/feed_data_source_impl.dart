@@ -34,8 +34,27 @@ class FeedDataSourceImpl implements FeedDataSource {
     await docRef.set(newFeed.toJson());
   }
 
+  // @override
+  // Future<void> deleteFeed(String feedId) async {
+  //   await firestore.collection('feeds').doc(feedId).delete();
+  //   await storage.ref().child('feeds').child(feedId).delete();
+  // }
   @override
   Future<void> deleteFeed(String feedId) async {
+    // 1. 삭제하기 전에 먼저 게시물 데이터를 가져옵니다 (이미지 URL을 알기 위해)
+    final feed = await fetchFeed(feedId);
+
+    if (feed != null) {
+      try {
+        // 2. 저장된 fileUrl을 사용하여 Storage에서 사진 삭제
+        await storage.refFromURL(feed.fileUrl).delete();
+      } catch (e) {
+        // 이미 파일이 없거나 삭제 중 오류가 나도 Firestore 문서는 지울 수 있게 처리
+        print('Storage 삭제 중 오류 발생: $e');
+      }
+    }
+
+    // 3. 마지막으로 Firestore 문서 삭제
     await firestore.collection('feeds').doc(feedId).delete();
   }
 

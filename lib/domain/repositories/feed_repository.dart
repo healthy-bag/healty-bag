@@ -17,4 +17,6 @@ abstract class FeedRepository {
   Future<void> updateFeed(FeedEntity feed);
 
   Stream<List<String>> fetchMyFeedUrls(String userId);
+
+  Stream<List<FeedEntity>> fetchMyFeeds(String userId);
 }
