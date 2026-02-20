@@ -11,26 +11,27 @@ part 'home_view_model.g.dart';
 class HomeViewModel extends _$HomeViewModel {
 
   @override
-  FutureOr<List<FeedEntity>> build() async {
+  Stream<List<FeedEntity>> build() {
     final feedRepository = ref.read(feedRepositoryProvider);
     final userRepository = ref.read(userRepositoryProvider); // 추가
-    final feeds = await feedRepository.fetchFeeds();
-    
-    // 각 피드에 대한 작성자 정보(닉네임, 프로필 이미지)를 실시간으로 가져와 병합
-    final updatedFeeds = await Future.wait(feeds.map((feed) async {
-      final userInfo = await userRepository.getUserInfo(feed.uid);
-      if (userInfo != null) {
-        return feed.copyWith(
-          authorId: userInfo.nickname,
-          authorimageUrl: userInfo.profileUrl ?? '',
-        );
-      }
-      return feed;
-    }));
 
-    // 가져온 데이터를 생성일자(createdAt) 기준 내림차순 정렬
-    updatedFeeds.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    return updatedFeeds;
+    return feedRepository.fetchFeedsStream().asyncMap((feeds) async {
+      // 각 피드에 대한 작성자 정보(닉네임, 프로필 이미지)를 실시간으로 가져와 병합
+      final updatedFeeds = await Future.wait(feeds.map((feed) async {
+        final userInfo = await userRepository.getUserInfo(feed.uid);
+        if (userInfo != null) {
+          return feed.copyWith(
+            authorId: userInfo.nickname,
+            authorimageUrl: userInfo.profileUrl ?? '',
+          );
+        }
+        return feed;
+      }));
+
+      // 가져온 데이터를 생성일자(createdAt) 기준 내림차순 정렬
+      updatedFeeds.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      return updatedFeeds;
+    });
   }
 
   // 좋아요 버튼을 눌렀을 때 호출

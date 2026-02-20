@@ -68,7 +68,30 @@ class FeedRepositoryImpl implements FeedRepository {
         )
         .toList();
   }
+  @override
+  Stream<List<FeedEntity>> fetchFeedsStream() {
+    return feedDataSource.fetchFeedsStream().map(
+          (dtoList) => dtoList
+              .map(
+                (dto) => FeedEntity(
+                  uid: dto.uid,
+                  feedId: dto.feedId,
+                  fileUrl: dto.fileUrl,
+                  content: dto.content,
+                  likeCount: dto.likeCount,
+                  commentCount: dto.commentCount,
+                  thumbnailUrl: dto.thumbnailUrl,
+                  tag: dto.tag,
+                  createdAt: dto.createdAt,
+                  authorId: dto.authorId,
+                  authorimageUrl: dto.authorimageUrl,
+                ),
+              )
+              .toList(),
+        );
+  }
 
+  // Stream<List<String>>: FeedEntity 리스트가 실시간으로 반환
   @override
   Future<void> updateFeed(FeedEntity feed) async {
     final feedDTO = FeedDTO(

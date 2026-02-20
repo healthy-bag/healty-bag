@@ -14,6 +14,9 @@ abstract class FeedDataSource {
   // 전체 피드 목록 가져오기 (필요시)
   Future<List<FeedDTO>> fetchFeeds();
 
+  // + 전체 피드 목록 스트림으로 가져오기 (실시간 업데이트)
+  Stream<List<FeedDTO>> fetchFeedsStream();
+
   // 피드 수정 (설명 수정 등)
   Future<void> updateFeed(FeedDTO feed);
 
