@@ -76,27 +76,28 @@ class FeedRepositoryImpl implements FeedRepository {
         )
         .toList();
   }
+
   @override
   Stream<List<FeedEntity>> fetchFeedsStream() {
     return feedDataSource.fetchFeedsStream().map(
-          (dtoList) => dtoList
-              .map(
-                (dto) => FeedEntity(
-                  uid: dto.uid,
-                  feedId: dto.feedId,
-                  fileUrl: dto.fileUrl,
-                  content: dto.content,
-                  likeCount: dto.likeCount,
-                  commentCount: dto.commentCount,
-                  thumbnailUrl: dto.thumbnailUrl,
-                  tag: dto.tag,
-                  createdAt: dto.createdAt,
-                  authorId: dto.authorId,
-                  authorimageUrl: dto.authorimageUrl,
-                ),
-              )
-              .toList(),
-        );
+      (dtoList) => dtoList
+          .map(
+            (dto) => FeedEntity(
+              uid: dto.uid,
+              feedId: dto.feedId,
+              fileUrl: dto.fileUrl,
+              content: dto.content,
+              likeCount: dto.likeCount,
+              commentCount: dto.commentCount,
+              thumbnailUrl: dto.thumbnailUrl,
+              tag: dto.tag,
+              createdAt: dto.createdAt,
+              authorId: dto.authorId,
+              authorimageUrl: dto.authorimageUrl,
+            ),
+          )
+          .toList(),
+    );
   }
 
   // Stream<List<String>>: FeedEntity 리스트가 실시간으로 반환
@@ -120,9 +121,28 @@ class FeedRepositoryImpl implements FeedRepository {
   }
 
   @override
-  Stream<List<String>> fetchMyFeedUrls(String userId) {
-    final feeds = feedDataSource.fetchMyFeeds(userId);
-    return feeds.map((list) => list.map((dto) => dto.fileUrl).toList());
+  Stream<List<FeedEntity>> fetchMyFeeds(String uid) {
+    return feedDataSource
+        .fetchMyFeeds(uid)
+        .map(
+          (dtoList) => dtoList
+              .map(
+                (dto) => FeedEntity(
+                  uid: dto.uid,
+                  feedId: dto.feedId,
+                  fileUrl: dto.fileUrl,
+                  content: dto.content,
+                  likeCount: dto.likeCount,
+                  commentCount: dto.commentCount,
+                  thumbnailUrl: dto.thumbnailUrl,
+                  tag: dto.tag,
+                  createdAt: dto.createdAt,
+                  authorId: dto.authorId,
+                  authorimageUrl: dto.authorimageUrl,
+                ),
+              )
+              .toList(),
+        );
   }
 
   @override

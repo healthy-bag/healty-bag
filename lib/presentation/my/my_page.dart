@@ -84,11 +84,8 @@ class MyPage extends ConsumerWidget {
             SizedBox(height: 32),
             Expanded(
               child: feedUrlsAsync.when(
-                data: (feeds) {
-                  return ProfilePostGrid(
-                    feedCount: user.feedCount,
-                    feeds: feeds,
-                  );
+                data: (feed) {
+                  return ProfilePostGrid(feeds: feed);
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) => Center(child: Text(error.toString())),
