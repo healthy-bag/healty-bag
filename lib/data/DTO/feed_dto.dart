@@ -9,6 +9,8 @@ class FeedDTO {
   final String tag;
   final String content;
   final String createdAt;
+  final String authorId;
+  final String authorimageUrl;
 
   FeedDTO({
     required this.uid,
@@ -20,6 +22,8 @@ class FeedDTO {
     required this.tag,
     required this.content,
     required this.createdAt,
+    this.authorId = '',
+    this.authorimageUrl = '',
   });
 
   factory FeedDTO.fromJson(Map<String, dynamic> json, String id) {
@@ -33,6 +37,8 @@ class FeedDTO {
       tag: json['tag'] as String,
       content: json['content'] as String? ?? '',
       createdAt: json['createdAt'] as String? ?? '',
+      authorId: json['authorId'] as String? ?? json['nickname'] as String? ?? '',
+      authorimageUrl: json['authorimageUrl'] as String? ?? json['profileUrl'] as String? ?? '',
     );
   }
 
@@ -47,6 +53,8 @@ class FeedDTO {
       'tag': tag,
       'content': content,
       'createdAt': createdAt,
+      'authorId': authorId,
+      'authorimageUrl': authorimageUrl,
     };
   }
 
@@ -60,6 +68,8 @@ class FeedDTO {
     String? tag,
     String? content,
     String? createdAt,
+    String? authorId,
+    String? authorimageUrl,
   }) {
     return FeedDTO(
       uid: uid ?? this.uid,
@@ -71,6 +81,8 @@ class FeedDTO {
       tag: tag ?? this.tag,
       content: content ?? this.content,
       createdAt: createdAt ?? this.createdAt,
+      authorId: authorId ?? this.authorId,
+      authorimageUrl: authorimageUrl ?? this.authorimageUrl,
     );
   }
 }
