@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
+import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/my/widgets/detail_dialog.dart';
 
-class ProfilePostGrid extends StatelessWidget {
+class ProfilePostGrid extends ConsumerWidget {
   const ProfilePostGrid({super.key, required this.feeds});
 
   final List<FeedEntity> feeds;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (feeds.isEmpty) {
       return const Center(child: Text('아직 등록된 게시물이 없습니다.'));
     }
@@ -27,17 +29,10 @@ class ProfilePostGrid extends StatelessWidget {
             context: context,
             builder: (context) => DetailDialog(feed: feeds[index]),
           ),
-          child: Image.network(
-            feeds[index].fileUrl,
           onLongPress: () {
             _showDeleteDialog(context, ref, feed.feedId);
           },
-          child: Image.network(
-            feed.fileUrl,
-            height: 100,
-            width: 100,
-            fit: BoxFit.cover,
-          ),
+          child: Image.network(feeds[index].fileUrl, width: 100, height: 100),
         );
       },
     );

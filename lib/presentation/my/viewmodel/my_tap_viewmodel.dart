@@ -17,18 +17,7 @@ class MyTapViewmodel extends _$MyTapViewmodel {
     if (userId == null) return;
 
     yield* ref.watch(feedRepositoryProvider).fetchMyFeeds(userId);
-  Stream<List<FeedEntity>> build() {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId == null) return Stream.value([]);
-    return ref.watch(feedRepositoryProvider).fetchMyFeeds(userId);
   }
-  // Stream<List<String>> build() {
-  //   final userId = FirebaseAuth.instance.currentUser?.uid;
-
-  //   if (userId == null) return Stream.value([]);
-
-  //   return ref.watch(feedRepositoryProvider).fetchMyFeedUrls(userId);
-  // }
 
   Future<void> deleteFeed(String feedId) async {
     final user = ref.read(globalUserViewModelProvider);
