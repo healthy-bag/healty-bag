@@ -9,4 +9,7 @@ abstract class UserRepository {
   Future<bool> checkNickname(String nickname);
   Future<SaveImageResult> uploadProfileImage(File file);
   Future<void> addfeedCount(String uid);
+  Stream<List<String>> fetchBlockedUsers(String uid);
+  Future<void> blockUser(String uid, String blockedId);
+  Future<void> unblockUser(String uid, String blockedId);
 }
