@@ -18,8 +18,6 @@ class PeoplePage extends ConsumerWidget {
     final feedsAsync = ref.watch(peopleFeedsProvider(uid));
 
     // 현재 로그인한 사용자 정보가져오기 (본인인지 확인용)
-    final currentUser = ref.watch(globalUserViewModelProvider);
-    final isMe = currentUser?.uid == uid;
 
     return Scaffold(
       // 유저 정보 상태에 따라 앱바 타이틀을 변경합니다.
@@ -99,8 +97,7 @@ class PeoplePage extends ConsumerWidget {
                 // 4. 피드 그리드 영역 (StreamProvider 구독)
                 Expanded(
                   child: feedsAsync.when(
-                    data: (feeds) =>
-                        ProfilePostGrid(feeds: feeds, isMyprofile: isMe),
+                    data: (feeds) => ProfilePostGrid(feeds: feeds),
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
                     error: (error, stack) =>
