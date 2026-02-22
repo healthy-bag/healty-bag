@@ -9,6 +9,7 @@ class CommentEntity {
   final bool isLiked;
   final int likeCount;
   final String? parentId; // + 답글 기능을 위한 부모 댓글 ID
+  final bool isDeleted; // + 소프트 딜리트 상태
 
   CommentEntity({
     this.commentId = '',
@@ -21,6 +22,7 @@ class CommentEntity {
     this.isLiked = false,
     this.likeCount = 0,
     this.parentId,
+    this.isDeleted = false,
   });
 
   CommentEntity copyWith({
@@ -34,6 +36,7 @@ class CommentEntity {
     bool? isLiked,
     int? likeCount,
     String? parentId,
+    bool? isDeleted,
   }) {
     return CommentEntity(
       commentId: commentId ?? this.commentId,
@@ -46,6 +49,7 @@ class CommentEntity {
       isLiked: isLiked ?? this.isLiked,
       likeCount: likeCount ?? this.likeCount,
       parentId: parentId ?? this.parentId,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 }

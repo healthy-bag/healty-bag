@@ -44,6 +44,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
   @override
   Widget build(BuildContext context) {
     final isAuthor = _currentUid == widget.comment.uid;
+    final isDeleted = widget.comment.isDeleted;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -59,10 +60,10 @@ class _CommentItemState extends ConsumerState<CommentItem> {
           CircleAvatar(
             radius: widget.isReply ? 14 : 18,
             backgroundColor: Colors.grey[300],
-            backgroundImage: widget.comment.authorImageUrl.isNotEmpty
+            backgroundImage: !isDeleted && widget.comment.authorImageUrl.isNotEmpty
                 ? NetworkImage(widget.comment.authorImageUrl)
                 : null,
-            child: widget.comment.authorImageUrl.isEmpty
+            child: isDeleted || widget.comment.authorImageUrl.isEmpty
                 ? Icon(Icons.person, color: Colors.white, size: widget.isReply ? 16 : 20)
                 : null,
           ),
@@ -75,8 +76,12 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                 Row(
                   children: [
                     Text(
-                      widget.comment.nickname,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      isDeleted ? '(정보 없음)' : widget.comment.nickname,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        color: isDeleted ? Colors.grey[400] : Colors.black,
+                      ),
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -87,77 +92,84 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  widget.comment.content,
-                  style: const TextStyle(fontSize: 14),
+                  isDeleted ? '삭제된 댓글입니다.' : widget.comment.content,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isDeleted ? Colors.grey[500] : Colors.black,
+                    fontStyle: isDeleted ? FontStyle.italic : null,
+                  ),
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        ref
-                            .read(commentViewModelProvider.notifier)
-                            .setReplyTarget(widget.comment);
-                      },
-                      child: Text(
-                        '답글 달기',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    if (isAuthor) ...[
-                      const SizedBox(width: 16),
+                if (!isDeleted) ...[
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
                       GestureDetector(
                         onTap: () {
                           ref
                               .read(commentViewModelProvider.notifier)
-                              .setEditTarget(widget.comment);
+                              .setReplyTarget(widget.comment);
                         },
                         child: Text(
-                          '수정',
-                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                          '답글 달기',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
-                      const SizedBox(width: 12),
-                      GestureDetector(
-                        onTap: () => _showDeleteDialog(context),
-                        child: Text(
-                          '삭제',
-                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                      if (isAuthor) ...[
+                        const SizedBox(width: 16),
+                        GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(commentViewModelProvider.notifier)
+                                .setEditTarget(widget.comment);
+                          },
+                          child: Text(
+                            '수정',
+                            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                          ),
                         ),
-                      ),
+                        const SizedBox(width: 12),
+                        GestureDetector(
+                          onTap: () => _showDeleteDialog(context),
+                          child: Text(
+                            '삭제',
+                            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
-                ),
+                  ),
+                ],
               ],
             ),
           ),
           // 좋아요 영역
-          Column(
-            children: [
-              IconButton(
-                constraints: const BoxConstraints(),
-                padding: EdgeInsets.zero,
-                icon: Icon(
-                  _isLiked ? Icons.favorite : Icons.favorite_border,
-                  color: _isLiked ? Colors.pinkAccent : Colors.grey,
-                  size: 18,
+          if (!isDeleted)
+            Column(
+              children: [
+                IconButton(
+                  constraints: const BoxConstraints(),
+                  padding: EdgeInsets.zero,
+                  icon: Icon(
+                    _isLiked ? Icons.favorite : Icons.favorite_border,
+                    color: _isLiked ? Colors.pinkAccent : Colors.grey,
+                    size: 18,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isLiked = !_isLiked;
+                      _isLiked ? _likeCount++ : _likeCount--;
+                    });
+                  },
                 ),
-                onPressed: () {
-                  setState(() {
-                    _isLiked = !_isLiked;
-                    _isLiked ? _likeCount++ : _likeCount--;
-                  });
-                },
-              ),
-              Text(
-                '$_likeCount',
-                style: TextStyle(fontSize: 11, color: Colors.grey[600]),
-              )
-            ],
-          )
+                Text(
+                  '$_likeCount',
+                  style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                )
+              ],
+            )
         ],
       ),
     );
