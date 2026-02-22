@@ -49,7 +49,13 @@ class PeoplePage extends ConsumerWidget {
                     ProfileImage(profileUrl: user.profileUrl),
                     const Padding(padding: EdgeInsets.only(left: 16.0)),
                     const Spacer(),
-                    ProfileStat(label: '게시물', value: user.feedCount.toString()),
+                    ProfileStat(
+                      label: '게시물',
+                      value: feedsAsync.maybeWhen(
+                        data: (feeds) => feeds.length.toString(),
+                        orElse: () => user.feedCount.toString(),
+                      ),
+                    ),
                     const Spacer(),
                     ProfileStat(
                       label: '팔로워',
