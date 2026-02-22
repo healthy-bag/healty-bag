@@ -107,11 +107,10 @@ class FeedDataSourceImpl implements FeedDataSource {
           // (실시간) 스트림으로 데이터 변경을 실시간으로 받음
           .snapshots();
 
-      // yield* : 스트림을 반환하는 함수
-      // 생성된 데이터 흐름(Stream)을 외부로 전달
       return snapshot.map(
-        (snapshot) =>
-            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList(),
+        (snapshot) => snapshot.docs
+            .map((doc) => FeedDTO.fromJson(doc.data()))
+            .toList(),
       );
     } catch (e) {
       rethrow;

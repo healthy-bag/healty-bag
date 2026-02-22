@@ -24,7 +24,10 @@ class GlobalUserViewModel extends _$GlobalUserViewModel {
     if (state == null) return;
     await ref.read(userRepositoryProvider).addfeedCount(state!.uid);
     setUserById(state!.uid);
-    // state = state!.copyWith(feedCount: state!.feedCount + 1);
-    // await ref.read(userRepositoryProvider).addfeedCount(state!.uid);
+  }
+
+  Stream<List<String>> fetchBlockedUsers() {
+    if (state == null) return Stream.value([]);
+    return ref.read(userRepositoryProvider).fetchBlockedUsers(state!.uid);
   }
 }

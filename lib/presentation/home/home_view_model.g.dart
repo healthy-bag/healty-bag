@@ -33,7 +33,7 @@ final class HomeViewModelProvider
   HomeViewModel create() => HomeViewModel();
 }
 
-String _$homeViewModelHash() => r'd28ee88d619429b1bee98b8ad1bd2ec3a26c34e8';
+String _$homeViewModelHash() => r'e7c30278922c67af13241c9b8fab491ed4bbe2f8';
 
 abstract class _$HomeViewModel extends $StreamNotifier<List<FeedEntity>> {
   Stream<List<FeedEntity>> build();

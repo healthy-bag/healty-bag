@@ -81,12 +81,43 @@ class FirebaseUserDataSourceImpl implements UserDataSource {
     }
   }
 
-  // Future<void> addfeedCount(String uid) async {
-  //   try {
-  //     final docRef = firestore.collection('users').doc(uid);
-  //     await docRef.update({'feedCount': FieldValue.increment(1)});
-  //   } on FirebaseException {
-  //     rethrow;
-  //   }
-  // }
+  @override
+  Stream<List<String>> fetchBlockedUsers(String uid) {
+    try {
+      final snapshot = firestore
+          .collection('blocks')
+          .where('blockerId', isEqualTo: uid)
+          .snapshots()
+          .map(
+            (snapshot) => snapshot.docs
+                .map((doc) => doc.data()['blockedId'] as String)
+                .toList(),
+          );
+      return snapshot;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> blockUser(String uid, String blockedId) async {
+    try {
+      await firestore.collection('blocks').doc('${uid}_$blockedId').set({
+        'blockerId': uid,
+        'blockedId': blockedId,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> unblockUser(String uid, String blockedId) async {
+    try {
+      await firestore.collection('blocks').doc('${uid}_$blockedId').delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
