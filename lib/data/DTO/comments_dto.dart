@@ -9,6 +9,7 @@ class CommentsDTO {
   final String createdAt;
   final String authorImageUrl;
   final String? parentId; // + 답글 기능을 위한 부모 댓글 ID
+  final bool isDeleted; // + 소프트 딜리트 상태
 
   CommentsDTO({
     required this.id,
@@ -19,6 +20,7 @@ class CommentsDTO {
     required this.createdAt,
     required this.authorImageUrl,
     this.parentId,
+    this.isDeleted = false,
   });
 
   factory CommentsDTO.fromJson(Map<String, dynamic> json) {
@@ -31,6 +33,7 @@ class CommentsDTO {
       createdAt: json['createdAt'] as String? ?? '',
       authorImageUrl: json['authorImageUrl'] as String? ?? '',
       parentId: json['parentId'] as String?,
+      isDeleted: json['isDeleted'] as bool? ?? false,
     );
   }
 
@@ -44,6 +47,7 @@ class CommentsDTO {
       'createdAt': createdAt,
       'authorImageUrl': authorImageUrl,
       'parentId': parentId,
+      'isDeleted': isDeleted,
     };
   }
 
@@ -59,6 +63,7 @@ class CommentsDTO {
       isLiked: false, // 기본값
       likeCount: 0, // 기본값
       parentId: parentId,
+      isDeleted: isDeleted,
     );
   }
 
@@ -72,6 +77,7 @@ class CommentsDTO {
       createdAt: entity.timeAgo.toIso8601String(),
       authorImageUrl: entity.authorImageUrl,
       parentId: entity.parentId,
+      isDeleted: entity.isDeleted,
     );
   }
 }

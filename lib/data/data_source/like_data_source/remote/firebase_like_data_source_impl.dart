@@ -8,12 +8,9 @@ class FirebaseLikeDataSourceImpl implements LikeDataSource {
   @override
   Future<bool> fetchMyLike(LikesDto likesDto) async {
     try {
-      final snapshot = await _firestore
-          .collection('likes')
-          .where('uid', isEqualTo: likesDto.uid)
-          .where('feedId', isEqualTo: likesDto.feedId)
-          .get();
-      return snapshot.docs.isNotEmpty;
+      final String likeId = '${likesDto.uid}_${likesDto.feedId}';
+      final doc = await _firestore.collection('likes').doc(likeId).get();
+      return doc.exists;
     } on FirebaseException {
       rethrow;
     }
@@ -22,15 +19,33 @@ class FirebaseLikeDataSourceImpl implements LikeDataSource {
   @override
   Future<void> toggleLike(LikesDto likesDto) async {
     try {
-      final snapshot = await _firestore
-          .collection('likes')
-          .doc(likesDto.id)
-          .get();
-      if (snapshot.exists) {
-        await _firestore.collection('likes').doc(snapshot.id).delete();
-      } else {
-        await _firestore.collection('likes').add(likesDto.toJson());
-      }
+      // 좋아요 추가/삭제 로직
+      final String likeId = '${likesDto.uid}_${likesDto.feedId}';
+      final likeRef = _firestore.collection('likes').doc(likeId);
+      final feedRef = _firestore.collection('feeds').doc(likesDto.feedId);
+
+      await _firestore.runTransaction((transaction) async {
+        final likeSnapshot = await transaction.get(likeRef);
+        final feedSnapshot = await transaction.get(feedRef);
+
+        if (likeSnapshot.exists) {
+          // 이미 좋아요를 누른 경우: 좋아요 삭제 및 카운트 감소
+          transaction.delete(likeRef);
+          if (feedSnapshot.exists) {
+            transaction.update(feedRef, {
+              'likeCount': FieldValue.increment(-1),
+            });
+          }
+        } else {
+          // 좋아요를 누르지 않은 경우: 좋아요 추가 및 카운트 증가
+          transaction.set(likeRef, likesDto.toJson());
+          if (feedSnapshot.exists) {
+            transaction.update(feedRef, {
+              'likeCount': FieldValue.increment(1),
+            });
+          }
+        }
+      });
     } on FirebaseException {
       rethrow;
     }
