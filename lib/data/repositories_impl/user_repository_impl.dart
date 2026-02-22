@@ -60,4 +60,19 @@ class UserRepositoryImpl implements UserRepository {
   Future<void> addfeedCount(String uid) async {
     await _userDataSource.addfeedCount(uid);
   }
+
+  @override
+  Stream<List<String>> fetchBlockedUsers(String uid) {
+    return _userDataSource.fetchBlockedUsers(uid);
+  }
+
+  @override
+  Future<void> blockUser(String uid, String blockedId) async {
+    await _userDataSource.blockUser(uid, blockedId);
+  }
+
+  @override
+  Future<void> unblockUser(String uid, String blockedId) async {
+    await _userDataSource.unblockUser(uid, blockedId);
+  }
 }
