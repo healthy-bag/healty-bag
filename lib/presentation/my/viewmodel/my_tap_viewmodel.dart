@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthy_bag/core/di/repository_di/feed_repository_di.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
 import 'package:healthy_bag/core/di/repository_di/user_repository_di.dart';
-import 'package:healthy_bag/domain/entities/feed_entity.dart';
 import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

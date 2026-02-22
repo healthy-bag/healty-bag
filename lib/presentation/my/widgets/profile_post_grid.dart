@@ -32,7 +32,12 @@ class ProfilePostGrid extends ConsumerWidget {
           onLongPress: () {
             _showDeleteDialog(context, ref, feed.feedId);
           },
-          child: Image.network(feeds[index].fileUrl, width: 100, height: 100),
+          child: Image.network(
+            feed.fileUrl,
+            height: 100,
+            width: 100,
+            fit: BoxFit.cover,
+          ),
         );
       },
     );
