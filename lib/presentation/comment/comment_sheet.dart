@@ -42,6 +42,16 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
         _controller.selection = TextSelection.fromPosition(
           TextPosition(offset: _controller.text.length),
         );
+      } else if (next == null && prev != null) {
+        // 수정 취소 시 입력창 초기화 (필요한 경우)
+        _controller.clear();
+      }
+    });
+
+    // 답글 모드 진입 시 텍스트 필드 초기화
+    ref.listen(commentViewModelProvider.select((s) => s.parentComment), (prev, next) {
+      if (next != null && prev?.commentId != next.commentId) {
+        _controller.clear();
       }
     });
 
@@ -87,14 +97,21 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                       }
                       
                       // +댓글 트리 구조 생성 (부모 댓글 아래에 자식 댓글 배치)
-                      final parentComments = comments.where((c) => c.parentId == null).toList();
-                      final childComments = comments.where((c) => c.parentId != null).toList();
+                      // parentId가 null이거나 빈 문자열이면 부모 댓글로 간주
+                      final parentComments = comments.where((c) => c.parentId == null || c.parentId!.isEmpty).toList();
+                      final childComments = comments.where((c) => c.parentId != null && c.parentId!.isNotEmpty).toList();
                       
                       final List<CommentEntity> sortedComments = [];
                       for (var parent in parentComments) {
                         sortedComments.add(parent);
+                        // 해당 부모의 자식들만 필터링하여 바로 뒤에 추가
                         sortedComments.addAll(childComments.where((c) => c.parentId == parent.commentId));
                       }
+                      
+                      // 혹시 기존 댓글이 삭제되기 전 답글을 달았는데, 기존 댓글을 삭제하더라도 답글은 남아있을 수 있도록 설정
+                      final addedIds = sortedComments.map((c) => c.commentId).toSet();
+                      final orphanComments = comments.where((c) => !addedIds.contains(c.commentId)).toList();
+                      sortedComments.addAll(orphanComments);
 
                       return ListView.builder(
                         controller: scrollController,
@@ -198,27 +215,34 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      // 전송 버튼 : 입력 내용이 없으면 비활성화
+                      // 전송 버튼 : 입력 내용이 없거나 제출 중이면 비활성화
                       IconButton(
-                        icon: Icon(
-                          commentViewModel.editingComment != null ? Icons.check_circle : Icons.send_rounded,
-                          color: commentViewModel.content.trim().isEmpty
-                              ? Colors.grey[400]
-                              : Colors.pinkAccent,
-                        ),
-                        onPressed: commentViewModel.content.trim().isEmpty
+                        icon: commentViewModel.isLoading
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.pinkAccent),
+                                ),
+                              )
+                            : Icon(
+                                commentViewModel.editingComment != null
+                                    ? Icons.check_circle
+                                    : Icons.send_rounded,
+                                color: commentViewModel.content.trim().isEmpty
+                                    ? Colors.grey[400]
+                                    : Colors.pinkAccent,
+                              ),
+                        onPressed: commentViewModel.content.trim().isEmpty || commentViewModel.isLoading
                             ? null
                             : () async {
-                                final isEditing = commentViewModel.editingComment != null;
                                 await ref
                                     .read(commentViewModelProvider.notifier)
                                     .submitComment(widget.feedId);
-                                _controller.clear();
-                                if (mounted && !isEditing) {
+                                if (mounted) {
+                                  _controller.clear();
                                   FocusScope.of(context).unfocus();
-                                }
-                                if (mounted && isEditing) {
-                                   FocusScope.of(context).unfocus();
                                 }
                               },
                       ),

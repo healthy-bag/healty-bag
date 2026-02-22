@@ -42,8 +42,12 @@ class CommentViewModel extends _$CommentViewModel {
   }
 
   Future<void> submitComment(String feedId) async {
+    if (state.isLoading) return;
+
     final commentText = state.content.trim();
     if (commentText.isEmpty) return;
+
+    state = state.copyWith(isLoading: true);
 
     try {
       final authRepository = ref.read(authRepositoryProvider);
@@ -51,7 +55,10 @@ class CommentViewModel extends _$CommentViewModel {
       final commentRepository = ref.read(commentRepositoryProvider);
 
       final uid = await authRepository.getCurrentUid();
-      if (uid == null) return;
+      if (uid == null) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
 
       // 수정 모드인 경우
       if (state.editingComment != null) {
@@ -65,7 +72,10 @@ class CommentViewModel extends _$CommentViewModel {
 
       // 새 댓글 또는 답글 작성
       final userInfo = await userRepository.getUserInfo(uid);
-      if (userInfo == null) return;
+      if (userInfo == null) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
 
       final newComment = CommentEntity(
         feedId: feedId,
@@ -80,32 +90,48 @@ class CommentViewModel extends _$CommentViewModel {
       await commentRepository.addComment(newComment);
       state = const CommentState(); // 전송 후 초기화
     } catch (e) {
+      state = state.copyWith(isLoading: false);
       rethrow;
     }
   }
 }
 
 // + 답글 기능 구현을 위한 댓글 상태 클래스
+// ++ isLoading 추가
 class CommentState {
   final String content;
   final CommentEntity? parentComment;
   final CommentEntity? editingComment;
+  final bool isLoading;
 
   const CommentState({
     this.content = '',
     this.parentComment,
     this.editingComment,
+    this.isLoading = false,
   });
 
   CommentState copyWith({
     String? content,
-    CommentEntity? parentComment,
-    CommentEntity? editingComment,
+    Object? parentComment = _sentinel,
+    Object? editingComment = _sentinel,
+    bool? isLoading,
   }) {
     return CommentState(
       content: content ?? this.content,
-      parentComment: parentComment, // null을 명시적으로 넘길 수 있어야 하므로 ?? 처리를 하지 않음 (setter 방식 고려)
-      editingComment: editingComment,
+      parentComment: parentComment == _sentinel
+          ? this.parentComment
+          : (parentComment as CommentEntity?),
+      editingComment: editingComment == _sentinel
+          ? this.editingComment
+          : (editingComment as CommentEntity?),
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }
+
+class _Sentinel {
+  const _Sentinel();
+}
+
+const _sentinel = _Sentinel();

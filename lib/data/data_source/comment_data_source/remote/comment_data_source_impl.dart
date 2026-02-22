@@ -12,13 +12,15 @@ class CommentDataSourceImpl implements CommentDataSource {
         .where('feedId', isEqualTo: feedId)
         .snapshots()
         .map((snapshot) {
-          final comments = snapshot.docs
-              .map((doc) => CommentsDTO.fromJson(doc.data()))
-              .toList();
-          // 인 메모리 정렬 (인덱스 에러 방지용)
-          comments.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-          return comments;
-        });
+      final comments = snapshot.docs.map((doc) {
+        final data = doc.data();
+        data['id'] = doc.id; // 문서 ID를 데이터 내 id 필드로 보장
+        return CommentsDTO.fromJson(data);
+      }).toList();
+      // 인 메모리 정렬 (인덱스 에러 방지용)
+      comments.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+      return comments;
+    });
   }
 
   @override
