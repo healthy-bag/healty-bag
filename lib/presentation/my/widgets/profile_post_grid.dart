@@ -5,9 +5,14 @@ import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/my/widgets/detail_dialog.dart';
 
 class ProfilePostGrid extends ConsumerWidget {
-  const ProfilePostGrid({super.key, required this.feeds});
+  const ProfilePostGrid({
+    super.key,
+    required this.feeds,
+    required this.isMyprofile,
+  });
 
   final List<FeedEntity> feeds;
+  final bool isMyprofile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,9 +35,16 @@ class ProfilePostGrid extends ConsumerWidget {
             builder: (context) => DetailDialog(feed: feeds[index]),
           ),
           onLongPress: () {
-            _showDeleteDialog(context, ref, feed.feedId);
+            if (isMyprofile) {
+              _showDeleteDialog(context, ref, feed.feedId);
+            }
           },
-          child: Image.network(feeds[index].fileUrl, width: 100, height: 100),
+          child: Image.network(
+            feed.fileUrl,
+            height: 100,
+            width: 100,
+            fit: BoxFit.cover,
+          ),
         );
       },
     );

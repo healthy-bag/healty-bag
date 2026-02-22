@@ -22,22 +22,6 @@ class MyPage extends ConsumerWidget {
           user!.nickname,
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
-        actions: [
-          PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert, size: 25, color: Colors.black),
-            onSelected: (value) {},
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'delete',
-                child: Center(child: Text('삭제하기')),
-              ),
-              const PopupMenuItem<String>(
-                value: 'edit',
-                child: Center(child: Text('수정하기')),
-              ),
-            ],
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -85,7 +69,7 @@ class MyPage extends ConsumerWidget {
             Expanded(
               child: feedUrlsAsync.when(
                 data: (feed) {
-                  return ProfilePostGrid(feeds: feed);
+                  return ProfilePostGrid(feeds: feed, isMyprofile: true);
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) => Center(child: Text(error.toString())),
