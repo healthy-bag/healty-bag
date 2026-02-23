@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/core/theme/tokens/app_colors.dart';
 import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
+import 'package:healthy_bag/presentation/my/widgets/button.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_image.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_post_grid.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_stat.dart';
@@ -43,28 +44,7 @@ class MyPage extends ConsumerWidget {
                 Spacer(),
               ],
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                height: 36,
-                width: 220,
-                margin: const EdgeInsets.only(right: 16.0),
-                decoration: BoxDecoration(
-                  color: AppColors.lightPrimary,
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                child: Center(
-                  child: Text(
-                    '',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            Button(),
             SizedBox(height: 32),
             Expanded(
               child: feedUrlsAsync.when(

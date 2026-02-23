@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/core/theme/tokens/app_colors.dart';
+import 'package:healthy_bag/presentation/my/widgets/button.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_image.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_post_grid.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_stat.dart';
@@ -69,28 +70,7 @@ class PeoplePage extends ConsumerWidget {
                 ),
 
                 // 3. 팔로우 버튼 (마이페이지의 빈 공간을 활용)
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    height: 36,
-                    width: 220,
-                    margin: const EdgeInsets.only(right: 16.0),
-                    decoration: BoxDecoration(
-                      color: AppColors.lightPrimary,
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        '팔로우',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                Button(),
 
                 const SizedBox(height: 32),
 

@@ -47,6 +47,7 @@ class DetailDialog extends ConsumerWidget {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
+                                const SizedBox(height: 20),
                                 ListTile(
                                   leading: const Icon(Icons.edit),
                                   title: const Text('수정하기'),
