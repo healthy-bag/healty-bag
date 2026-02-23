@@ -26,7 +26,7 @@ class ProfilePostGrid extends ConsumerWidget {
         return GestureDetector(
           onTap: () => showDialog(
             context: context,
-            builder: (context) => DetailDialog(feed: feeds[index]),
+            builder: (context) => DetailDialog(feed: feed),
           ),
 
           child: Image.network(

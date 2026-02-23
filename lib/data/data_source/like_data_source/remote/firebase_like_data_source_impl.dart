@@ -40,12 +40,29 @@ class FirebaseLikeDataSourceImpl implements LikeDataSource {
           // 좋아요를 누르지 않은 경우: 좋아요 추가 및 카운트 증가
           transaction.set(likeRef, likesDto.toJson());
           if (feedSnapshot.exists) {
-            transaction.update(feedRef, {
-              'likeCount': FieldValue.increment(1),
-            });
+            transaction.update(feedRef, {'likeCount': FieldValue.increment(1)});
           }
         }
       });
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  @override
+  Stream<List<String>> fetchMyLikes(String uid) {
+    try {
+      final snapshot = _firestore
+          .collection("likes")
+          .where('uid', isEqualTo: uid)
+          .snapshots()
+          .map(
+            (snapshot) => snapshot.docs
+                .map((doc) => doc.data()['feedId'] as String)
+                .toList(),
+          );
+
+      return snapshot;
     } on FirebaseException {
       rethrow;
     }
