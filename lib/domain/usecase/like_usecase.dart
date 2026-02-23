@@ -1,5 +1,4 @@
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
-import 'package:healthy_bag/domain/entities/like_entity.dart';
 import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/models/like_result.dart';
 import 'package:healthy_bag/domain/repositories/like_repository.dart';
