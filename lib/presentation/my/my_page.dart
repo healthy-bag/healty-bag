@@ -60,6 +60,7 @@ class MyPage extends ConsumerWidget {
           children: [
             Row(
               children: [
+                SizedBox(width: 12),
                 ProfileImage(profileUrl: user.profileUrl),
                 Padding(padding: const EdgeInsets.only(left: 16.0)),
                 Spacer(),
