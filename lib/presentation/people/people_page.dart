@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_bag/core/theme/tokens/app_colors.dart';
-import 'package:healthy_bag/presentation/my/widgets/button.dart';
+import 'package:healthy_bag/presentation/widgets/button.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_image.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_post_grid.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_stat.dart';
 import 'package:healthy_bag/presentation/people/viewmodel/people_view_model.dart';
-import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 
 class PeoplePage extends ConsumerWidget {
   final String uid;
@@ -70,7 +68,7 @@ class PeoplePage extends ConsumerWidget {
                 ),
 
                 // 3. 팔로우 버튼 (마이페이지의 빈 공간을 활용)
-                Button(),
+                Button(targetUid: user.uid),
 
                 const SizedBox(height: 32),
 
