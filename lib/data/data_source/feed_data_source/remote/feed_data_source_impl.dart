@@ -50,7 +50,6 @@ class FeedDataSourceImpl implements FeedDataSource {
         await storage.refFromURL(feed.fileUrl).delete();
       } catch (e) {
         // 이미 파일이 없거나 삭제 중 오류가 나도 Firestore 문서는 지울 수 있게 처리
-        print('Storage 삭제 중 오류 발생: $e');
       }
     }
 
@@ -108,9 +107,8 @@ class FeedDataSourceImpl implements FeedDataSource {
           .snapshots();
 
       return snapshot.map(
-        (snapshot) => snapshot.docs
-            .map((doc) => FeedDTO.fromJson(doc.data()))
-            .toList(),
+        (snapshot) =>
+            snapshot.docs.map((doc) => FeedDTO.fromJson(doc.data())).toList(),
       );
     } catch (e) {
       rethrow;
