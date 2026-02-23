@@ -74,4 +74,25 @@ class UserRepositoryImpl implements UserRepository {
   Future<void> unblockUser(String uid, String blockedId) async {
     await _userDataSource.unblockUser(uid, blockedId);
   }
+
+  @override
+  Future<void> updateUserData(UserEntity user, {File? imageFile}) async {
+    String? newProfileUrl;
+    if (imageFile != null) {
+      newProfileUrl = await _userDataSource.uploadProfileImage(imageFile);
+    }
+
+    final updateData = {
+      'nickname': user.nickname,
+      if (newProfileUrl != null) 'profileUrl': newProfileUrl,
+    };
+    await _userDataSource.updateUserData(user.uid, updateData);
+    if (imageFile != null && user.profileUrl != null) {
+      try {
+        await _userDataSource.delete(user.profileUrl!);
+      } catch (e) {
+        rethrow;
+      }
+    }
+  }
 }

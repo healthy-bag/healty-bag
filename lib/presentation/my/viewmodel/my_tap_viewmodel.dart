@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthy_bag/core/di/repository_di/feed_repository_di.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
@@ -25,5 +27,9 @@ class MyTapViewmodel extends _$MyTapViewmodel {
     await ref.read(userRepositoryProvider).addfeedCount(user!.uid);
     // ui 업데이트를 위해 유저 정보도 다시 불러오기
     ref.read(globalUserViewModelProvider.notifier).setUserById(user.uid);
+  }
+
+  Future<void> updateFeed(FeedEntity feed, File? imageFile) async {
+    await ref.read(feedRepositoryProvider).updateFeed(feed, imageFile);
   }
 }

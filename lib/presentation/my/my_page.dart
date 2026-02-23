@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:healthy_bag/core/theme/tokens/app_colors.dart';
 import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
+import 'package:healthy_bag/presentation/widgets/button.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_image.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_post_grid.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_stat.dart';
@@ -74,33 +73,12 @@ class MyPage extends ConsumerWidget {
                 Spacer(),
               ],
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                height: 36,
-                width: 220,
-                margin: const EdgeInsets.only(right: 16.0),
-                decoration: BoxDecoration(
-                  color: AppColors.lightPrimary,
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                child: Center(
-                  child: Text(
-                    '',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            Button(targetUid: user.uid),
             SizedBox(height: 32),
             Expanded(
               child: feedUrlsAsync.when(
                 data: (feed) {
-                  return ProfilePostGrid(feeds: feed, isMyprofile: true);
+                  return ProfilePostGrid(feeds: feed);
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) => Center(child: Text(error.toString())),

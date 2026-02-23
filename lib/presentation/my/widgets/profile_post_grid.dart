@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
-import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/my/widgets/detail_dialog.dart';
 
 class ProfilePostGrid extends ConsumerWidget {
-  const ProfilePostGrid({
-    super.key,
-    required this.feeds,
-    required this.isMyprofile,
-  });
+  const ProfilePostGrid({super.key, required this.feeds});
 
   final List<FeedEntity> feeds;
-  final bool isMyprofile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,11 +28,7 @@ class ProfilePostGrid extends ConsumerWidget {
             context: context,
             builder: (context) => DetailDialog(feed: feed),
           ),
-          onLongPress: () {
-            if (isMyprofile) {
-              _showDeleteDialog(context, ref, feed.feedId);
-            }
-          },
+
           child: Image.network(
             feed.fileUrl,
             height: 100,
@@ -47,31 +37,6 @@ class ProfilePostGrid extends ConsumerWidget {
           ),
         );
       },
-    );
-  }
-
-  void _showDeleteDialog(BuildContext context, WidgetRef ref, String feedId) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('게시물 삭제'),
-        content: const Text('이 게시물을 정말로 삭제하시겠습니까?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('취소'),
-          ),
-          TextButton(
-            onPressed: () {
-              ref.read(myTapViewmodelProvider.notifier).deleteFeed(feedId);
-              Navigator.pop(context);
-            },
-            child: const Text('삭제'),
-          ),
-        ],
-      ),
     );
   }
 }

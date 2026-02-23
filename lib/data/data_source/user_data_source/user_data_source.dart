@@ -11,4 +11,6 @@ abstract class UserDataSource {
   Stream<List<String>> fetchBlockedUsers(String uid);
   Future<void> blockUser(String uid, String blockedId);
   Future<void> unblockUser(String uid, String blockedId);
+  Future<void> updateUserData(String uid, Map<String, dynamic> data);
+  Future<void> delete(String imageUrl);
 }

@@ -12,4 +12,5 @@ abstract class UserRepository {
   Stream<List<String>> fetchBlockedUsers(String uid);
   Future<void> blockUser(String uid, String blockedId);
   Future<void> unblockUser(String uid, String blockedId);
+  Future<void> updateUserData(UserEntity user, {File? imageFile});
 }

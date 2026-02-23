@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthy_bag/core/theme/tokens/app_colors.dart';
+import 'package:healthy_bag/presentation/widgets/button.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_image.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_post_grid.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_stat.dart';
 import 'package:healthy_bag/presentation/people/viewmodel/people_view_model.dart';
-import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 
 class PeoplePage extends ConsumerWidget {
   final String uid;
@@ -18,8 +17,6 @@ class PeoplePage extends ConsumerWidget {
     final feedsAsync = ref.watch(peopleFeedsProvider(uid));
 
     // 현재 로그인한 사용자 정보가져오기 (본인인지 확인용)
-    final currentUser = ref.watch(globalUserViewModelProvider);
-    final isMe = currentUser?.uid == uid;
 
     return Scaffold(
       // 유저 정보 상태에 따라 앱바 타이틀을 변경합니다.
@@ -71,36 +68,14 @@ class PeoplePage extends ConsumerWidget {
                 ),
 
                 // 3. 팔로우 버튼 (마이페이지의 빈 공간을 활용)
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    height: 36,
-                    width: 220,
-                    margin: const EdgeInsets.only(right: 16.0),
-                    decoration: BoxDecoration(
-                      color: AppColors.lightPrimary,
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        '팔로우',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                Button(targetUid: user.uid),
 
                 const SizedBox(height: 32),
 
                 // 4. 피드 그리드 영역 (StreamProvider 구독)
                 Expanded(
                   child: feedsAsync.when(
-                    data: (feeds) =>
-                        ProfilePostGrid(feeds: feeds, isMyprofile: isMe),
+                    data: (feeds) => ProfilePostGrid(feeds: feeds),
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
                     error: (error, stack) =>
