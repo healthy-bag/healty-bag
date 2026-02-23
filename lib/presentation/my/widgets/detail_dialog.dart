@@ -48,61 +48,73 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final feedAsync = ref.watch(myTapViewmodelProvider);
+    final currentFeed = feedAsync.when(
+      data: (feeds) {
+        return feeds.firstWhere((feed) => feed.feedId == widget.feed.feedId);
+      },
+      error: (error, stackTrace) {
+        return widget.feed;
+      },
+      loading: () {
+        return widget.feed;
+      },
+    );
     final currentUser = ref.watch(globalUserViewModelProvider);
     final bool isMe = currentUser?.uid == widget.feed.uid;
-    return AbsorbPointer(
-      absorbing: isLoading,
-      child: AlertDialog(
-        icon: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // 완료 버튼
-            if (isEditing)
-              TextButton(
-                onPressed: () async {
-                  setState(() {
-                    isLoading = true;
-                  });
-                  try {
-                    await ref
-                        .read(myTapViewmodelProvider.notifier)
-                        .updateFeed(
-                          widget.feed.copyWith(
-                            content: _contentController.text,
-                          ),
-                          selectedImage,
-                        );
-                    setState(() {
-                      selectedImage = null;
-                      isEditing = false;
-                    });
-                  } catch (e) {
-                  } finally {
-                    setState(() {
-                      isLoading = false;
-                    });
-                  }
-                },
-                child: Text('완료', style: TextStyle(color: Colors.blue)),
-              )
-            else
-              const SizedBox(width: 50),
-            GestureDetector(
-              onTap: () {
-                if (context.mounted) context.pop();
-              },
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Icon(CupertinoIcons.xmark, color: Colors.black),
-              ),
+    return Stack(
+      children: [
+        AbsorbPointer(
+          absorbing: isLoading,
+          child: AlertDialog(
+            icon: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // 완료 버튼
+                if (isEditing)
+                  GestureDetector(
+                    onTap: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      try {
+                        await ref
+                            .read(myTapViewmodelProvider.notifier)
+                            .updateFeed(
+                              widget.feed.copyWith(
+                                content: _contentController.text,
+                              ),
+                              selectedImage,
+                            );
+                        setState(() {
+                          selectedImage = null;
+                          isEditing = false;
+                        });
+                      } catch (e) {
+                      } finally {
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    },
+                    child: Text('완료', style: TextStyle(color: Colors.blue)),
+                  )
+                else
+                  const SizedBox(width: 50),
+                GestureDetector(
+                  onTap: () {
+                    if (context.mounted) context.pop();
+                  },
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Icon(CupertinoIcons.xmark, color: Colors.black),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        // 이미지 영역
-        content: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Column(
+            // 이미지 영역
+            content: SingleChildScrollView(
+              child: Column(
                 spacing: 12,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +124,7 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                       ClipRRect(
                         child: selectedImage != null
                             ? Image.file(selectedImage!)
-                            : Image.network(widget.feed.fileUrl),
+                            : Image.network(currentFeed.fileUrl),
                       ),
                       if (isEditing) ...[
                         Positioned(
@@ -164,20 +176,20 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                       ),
                     )
                   else
-                    Text(widget.feed.content),
+                    Text(currentFeed.content),
                 ],
               ),
-              if (isLoading)
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.black38,
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
-                ),
-            ],
+            ),
           ),
         ),
-      ),
+        if (isLoading)
+          Positioned.fill(
+            child: Container(
+              color: Colors.black38,
+              child: Center(child: CircularProgressIndicator()),
+            ),
+          ),
+      ],
     );
   }
 
