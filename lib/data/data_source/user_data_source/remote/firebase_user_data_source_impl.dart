@@ -7,6 +7,7 @@ import 'package:healthy_bag/data/data_source/user_data_source/user_data_source.d
 
 class FirebaseUserDataSourceImpl implements UserDataSource {
   final firestore = FirebaseFirestore.instance;
+  final storage = FirebaseStorage.instance;
 
   @override
   Future<UserDTO?> fetchUserInfo(String uid) async {
@@ -116,6 +117,24 @@ class FirebaseUserDataSourceImpl implements UserDataSource {
   Future<void> unblockUser(String uid, String blockedId) async {
     try {
       await firestore.collection('blocks').doc('${uid}_$blockedId').delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateUserData(String uid, Map<String, dynamic> data) async {
+    try {
+      await firestore.collection('users').doc(uid).update(data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> delete(String imageUrl) async {
+    try {
+      await storage.refFromURL(imageUrl).delete();
     } catch (e) {
       rethrow;
     }

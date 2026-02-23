@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:healthy_bag/core/di/repository_di/user_repository_di.dart';
 import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -29,5 +31,13 @@ class GlobalUserViewModel extends _$GlobalUserViewModel {
   Stream<List<String>> fetchBlockedUsers() {
     if (state == null) return Stream.value([]);
     return ref.read(userRepositoryProvider).fetchBlockedUsers(state!.uid);
+  }
+
+  Future<void> updateUserData({String? nickname, File? imageFile}) async {
+    final updateUser = state!.copyWith(nickname: nickname);
+    await ref
+        .read(userRepositoryProvider)
+        .updateUserData(updateUser, imageFile: imageFile);
+    await setUserById(state!.uid);
   }
 }

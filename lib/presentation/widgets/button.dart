@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/core/theme/tokens/app_colors.dart';
+import 'package:healthy_bag/presentation/my/widgets/profile-edit-bottom_sheet.dart';
 import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 
 class Button extends ConsumerWidget {
@@ -15,21 +16,33 @@ class Button extends ConsumerWidget {
     if (isMe) {
       return Align(
         alignment: Alignment.centerRight,
-        child: Container(
-          height: 36,
-          width: 220,
-          margin: const EdgeInsets.only(right: 16.0),
-          decoration: BoxDecoration(
-            color: AppColors.lightPrimary,
-            borderRadius: BorderRadius.circular(3),
-          ),
-          child: Center(
-            child: Text(
-              '프로필 편집',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+        child: GestureDetector(
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              builder: (context) => ProfileEditBottomSheet(user: currentUser!),
+            );
+          },
+          child: Container(
+            height: 36,
+            width: 220,
+            margin: const EdgeInsets.only(right: 16.0),
+            decoration: BoxDecoration(
+              color: AppColors.lightPrimary,
+              borderRadius: BorderRadius.circular(3),
+            ),
+            child: Center(
+              child: Text(
+                '프로필 편집',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

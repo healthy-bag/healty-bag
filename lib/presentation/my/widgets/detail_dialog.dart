@@ -94,6 +94,7 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                           isEditing = false;
                         });
                       } catch (e) {
+                        rethrow;
                       } finally {
                         setState(() {
                           isLoading = false;
