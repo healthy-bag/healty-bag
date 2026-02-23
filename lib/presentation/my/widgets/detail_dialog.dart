@@ -9,6 +9,7 @@ import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:healthy_bag/presentation/notifier/global_like_notifier.dart';
+import 'package:healthy_bag/presentation/comment/comment_sheet.dart';
 
 class DetailDialog extends ConsumerStatefulWidget {
   const DetailDialog({super.key, required this.feed});
@@ -215,7 +216,14 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                           icon: Icons.chat_bubble_outline,
                           content: widget.feed.commentCount.toString(),
                           onTap: () {
-                            // 댓글 이동 로직 (필요 시 구현)
+                            // 댓글 창 띄우기
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) =>
+                                  CommentSheet(feedId: widget.feed.feedId),
+                            );
                           },
                         ),
                         if (isMe && !isEditing) ...[
