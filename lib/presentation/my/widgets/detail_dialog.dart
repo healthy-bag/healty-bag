@@ -10,18 +10,11 @@ import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:healthy_bag/presentation/notifier/global_like_notifier.dart';
-import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 
 class DetailDialog extends ConsumerStatefulWidget {
   const DetailDialog({super.key, required this.feed});
 
   final FeedEntity feed;
-  @override
-  ConsumerState<DetailDialog> createState() => _DetailDialogState();
-}
-
-class _DetailDialogState extends ConsumerState<DetailDialog> {
-  late int likeCount;
 
   @override
   ConsumerState<DetailDialog> createState() => _DetailDialogState();
@@ -29,13 +22,16 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
 
 class _DetailDialogState extends ConsumerState<DetailDialog> {
   late TextEditingController _contentController;
+  late int likeCount;
   bool isEditing = false;
   File? selectedImage;
   bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
     _contentController = TextEditingController(text: widget.feed.content);
+    likeCount = widget.feed.likeCount;
   }
 
   @override
@@ -53,13 +49,11 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
         selectedImage = File(pickedImage.path);
       });
     }
-  void initState() {
-    super.initState();
-    likeCount = widget.feed.likeCount;
   }
 
   @override
   Widget build(BuildContext context) {
+    // 최신 피드 데이터 구독
     final feedAsync = ref.watch(myTapViewmodelProvider);
     final currentFeed = feedAsync.when(
       data: (feeds) {
@@ -68,15 +62,15 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
           orElse: () => widget.feed,
         );
       },
-      error: (error, stackTrace) {
-        return widget.feed;
-      },
-      loading: () {
-        return widget.feed;
-      },
+      error: (error, stackTrace) => widget.feed,
+      loading: () => widget.feed,
     );
+
     final currentUser = ref.watch(globalUserViewModelProvider);
     final bool isMe = currentUser?.uid == widget.feed.uid;
+    final myLikes = ref.watch(globalLikeProvider);
+    final isLiked = myLikes.value?.contains(widget.feed.feedId) ?? false;
+
     return Stack(
       children: [
         AbsorbPointer(
@@ -89,7 +83,7 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
             icon: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // 완료 버튼
+                // 완료 버튼 (편집 모드에서만 노출)
                 if (isEditing)
                   GestureDetector(
                     onTap: () async {
@@ -110,7 +104,7 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                           isEditing = false;
                         });
                       } catch (e) {
-                        rethrow;
+                        debugPrint('Update error: $e');
                       } finally {
                         setState(() {
                           isLoading = false;
@@ -119,23 +113,23 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                     },
                     child: const Text(
                       '완료',
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   )
                 else
                   const SizedBox(width: 50),
+                // 닫기 버튼
                 GestureDetector(
                   onTap: () {
                     if (context.mounted) context.pop();
                   },
-                  child: const Align(
-                    alignment: Alignment.topRight,
-                    child: Icon(CupertinoIcons.xmark, color: Colors.black),
-                  ),
+                  child: const Icon(CupertinoIcons.xmark, color: Colors.black),
                 ),
               ],
             ),
-            // 이미지 영역
             content: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
@@ -144,12 +138,14 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // 이미지 영역 (고정 비율로 흔들림 방지)
                     AspectRatio(
                       aspectRatio: 0.8,
                       child: Stack(
                         children: [
                           Positioned.fill(
                             child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
                               child: selectedImage != null
                                   ? Image.file(
                                       selectedImage!,
@@ -158,10 +154,18 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                                   : Image.network(
                                       currentFeed.fileUrl,
                                       fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Center(
+                                                child: Icon(
+                                                  Icons.error_outline,
+                                                  size: 40,
+                                                ),
+                                              ),
                                     ),
                             ),
                           ),
-                          if (isEditing) ...[
+                          if (isEditing)
                             Positioned(
                               top: 12,
                               right: 12,
@@ -176,33 +180,52 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                                   child: const Icon(
                                     Icons.add_a_photo,
                                     color: Colors.white,
-                                    size: 28,
+                                    size: 24,
                                   ),
                                 ),
                               ),
                             ),
-                          ],
                         ],
                       ),
                     ),
-                    // 좋아요, 댓글
+                    // 액션 바 (좋아요, 댓글, 수정/삭제)
                     Row(
                       children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.favorite_border),
+                        ItemButton(
+                          icon: isLiked
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: isLiked ? Colors.red : null,
+                          content: likeCount.toString(),
+                          onTap: () async {
+                            if (currentUser == null) return;
+                            setState(() {
+                              if (isLiked) {
+                                likeCount--;
+                              } else {
+                                likeCount++;
+                              }
+                            });
+                            await ref
+                                .read(likeUsecaseProvider)
+                                .like(currentUser, widget.feed);
+                          },
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.chat_bubble_outline),
+                        const SizedBox(width: 16),
+                        ItemButton(
+                          icon: Icons.chat_bubble_outline,
+                          content: widget.feed.commentCount.toString(),
+                          onTap: () {
+                            // 댓글 이동 로직 (필요 시 구현)
+                          },
                         ),
-                        if (isMe) ...[
-                          Spacer(),
-                          //
+                        if (isMe && !isEditing) ...[
+                          const Spacer(),
                           editAndDelete(context),
                         ],
                       ],
                     ),
+                    // 본문 영역
                     if (isEditing)
                       TextField(
                         controller: _contentController,
@@ -229,168 +252,118 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
               ),
             ),
           ),
-    final user = ref.read(globalUserViewModelProvider);
-    final myLikes = ref.watch(globalLikeProvider);
-    final isLiked = myLikes.value?.contains(widget.feed.feedId) ?? false;
-
-    return AlertDialog(
-      content: SingleChildScrollView(
-        child: Column(
-          spacing: 12,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(widget.feed.fileUrl),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 12,
-              children: [
-                ItemButton(
-                  icon: isLiked ? Icons.favorite : Icons.favorite_border,
-                  onTap: () async {
-                    if (user == null) return;
-                    if (isLiked) {
-                      setState(() {
-                        likeCount--;
-                      });
-                    } else {
-                      setState(() {
-                        likeCount++;
-                      });
-                    }
-                    ref.read(likeUsecaseProvider).like(user, widget.feed);
-                  },
-                  content: likeCount.toString(),
-                ),
-                ItemButton(
-                  icon: Icons.chat_bubble_outline,
-                  onTap: () {},
-                  content: widget.feed.commentCount.toString(),
-                ),
-              ],
-            ),
-            Text(widget.feed.content),
-          ],
         ),
-      ),
-      icon: GestureDetector(
-        onTap: () {
-          if (context.mounted) context.pop();
-        },
-        child: Align(
-          alignment: Alignment.topRight,
-          child: Icon(CupertinoIcons.xmark, color: Colors.black),
-        ),
+        // 로딩 오버레이
         if (isLoading)
           Positioned.fill(
             child: Container(
-              color: Colors.black38,
-              child: Center(child: CircularProgressIndicator()),
+              color: Colors.black26,
+              child: const Center(child: CircularProgressIndicator()),
             ),
           ),
       ],
     );
   }
-}
 
-  GestureDetector editAndDelete(BuildContext context) {
+  // 수정/삭제 바텀시트
+  Widget editAndDelete(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        // 1. 바텀시트 띄우고 결과 대기
-        final String? action = await showModalBottomSheet<String>(
+        final action = await showModalBottomSheet<String>(
           context: context,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
           ),
-          builder: (BuildContext context) {
-            return SafeArea(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const SizedBox(height: 20),
-                  ListTile(
-                    leading: const Icon(Icons.edit),
-                    title: const Text('수정하기'),
-                    onTap: () {
-                      setState(() {
-                        isEditing = true;
-                      });
-                      Navigator.pop(context, 'edit');
-                    },
+          builder: (context) => SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 8),
+                ListTile(
+                  leading: const Icon(Icons.edit),
+                  title: const Text('수정하기'),
+                  onTap: () => Navigator.pop(context, 'edit'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.delete, color: Colors.red),
+                  title: const Text(
+                    '삭제하기',
+                    style: TextStyle(color: Colors.red),
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.delete, color: Colors.red),
-                    title: const Text(
-                      '삭제하기',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    onTap: () => Navigator.pop(context, 'delete'),
-                  ),
-                ],
-              ),
-            );
-          },
+                  onTap: () => Navigator.pop(context, 'delete'),
+                ),
+              ],
+            ),
+          ),
         );
 
-        if (action == 'delete' && context.mounted) {
-          // 2. 삭제 확인 다이얼로그 띄우고 결과 대기
-          final bool? confirmed = await showDialog<bool>(
+        if (action == 'edit') {
+          setState(() => isEditing = true);
+        } else if (action == 'delete' && context.mounted) {
+          final confirmed = await showDialog<bool>(
             context: context,
-            builder: (BuildContext dialogContext) {
-              return AlertDialog(
-                title: const Text('게시물 삭제'),
-                content: const Text('이 게시물을 정말로 삭제하시겠습니까?'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(dialogContext, false),
-                    child: const Text(
-                      '취소',
-                      style: TextStyle(color: Colors.black),
-                    ),
+            builder: (context) => AlertDialog(
+              title: const Text('게시물 삭제'),
+              content: const Text('정말로 삭제하시겠습니까?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text(
+                    '취소',
+                    style: TextStyle(color: Colors.black),
                   ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(dialogContext, true),
-                    child: const Text(
-                      '삭제',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ],
-              );
-            },
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: const Text('삭제', style: TextStyle(color: Colors.red)),
+                ),
+              ],
+            ),
           );
 
-          // 3. 최종 삭제 실행 및 상세창 닫기
           if (confirmed == true && context.mounted) {
-            ref
+            await ref
                 .read(myTapViewmodelProvider.notifier)
                 .deleteFeed(widget.feed.feedId);
-
-            // 현재 DetailDialog를 닫음
-            Navigator.pop(context);
+            if (context.mounted) Navigator.pop(context);
           }
         }
       },
-      child: Icon(Icons.more_vert),
+      child: const Icon(Icons.more_vert),
+    );
+  }
+}
+
+// 공용 아이콘 버튼 위젯
 class ItemButton extends StatelessWidget {
   const ItemButton({
     super.key,
     required this.icon,
-    required this.onTap,
     required this.content,
+    required this.onTap,
+    this.color,
   });
 
   final IconData icon;
-  final VoidCallback onTap;
   final String content;
+  final VoidCallback onTap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(onPressed: onTap, icon: Icon(icon)),
-        Text(content),
-      ],
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 22, color: color),
+          const SizedBox(width: 6),
+          Text(
+            content,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
     );
   }
 }
