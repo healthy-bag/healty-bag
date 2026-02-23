@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/presentation/comment/comment_sheet.dart';
 import 'package:healthy_bag/presentation/home/home_view_model.dart';
 import 'package:healthy_bag/presentation/home/widgets/feed_item.dart';
+import 'package:healthy_bag/presentation/notifier/global_block_notifier.dart';
 import 'package:healthy_bag/presentation/widgets/healthy_bag_logo.dart';
 
 // ConsumerWidget을 사용하여 상태 관리
@@ -19,16 +20,17 @@ class HomePage extends ConsumerWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: const SizedBox(
-          height: 40,
-          child: HealthyBagLogo(),
-        ),
+        title: const SizedBox(height: 40, child: HealthyBagLogo()),
       ),
       body: feedsAsync.when(
         data: (feeds) => ListView.builder(
           itemCount: feeds.length,
           itemBuilder: (context, index) {
             final feed = feeds[index];
+            final blockedUsers = ref.watch(globalBlockViewModelProvider);
+            if (blockedUsers.value?.contains(feed.uid) ?? false) {
+              return const SizedBox.shrink();
+            }
             return FeedItemWidget(
               feed: feed,
               onCommentTap: () => _showCommentSheet(context, feed.feedId),
@@ -41,7 +43,6 @@ class HomePage extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('에러 발생: $err')),
       ),
-     
     );
   }
 

@@ -8,6 +8,9 @@ part 'global_block_notifier.g.dart';
 class GlobalBlockViewModel extends _$GlobalBlockViewModel {
   @override
   Stream<List<String>> build() {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return Stream.value([]);
+    }
     return _setBlockedUsers(FirebaseAuth.instance.currentUser!.uid);
   }
 
