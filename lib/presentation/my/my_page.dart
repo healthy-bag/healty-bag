@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:healthy_bag/core/theme/tokens/app_colors.dart';
 import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_image.dart';
@@ -22,6 +23,36 @@ class MyPage extends ConsumerWidget {
           user!.nickname,
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('차단'),
+                  content: Text('해당 사용자를 차단하시겠습니까?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => context.pop(),
+                      child: Text('취소'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        // ref
+                        //     .read(userRepositoryProvider)
+                        //     .blockUser(FirebaseAuth.instance.currentUser!.uid);
+                        // context.pop();
+                      },
+                      child: Text('차단'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            child: Icon(Icons.report_sharp),
+          ),
+        ],
+        actionsPadding: const EdgeInsets.only(right: 16.0),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),

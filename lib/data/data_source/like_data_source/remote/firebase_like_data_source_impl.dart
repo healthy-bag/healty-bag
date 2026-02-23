@@ -40,9 +40,7 @@ class FirebaseLikeDataSourceImpl implements LikeDataSource {
           // 좋아요를 누르지 않은 경우: 좋아요 추가 및 카운트 증가
           transaction.set(likeRef, likesDto.toJson());
           if (feedSnapshot.exists) {
-            transaction.update(feedRef, {
-              'likeCount': FieldValue.increment(1),
-            });
+            transaction.update(feedRef, {'likeCount': FieldValue.increment(1)});
           }
         }
       });

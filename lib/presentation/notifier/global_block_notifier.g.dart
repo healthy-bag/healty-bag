@@ -34,7 +34,7 @@ final class GlobalBlockViewModelProvider
 }
 
 String _$globalBlockViewModelHash() =>
-    r'e89179666782dedf6cd7f7015e2a4705fcf6e01c';
+    r'a72e6593657a40b36dff0ebc52359066b7c472dd';
 
 abstract class _$GlobalBlockViewModel extends $StreamNotifier<List<String>> {
   Stream<List<String>> build();
