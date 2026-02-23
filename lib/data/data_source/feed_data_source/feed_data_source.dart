@@ -9,6 +9,8 @@ abstract class FeedDataSource {
   Future<void> saveFeed(FeedDTO feed);
   // 피드 삭제
   Future<void> deleteFeed(String feedId);
+  // 스토리지에서 사진 삭제
+  Future<void> deleteImage(String imageUrl);
 
   // 특정 피드 가져오기
   Future<FeedDTO?> fetchFeed(String feedId);

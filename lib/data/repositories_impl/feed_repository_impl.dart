@@ -106,6 +106,7 @@ class FeedRepositoryImpl implements FeedRepository {
   Future<void> updateFeed(FeedEntity feed, File? imageFile) async {
     String? newImageUrl;
     if (imageFile != null) {
+      await feedDataSource.deleteImage(feed.fileUrl);
       newImageUrl = await feedDataSource.uploadImage(imageFile);
     }
     final feedDTO = FeedDTO(

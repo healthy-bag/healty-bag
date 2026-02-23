@@ -115,4 +115,13 @@ class FeedDataSourceImpl implements FeedDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteImage(String imageUrl) async {
+    try {
+      await storage.refFromURL(imageUrl).delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
