@@ -17,7 +17,7 @@ abstract class FeedRepository {
   Future<void> deleteFeed(String feedId);
 
   // 피드 수정 (설명 수정 등)
-  Future<void> updateFeed(FeedEntity feed);
+  Future<void> updateFeed(FeedEntity feed, File? imageFile);
 
   Stream<List<FeedEntity>> fetchMyFeeds(String uid);
 }

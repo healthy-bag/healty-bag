@@ -103,11 +103,15 @@ class FeedRepositoryImpl implements FeedRepository {
 
   // Stream<List<String>>: FeedEntity 리스트가 실시간으로 반환
   @override
-  Future<void> updateFeed(FeedEntity feed) async {
+  Future<void> updateFeed(FeedEntity feed, File? imageFile) async {
+    String? newImageUrl;
+    if (imageFile != null) {
+      newImageUrl = await feedDataSource.uploadImage(imageFile);
+    }
     final feedDTO = FeedDTO(
       uid: feed.uid,
       feedId: feed.feedId,
-      fileUrl: feed.fileUrl,
+      fileUrl: newImageUrl ?? feed.fileUrl,
       content: feed.content,
       likeCount: feed.likeCount,
       commentCount: feed.commentCount,
