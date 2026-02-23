@@ -48,4 +48,23 @@ class FirebaseLikeDataSourceImpl implements LikeDataSource {
       rethrow;
     }
   }
+
+  @override
+  Stream<List<String>> fetchMyLikes(String uid) {
+    try {
+      final snapshot = _firestore
+          .collection("likes")
+          .where('uid', isEqualTo: uid)
+          .snapshots()
+          .map(
+            (snapshot) => snapshot.docs
+                .map((doc) => doc.data()['feedId'] as String)
+                .toList(),
+          );
+
+      return snapshot;
+    } on FirebaseException {
+      rethrow;
+    }
+  }
 }

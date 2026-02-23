@@ -4,15 +4,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_bag/core/di/usecase_di/like_usecase_di.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
+import 'package:healthy_bag/presentation/notifier/global_like_notifier.dart';
 import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 
-class DetailDialog extends ConsumerWidget {
+class DetailDialog extends ConsumerStatefulWidget {
   const DetailDialog({super.key, required this.feed});
 
   final FeedEntity feed;
+  @override
+  ConsumerState<DetailDialog> createState() => _DetailDialogState();
+}
+
+class _DetailDialogState extends ConsumerState<DetailDialog> {
+  late int likeCount;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    likeCount = widget.feed.likeCount;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final user = ref.read(globalUserViewModelProvider);
+    final myLikes = ref.watch(globalLikeProvider);
+    final isLiked = myLikes.value?.contains(widget.feed.feedId) ?? false;
+
     return AlertDialog(
       content: SingleChildScrollView(
         child: Column(
@@ -20,28 +37,36 @@ class DetailDialog extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(feed.fileUrl),
+            Image.network(widget.feed.fileUrl),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 12,
               children: [
                 ItemButton(
-                  icon: Icons.favorite_border,
-                  onTap: () {
-                    final user = ref.read(globalUserViewModelProvider);
+                  icon: isLiked ? Icons.favorite : Icons.favorite_border,
+                  onTap: () async {
                     if (user == null) return;
-                    ref.read(likeUsecaseProvider).like(user.uid, feed);
+                    if (isLiked) {
+                      setState(() {
+                        likeCount--;
+                      });
+                    } else {
+                      setState(() {
+                        likeCount++;
+                      });
+                    }
+                    ref.read(likeUsecaseProvider).like(user, widget.feed);
                   },
-                  content: feed.likeCount.toString(),
+                  content: likeCount.toString(),
                 ),
                 ItemButton(
                   icon: Icons.chat_bubble_outline,
                   onTap: () {},
-                  content: feed.commentCount.toString(),
+                  content: widget.feed.commentCount.toString(),
                 ),
               ],
             ),
-            Text(feed.content),
+            Text(widget.feed.content),
           ],
         ),
       ),

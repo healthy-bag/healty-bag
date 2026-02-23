@@ -32,9 +32,14 @@ class HomeViewModel extends _$HomeViewModel {
 
           Future<bool> isLikedFuture = Future.value(false);
           if (myUid != null) {
-            isLikedFuture = likeRepository
-                .isLiked(myUid, feed.feedId)
-                .then((result) => result is LikeSuccess ? result.data : false);
+            final myInfo = await userRepository.getUserInfo(myUid);
+            if (myInfo != null) {
+              isLikedFuture = likeRepository
+                  .isLiked(myInfo, feed.feedId)
+                  .then(
+                    (result) => result is LikeSuccess ? result.data : false,
+                  );
+            }
           }
 
           final results = await Future.wait([userInfoFuture, isLikedFuture]);
@@ -95,7 +100,11 @@ class HomeViewModel extends _$HomeViewModel {
     newList[index] = updatedFeed;
     state = AsyncData(newList);
 
-    await likeUsecase.like(myUid, feed);
+    try {
+      await likeUsecase.like(myInfo!, updatedFeed);
+    } catch (e) {
+      state = currentState;
+    }
   }
 }
 
