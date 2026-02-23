@@ -70,6 +70,10 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
         AbsorbPointer(
           absorbing: isLoading,
           child: AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(horizontal: 32),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             icon: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -101,7 +105,10 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                         });
                       }
                     },
-                    child: Text('완료', style: TextStyle(color: Colors.blue)),
+                    child: const Text(
+                      '완료',
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   )
                 else
                   const SizedBox(width: 50),
@@ -109,7 +116,7 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                   onTap: () {
                     if (context.mounted) context.pop();
                   },
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.topRight,
                     child: Icon(CupertinoIcons.xmark, color: Colors.black),
                   ),
@@ -117,72 +124,96 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
               ],
             ),
             // 이미지 영역
-            content: SingleChildScrollView(
-              child: Column(
-                spacing: 12,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      ClipRRect(
-                        child: selectedImage != null
-                            ? Image.file(selectedImage!)
-                            : Image.network(currentFeed.fileUrl),
-                      ),
-                      if (isEditing) ...[
-                        Positioned(
-                          top: 12,
-                          right: 12,
-                          child: GestureDetector(
-                            onTap: pickImage,
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.black45,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.add_a_photo,
-                                color: Colors.white,
-                              ),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
+                child: Column(
+                  spacing: 12,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 0.8,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: ClipRRect(
+                              child: selectedImage != null
+                                  ? Image.file(
+                                      selectedImage!,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.network(
+                                      currentFeed.fileUrl,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
+                          if (isEditing) ...[
+                            Positioned(
+                              top: 12,
+                              right: 12,
+                              child: GestureDetector(
+                                onTap: pickImage,
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black45,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.add_a_photo,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                    // 좋아요, 댓글
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.favorite_border),
                         ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.chat_bubble_outline),
+                        ),
+                        if (isMe) ...[
+                          Spacer(),
+                          //
+                          editAndDelete(context),
+                        ],
                       ],
-                    ],
-                  ),
-                  // 좋아요, 댓글
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.favorite_border),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.chat_bubble_outline),
-                      ),
-                      if (isMe) ...[
-                        Spacer(),
-                        //
-                        editAndDelete(context),
-                      ],
-                    ],
-                  ),
-                  if (isEditing)
-                    TextField(
-                      controller: _contentController,
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
+                    ),
+                    if (isEditing)
+                      TextField(
+                        controller: _contentController,
+                        maxLines: null,
+                        style: const TextStyle(fontSize: 14),
+                        decoration: const InputDecoration(
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 8),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                        ),
+                      )
+                    else
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          currentFeed.content,
+                          style: const TextStyle(fontSize: 14),
                         ),
                       ),
-                    )
-                  else
-                    Text(currentFeed.content),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
