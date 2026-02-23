@@ -33,14 +33,7 @@ class HomeViewModel extends _$HomeViewModel {
           Future<bool> isLikedFuture = Future.value(false);
           if (myUid != null) {
             isLikedFuture = likeRepository
-                .isLiked(
-                  LikeEntity(
-                    id: '',
-                    uid: myUid,
-                    nickname: '',
-                    feedId: feed.feedId,
-                  ),
-                )
+                .isLiked(myUid, feed.feedId)
                 .then((result) => result is LikeSuccess ? result.data : false);
           }
 
@@ -102,19 +95,7 @@ class HomeViewModel extends _$HomeViewModel {
     newList[index] = updatedFeed;
     state = AsyncData(newList);
 
-    try {
-      final likeEntity = LikeEntity(
-        id: '${myUid}_$feedId', // 고유 ID 생성 규칙
-        uid: myUid,
-        nickname: myNickname,
-        feedId: feedId,
-      );
-      // LikeRepository를 통한 좋아요 토글 (트랜잭션 처리됨)
-      await likeUsecase.like(likeEntity);
-    } catch (e) {
-      // 에러 발생 시 원래 상태로 복구
-      state = currentState;
-    }
+    await likeUsecase.like(myUid, feed);
   }
 }
 
