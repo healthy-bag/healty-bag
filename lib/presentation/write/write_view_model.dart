@@ -87,7 +87,6 @@ class WriteViewModel extends Notifier<WriteState> {
       // TODO: 성공 후 페이지 이동 로직 추가 (Context 필요시 View에서 처리)
     } catch (e) {
       state = state.copyWith(isLoading: false);
-      print('업로드 실패: $e');
       rethrow; // UI에서 catch 할 수 있도록 에러를 다시 던집니다.
     }
   }
