@@ -46,7 +46,8 @@ class _CommentItemState extends ConsumerState<CommentItem> {
     final isAuthor = _currentUid == widget.comment.uid;
     final isDeleted = widget.comment.isDeleted;
 
-    return Padding(
+    return Container(
+      color: isDeleted ? Colors.grey[50] : Colors.transparent, // 삭제된 댓글 배경색 차별화
       padding: EdgeInsets.only(
         left: widget.isReply ? 48.0 : 16.0,
         right: 16.0,
@@ -76,7 +77,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                 Row(
                   children: [
                     Text(
-                      isDeleted ? '(정보 없음)' : widget.comment.nickname,
+                      isDeleted ? '삭제된 사용자' : widget.comment.nickname,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
@@ -86,7 +87,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                     const SizedBox(width: 8),
                     Text(
                       _formatTimeAgo(widget.comment.timeAgo),
-                      style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+                      style: TextStyle(fontSize: 11, color: Colors.grey[400]),
                     ),
                   ],
                 ),
@@ -95,7 +96,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                   isDeleted ? '삭제된 댓글입니다.' : widget.comment.content,
                   style: TextStyle(
                     fontSize: 14,
-                    color: isDeleted ? Colors.grey[500] : Colors.black,
+                    color: isDeleted ? Colors.grey[400] : Colors.black,
                     fontStyle: isDeleted ? FontStyle.italic : null,
                   ),
                 ),

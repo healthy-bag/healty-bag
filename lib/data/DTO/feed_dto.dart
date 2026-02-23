@@ -3,8 +3,8 @@ class FeedDTO {
   final String uid;
   final String feedId;
   final String fileUrl;
-  final int likeCount; // 컨셉에 맞게 변경 가능, 내가 좋아요를 눌렀는지 알 수 없음 -> 별로 컬렉션
-  final int commentCount; // 컨셉에 맞게 변경 가능
+  final int likeCount; 
+  final int commentCount; 
   final String thumbnailUrl;
   final String tag;
   final String content;
@@ -30,13 +30,13 @@ class FeedDTO {
 
   factory FeedDTO.fromJson(Map<String, dynamic> json) {
     return FeedDTO(
-      uid: json['uid'] as String,
-      feedId: json['feedId'] as String,
-      fileUrl: json['fileUrl'] as String,
-      likeCount: json['likeCount'] as int,
-      commentCount: json['commentCount'] as int,
-      thumbnailUrl: json['thumbnailUrl'] as String,
-      tag: json['tag'] as String,
+      uid: json['uid'] as String? ?? '',
+      feedId: json['feedId'] as String? ?? '',
+      fileUrl: json['fileUrl'] as String? ?? '',
+      likeCount: (json['likeCount'] as num?)?.toInt() ?? 0,
+      commentCount: (json['commentCount'] as num?)?.toInt() ?? 0,
+      thumbnailUrl: json['thumbnailUrl'] as String? ?? '',
+      tag: json['tag'] as String? ?? '',
       content: json['content'] as String? ?? '',
       createdAt: json['createdAt'] as String? ?? '',
       deletedAt: json['deletedAt'] as String? ?? '',
