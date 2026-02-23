@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
-import 'package:healthy_bag/presentation/my/widgets/detail_dialog.dart';
+import 'package:healthy_bag/presentation/detail_dialog/detail_dialog.dart';
 
 class ProfilePostGrid extends ConsumerWidget {
   const ProfilePostGrid({super.key, required this.feeds});
