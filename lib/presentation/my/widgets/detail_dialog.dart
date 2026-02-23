@@ -51,7 +51,10 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
     final feedAsync = ref.watch(myTapViewmodelProvider);
     final currentFeed = feedAsync.when(
       data: (feeds) {
-        return feeds.firstWhere((feed) => feed.feedId == widget.feed.feedId);
+        return feeds.firstWhere(
+          (feed) => feed.feedId == widget.feed.feedId,
+          orElse: () => widget.feed,
+        );
       },
       error: (error, stackTrace) {
         return widget.feed;
@@ -148,6 +151,7 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                       ],
                     ],
                   ),
+                  // 좋아요, 댓글
                   Row(
                     children: [
                       IconButton(
