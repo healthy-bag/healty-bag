@@ -1,11 +1,9 @@
 sealed class LikeResult {}
 
-class IsLikeSuccess implements LikeResult {
-  final bool isLiked;
-  IsLikeSuccess({required this.isLiked});
+class LikeSuccess<T> implements LikeResult {
+  final T data;
+  LikeSuccess({required this.data});
 }
-
-class ToggleSuccess implements LikeResult {}
 
 class LikeFailure implements LikeResult {
   final String message;
