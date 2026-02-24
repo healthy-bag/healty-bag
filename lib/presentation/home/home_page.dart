@@ -28,9 +28,11 @@ class HomePage extends ConsumerWidget {
           itemBuilder: (context, index) {
             final feed = feeds[index];
             final blockedUsers = ref.watch(globalBlockViewModelProvider);
+
             if (blockedUsers.value?.contains(feed.uid) ?? false) {
               return const SizedBox.shrink();
             }
+
             return FeedItemWidget(
               feed: feed,
               onCommentTap: () => _showCommentSheet(context, feed.feedId),

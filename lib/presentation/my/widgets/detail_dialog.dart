@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:healthy_bag/core/di/usecase_di/like_usecase_di.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
 import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
@@ -22,7 +21,6 @@ class DetailDialog extends ConsumerStatefulWidget {
 
 class _DetailDialogState extends ConsumerState<DetailDialog> {
   late TextEditingController _contentController;
-  late int likeCount;
   bool isEditing = false;
   File? selectedImage;
   bool isLoading = false;
@@ -31,7 +29,6 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
   void initState() {
     super.initState();
     _contentController = TextEditingController(text: widget.feed.content);
-    likeCount = widget.feed.likeCount;
   }
 
   @override
@@ -196,19 +193,13 @@ class _DetailDialogState extends ConsumerState<DetailDialog> {
                               ? Icons.favorite
                               : Icons.favorite_border,
                           color: isLiked ? Colors.red : null,
-                          content: likeCount.toString(),
+                          content: currentFeed.likeCount.toString(),
                           onTap: () async {
                             if (currentUser == null) return;
-                            setState(() {
-                              if (isLiked) {
-                                likeCount--;
-                              } else {
-                                likeCount++;
-                              }
-                            });
+
                             await ref
-                                .read(likeUsecaseProvider)
-                                .like(currentUser, widget.feed);
+                                .read(globalLikeProvider.notifier)
+                                .toggleLike(currentUser, currentFeed);
                           },
                         ),
                         const SizedBox(width: 16),

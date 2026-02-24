@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:healthy_bag/presentation/my/viewmodel/my_tap_viewmodel.dart';
 import 'package:healthy_bag/presentation/widgets/button.dart';
 import 'package:healthy_bag/presentation/my/widgets/profile_image.dart';
@@ -16,43 +15,17 @@ class MyPage extends ConsumerWidget {
     final user = ref.watch(globalUserViewModelProvider);
     final feedUrlsAsync = ref.watch(myTapViewmodelProvider);
 
+    if (user == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          user!.nickname,
-          style: TextStyle(color: Colors.black, fontSize: 18),
+          user.nickname,
+          style: const TextStyle(color: Colors.black, fontSize: 18),
         ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('차단'),
-                  content: Text('해당 사용자를 차단하시겠습니까?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => context.pop(),
-                      child: Text('취소'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // ref
-                        //     .read(userRepositoryProvider)
-                        //     .blockUser(FirebaseAuth.instance.currentUser!.uid);
-                        // context.pop();
-                      },
-                      child: Text('차단'),
-                    ),
-                  ],
-                ),
-              );
-            },
-            child: Icon(Icons.report_sharp),
-          ),
-        ],
-        actionsPadding: const EdgeInsets.only(right: 16.0),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -64,7 +37,7 @@ class MyPage extends ConsumerWidget {
                 ProfileImage(profileUrl: user.profileUrl),
                 Padding(padding: const EdgeInsets.only(left: 16.0)),
                 Spacer(),
-                ProfileStat(label: '게시물', value: (user.feedCount).toString()),
+                ProfileStat(label: '게시물', value: user.feedCount.toString()),
                 Spacer(),
                 ProfileStat(label: '팔로워', value: user.followerCount.toString()),
                 Spacer(),

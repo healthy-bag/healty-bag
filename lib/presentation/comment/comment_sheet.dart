@@ -4,6 +4,7 @@ import 'package:healthy_bag/domain/entities/comment/comment_entity.dart';
 import 'package:healthy_bag/presentation/comment/widgets/comment_item.dart';
 import 'package:healthy_bag/presentation/comment/comment_view_model.dart';
 import 'package:healthy_bag/presentation/home/home_view_model.dart';
+import 'package:healthy_bag/presentation/notifier/global_block_notifier.dart';
 
 // 하단에 올라오는 전체 댓글창
 class CommentSheet extends ConsumerStatefulWidget {
@@ -34,9 +35,13 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
   Widget build(BuildContext context) {
     final commentsAsync = ref.watch(feedCommentsProvider(widget.feedId));
     final commentViewModel = ref.watch(commentViewModelProvider);
+    final blockedUsers = ref.watch(globalBlockViewModelProvider);
 
     // 수정 모드 진입 시 텍스트 필드 자동 입력
-    ref.listen(commentViewModelProvider.select((s) => s.editingComment), (prev, next) {
+    ref.listen(commentViewModelProvider.select((s) => s.editingComment), (
+      prev,
+      next,
+    ) {
       if (next != null && prev?.commentId != next.commentId) {
         _controller.text = next.content;
         _controller.selection = TextSelection.fromPosition(
@@ -49,7 +54,10 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
     });
 
     // 답글 모드 진입 시 텍스트 필드 초기화
-    ref.listen(commentViewModelProvider.select((s) => s.parentComment), (prev, next) {
+    ref.listen(commentViewModelProvider.select((s) => s.parentComment), (
+      prev,
+      next,
+    ) {
       if (next != null && prev?.commentId != next.commentId) {
         _controller.clear();
       }
@@ -60,7 +68,7 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
       initialChildSize: 0.6, // 처음 댓글창 높이 (화면의 50%)
       minChildSize: 0.4, // 최소 높이 (화면의 40%)
       // maxChildSize: 0.95, // 최대 높이 (화면의 95%)
-      expand: false, 
+      expand: false,
       builder: (context, scrollController) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(), // 화면 터치시 키보드 내려감
@@ -95,30 +103,52 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                       if (comments.isEmpty) {
                         return const Center(child: Text('댓글이 없습니다'));
                       }
-                      
+
                       // +댓글 트리 구조 생성 (부모 댓글 아래에 자식 댓글 배치)
                       // parentId가 null이거나 빈 문자열이면 부모 댓글로 간주
-                      final parentComments = comments.where((c) => c.parentId == null || c.parentId!.isEmpty).toList();
-                      final childComments = comments.where((c) => c.parentId != null && c.parentId!.isNotEmpty).toList();
-                      
+                      final parentComments = comments
+                          .where(
+                            (c) => c.parentId == null || c.parentId!.isEmpty,
+                          )
+                          .toList();
+                      final childComments = comments
+                          .where(
+                            (c) => c.parentId != null && c.parentId!.isNotEmpty,
+                          )
+                          .toList();
+
                       final List<CommentEntity> sortedComments = [];
                       for (var parent in parentComments) {
                         sortedComments.add(parent);
                         // 해당 부모의 자식들만 필터링하여 바로 뒤에 추가
-                        sortedComments.addAll(childComments.where((c) => c.parentId == parent.commentId));
+                        sortedComments.addAll(
+                          childComments.where(
+                            (c) => c.parentId == parent.commentId,
+                          ),
+                        );
                       }
-                      
+
                       // 혹시 기존 댓글이 삭제되기 전 답글을 달았는데, 기존 댓글을 삭제하더라도 답글은 남아있을 수 있도록 설정
-                      final addedIds = sortedComments.map((c) => c.commentId).toSet();
-                      final orphanComments = comments.where((c) => !addedIds.contains(c.commentId)).toList();
+                      final addedIds = sortedComments
+                          .map((c) => c.commentId)
+                          .toSet();
+                      final orphanComments = comments
+                          .where((c) => !addedIds.contains(c.commentId))
+                          .toList();
                       sortedComments.addAll(orphanComments);
 
                       return ListView.builder(
                         controller: scrollController,
-                        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                        keyboardDismissBehavior:
+                            ScrollViewKeyboardDismissBehavior.onDrag,
                         itemCount: sortedComments.length,
                         itemBuilder: (context, index) {
                           final comment = sortedComments[index];
+
+                          if (blockedUsers.value?.contains(comment.uid) ??
+                              false) {
+                            return const SizedBox.shrink();
+                          }
                           return CommentItem(
                             comment: comment,
                             isReply: comment.parentId != null,
@@ -126,19 +156,27 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                         },
                       );
                     },
-                    loading: () => const Center(child: CircularProgressIndicator()),
-                    error: (err, stack) => Center(child: Text('댓글 로딩 에러: $err')),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (err, stack) =>
+                        Center(child: Text('댓글 로딩 에러: $err')),
                   ),
                 ),
                 // +답글/수정 모드 표시기
-                if (commentViewModel.parentComment != null || commentViewModel.editingComment != null)
+                if (commentViewModel.parentComment != null ||
+                    commentViewModel.editingComment != null)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     color: Colors.grey[100],
                     child: Row(
                       children: [
                         Icon(
-                          commentViewModel.editingComment != null ? Icons.edit : Icons.reply,
+                          commentViewModel.editingComment != null
+                              ? Icons.edit
+                              : Icons.reply,
                           size: 16,
                           color: Colors.grey[600],
                         ),
@@ -148,19 +186,30 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                             commentViewModel.editingComment != null
                                 ? '댓글 수정 중...'
                                 : '${commentViewModel.parentComment!.nickname}님에게 답글 남기는 중...',
-                            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                            ),
                           ),
                         ),
                         GestureDetector(
                           onTap: () {
                             if (commentViewModel.editingComment != null) {
-                              ref.read(commentViewModelProvider.notifier).setEditTarget(null);
+                              ref
+                                  .read(commentViewModelProvider.notifier)
+                                  .setEditTarget(null);
                               _controller.clear();
                             } else {
-                              ref.read(commentViewModelProvider.notifier).setReplyTarget(null);
+                              ref
+                                  .read(commentViewModelProvider.notifier)
+                                  .setReplyTarget(null);
                             }
                           },
-                          child: const Icon(Icons.close, size: 16, color: Colors.grey),
+                          child: const Icon(
+                            Icons.close,
+                            size: 16,
+                            color: Colors.grey,
+                          ),
                         ),
                       ],
                     ),
@@ -171,7 +220,8 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                     left: 16,
                     right: 16,
                     top: 15,
-                    bottom: MediaQuery.of(context).padding.bottom +
+                    bottom:
+                        MediaQuery.of(context).padding.bottom +
                         MediaQuery.of(context).viewInsets.bottom +
                         20,
                   ),
@@ -210,7 +260,9 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                             filled: true,
                             fillColor: Colors.grey[100],
                             contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 12),
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
                           ),
                         ),
                       ),
@@ -223,7 +275,9 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                                 height: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.pinkAccent),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.pinkAccent,
+                                  ),
                                 ),
                               )
                             : Icon(
@@ -234,7 +288,9 @@ class _CommentSheetState extends ConsumerState<CommentSheet> {
                                     ? Colors.grey[400]
                                     : Colors.pinkAccent,
                               ),
-                        onPressed: commentViewModel.content.trim().isEmpty || commentViewModel.isLoading
+                        onPressed:
+                            commentViewModel.content.trim().isEmpty ||
+                                commentViewModel.isLoading
                             ? null
                             : () async {
                                 await ref

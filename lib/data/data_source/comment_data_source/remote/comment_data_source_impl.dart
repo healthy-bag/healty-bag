@@ -6,7 +6,7 @@ class CommentDataSourceImpl implements CommentDataSource {
   final FirebaseFirestore _firestore;
 
   CommentDataSourceImpl({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance;
+    : _firestore = firestore ?? FirebaseFirestore.instance;
 
   @override
   Stream<List<CommentsDTO>> fetchComments(String feedId) {
@@ -15,15 +15,15 @@ class CommentDataSourceImpl implements CommentDataSource {
         .where('feedId', isEqualTo: feedId)
         .snapshots()
         .map((snapshot) {
-      final comments = snapshot.docs.map((doc) {
-        final data = doc.data();
-        data['id'] = doc.id; // 문서 ID를 데이터 내 id 필드로 보장
-        return CommentsDTO.fromJson(data);
-      }).toList();
-      // 인 메모리 정렬 (인덱스 에러 방지용)
-      comments.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-      return comments;
-    });
+          final comments = snapshot.docs.map((doc) {
+            final data = doc.data();
+            data['id'] = doc.id; // 문서 ID를 데이터 내 id 필드로 보장
+            return CommentsDTO.fromJson(data);
+          }).toList();
+          // 인 메모리 정렬 (인덱스 에러 방지용)
+          comments.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+          return comments;
+        });
   }
 
   @override
@@ -32,8 +32,9 @@ class CommentDataSourceImpl implements CommentDataSource {
     if (cleanFeedId.isEmpty) return; // feedId가 없으면 카운트 업데이트 불가능하므로 보호
 
     final docRef = _firestore.collection('comments').doc();
-    final isParent = comment.parentId == null || comment.parentId!.trim().isEmpty;
-    
+    final isParent =
+        comment.parentId == null || comment.parentId!.trim().isEmpty;
+
     final newComment = comment.id.isEmpty
         ? CommentsDTO(
             id: docRef.id,
@@ -52,12 +53,13 @@ class CommentDataSourceImpl implements CommentDataSource {
 
     // 2. 부모 댓글인 경우 피드의 댓글 카운트 증가
     if (isParent) {
-      await _firestore.collection('feeds').doc(cleanFeedId).update({
-        'commentCount': FieldValue.increment(1),
-      }).catchError((e) {
-        // 해당 피드 문서가 없거나 업데이트 실패 시 에러 로그 출력 (실제 운영 환경에선 모니터링 필요)
-        print('피드 댓글 카운트 업데이트 실패: $e');
-      });
+      await _firestore
+          .collection('feeds')
+          .doc(cleanFeedId)
+          .update({'commentCount': FieldValue.increment(1)})
+          .catchError((e) {
+            // 해당 피드 문서가 없거나 업데이트 실패 시 에러 로그 출력 (실제 운영 환경에선 모니터링 필요)
+          });
     }
   }
 
@@ -73,8 +75,10 @@ class CommentDataSourceImpl implements CommentDataSource {
   // +답글 삭제하기 기능 (조건부 삭제 및 부모댓글 정리 로직 포함)
   Future<void> deleteComment(String commentId) async {
     // 1. 현재 댓글 정보 가져오기 (parentId, feedId 확인용)
-    final commentDoc =
-        await _firestore.collection('comments').doc(commentId).get();
+    final commentDoc = await _firestore
+        .collection('comments')
+        .doc(commentId)
+        .get();
     if (!commentDoc.exists) return;
 
     final data = commentDoc.data()!;
@@ -110,17 +114,20 @@ class CommentDataSourceImpl implements CommentDataSource {
 
     // 부모 댓글이 삭제된 경우(소프트/하드 모두) 피드의 댓글 카운트 감소
     if (isParent) {
-      await _firestore.collection('feeds').doc(cleanFeedId).update({
-        'commentCount': FieldValue.increment(-1),
-      }).catchError((e) {
-        print('피드 댓글 카운트 감소 실패: $e');
-      });
+      await _firestore
+          .collection('feeds')
+          .doc(cleanFeedId)
+          .update({'commentCount': FieldValue.increment(-1)})
+          .catchError((e) {});
     }
   }
 
   // 소프트 삭제 된 경우, 이후 자식 댓글도 삭제 되었다면 자식 댓글도 삭제 진행
   Future<void> _cleanupParentIfOrphaned(String parentId) async {
-    final parentDoc = await _firestore.collection('comments').doc(parentId).get();
+    final parentDoc = await _firestore
+        .collection('comments')
+        .doc(parentId)
+        .get();
     if (!parentDoc.exists) return;
 
     final parentData = parentDoc.data()!;

@@ -35,7 +35,6 @@ class FeedUseCase {
       authorId: authorId,
       authorimageUrl: authorimageUrl,
     );
-    print("uid: $uid");
     await repository.saveFeed(newFeed, imageFile);
   }
 }

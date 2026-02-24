@@ -6,7 +6,6 @@ import 'package:healthy_bag/core/di/repository_di/user_repository_di.dart';
 import 'package:healthy_bag/core/di/usecase_di/like_usecase_di.dart';
 import 'package:healthy_bag/domain/entities/comment/comment_entity.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
-import 'package:healthy_bag/domain/entities/like_entity.dart';
 import 'package:healthy_bag/domain/entities/user_entity.dart';
 import 'package:healthy_bag/domain/models/like_result.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -84,7 +83,6 @@ class HomeViewModel extends _$HomeViewModel {
 
     // 내 정보 조회를 통해 닉네임 확보 (좋아요 기록용)
     final myInfo = await userRepository.getUserInfo(myUid);
-    final myNickname = myInfo?.nickname ?? '익명';
 
     // 기존 피드 정보를 바탕으로 좋아요 상태와 개수를 변경한 새 피드 객체 만들기
     final newIsLiked = !feed.isLiked;
