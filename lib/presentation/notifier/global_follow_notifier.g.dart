@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'global_like_notifier.dart';
+part of 'global_follow_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,34 +9,34 @@ part of 'global_like_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(GlobalLikeNotifier)
-final globalLikeProvider = GlobalLikeNotifierProvider._();
+@ProviderFor(GlobalFollowNotifier)
+final globalFollowProvider = GlobalFollowNotifierProvider._();
 
-final class GlobalLikeNotifierProvider
-    extends $StreamNotifierProvider<GlobalLikeNotifier, List<String>> {
-  GlobalLikeNotifierProvider._()
+final class GlobalFollowNotifierProvider
+    extends $StreamNotifierProvider<GlobalFollowNotifier, List<String>> {
+  GlobalFollowNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'globalLikeProvider',
-        isAutoDispose: false,
+        name: r'globalFollowProvider',
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$globalLikeNotifierHash();
+  String debugGetCreateSourceHash() => _$globalFollowNotifierHash();
 
   @$internal
   @override
-  GlobalLikeNotifier create() => GlobalLikeNotifier();
+  GlobalFollowNotifier create() => GlobalFollowNotifier();
 }
 
-String _$globalLikeNotifierHash() =>
-    r'ba6c45ad03990d8e78e01aac1982bf8efd0d9dd7';
+String _$globalFollowNotifierHash() =>
+    r'9423df606ec3daa093fd9756ca4aa61e384fb918';
 
-abstract class _$GlobalLikeNotifier extends $StreamNotifier<List<String>> {
+abstract class _$GlobalFollowNotifier extends $StreamNotifier<List<String>> {
   Stream<List<String>> build();
   @$mustCallSuper
   @override

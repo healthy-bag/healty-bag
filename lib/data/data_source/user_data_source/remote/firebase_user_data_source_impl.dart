@@ -139,4 +139,50 @@ class FirebaseUserDataSourceImpl implements UserDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> follow(String followerId, String followedId) async {
+    try {
+      await firestore
+          .collection('follows')
+          .doc('${followerId}_$followedId')
+          .set({
+            'followerId': followerId,
+            'followedId': followedId,
+            'timestamp': FieldValue.serverTimestamp(),
+          });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> unfollow(String followerId, String followedId) async {
+    try {
+      await firestore
+          .collection('follows')
+          .doc('${followerId}_$followedId')
+          .delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Stream<List<String>> fetchFollowingUsers(String uid) {
+    try {
+      final snapshot = firestore
+          .collection('follows')
+          .where('followerId', isEqualTo: uid)
+          .snapshots()
+          .map(
+            (snapshot) => snapshot.docs
+                .map((doc) => doc.data()['followedId'] as String)
+                .toList(),
+          );
+      return snapshot;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

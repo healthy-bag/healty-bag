@@ -13,4 +13,7 @@ abstract class UserDataSource {
   Future<void> unblockUser(String uid, String blockedId);
   Future<void> updateUserData(String uid, Map<String, dynamic> data);
   Future<void> delete(String imageUrl);
+  Future<void> follow(String uid, String followedId);
+  Future<void> unfollow(String uid, String followedId);
+  Stream<List<String>> fetchFollowingUsers(String uid);
 }

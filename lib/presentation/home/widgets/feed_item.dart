@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:healthy_bag/core/di/usecase_di/block_usecase_di.dart';
 import 'package:healthy_bag/domain/entities/feed_entity.dart';
+import 'package:healthy_bag/presentation/notifier/global_user_notifier.dart';
 
-class FeedItemWidget extends StatelessWidget {
+class FeedItemWidget extends ConsumerWidget {
   final FeedEntity feed;
   final VoidCallback onCommentTap;
   final VoidCallback onLikeTap;
@@ -15,7 +19,9 @@ class FeedItemWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(globalUserViewModelProvider);
+
     return Container(
       color: Colors.white,
       margin: const EdgeInsets.only(bottom: 20),
@@ -60,7 +66,10 @@ class FeedItemWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const Spacer(),
+                user?.uid != feed.uid
+                    ? BlockButton(feed: feed)
+                    : const SizedBox(),
               ],
             ),
           ),
@@ -187,6 +196,48 @@ class FeedItemWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BlockButton extends ConsumerWidget {
+  const BlockButton({super.key, required this.feed});
+
+  final FeedEntity feed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(globalUserViewModelProvider);
+
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('차단하기'),
+            content: const Text('이 사용자를 차단하시겠습니까?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('취소', style: TextStyle(color: Colors.black)),
+              ),
+
+              TextButton(
+                onPressed: () async {
+                  if (user == null) return;
+
+                  await ref
+                      .read(blockUsecaseProvider)
+                      .blockUser(user.uid, feed.uid);
+                  if (context.mounted) Navigator.pop(context);
+                },
+                child: const Text('차단', style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          ),
+        );
+      },
+      child: Icon(CupertinoIcons.multiply_circle, color: Colors.black),
     );
   }
 }

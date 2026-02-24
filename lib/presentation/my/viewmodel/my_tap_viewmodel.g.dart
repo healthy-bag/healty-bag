@@ -33,7 +33,7 @@ final class MyTapViewmodelProvider
   MyTapViewmodel create() => MyTapViewmodel();
 }
 
-String _$myTapViewmodelHash() => r'32f57d3bf0e4c70a226527b78c88e85c76c7e212';
+String _$myTapViewmodelHash() => r'dea3e9a730391be3831ff050998bb1965e7f5042';
 
 abstract class _$MyTapViewmodel extends $StreamNotifier<List<FeedEntity>> {
   Stream<List<FeedEntity>> build();
